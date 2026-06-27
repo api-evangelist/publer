@@ -1,0 +1,144 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Publer API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "Authorization",
+        "value": "Bearer-API {{apiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workspaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List workspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/workspaces"
+          },
+          "docs": "Retrieves a list of all workspaces that the authenticated user has access to."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/accounts"
+          },
+          "docs": "Retrieves a list of social media accounts available in the specified workspace."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Media",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/media?types[]=photo&used[]=false"
+          },
+          "docs": "Retrieves a paginated list of media items from the workspace library."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Posts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/posts"
+          },
+          "docs": "Retrieves a list of posts based on the specified filters."
+        },
+        {
+          "info": {
+            "name": "Schedule posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.publer.com/api/v1/posts/schedule",
+            "body": {
+              "type": "json",
+              "data": "{\"bulk\":{\"state\":\"scheduled\",\"posts\":[{\"networks\":{\"facebook\":{\"type\":\"status\",\"text\":\"Hello from the Publer API\"}},\"accounts\":[{\"id\":\"ACCOUNT_ID\",\"scheduled_at\":\"2026-07-01T14:30:00Z\"}]}]}}"
+            }
+          },
+          "docs": "Schedule posts for future publication, including drafts. Returns a job_id."
+        },
+        {
+          "info": {
+            "name": "Publish posts immediately",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.publer.com/api/v1/posts/schedule/publish",
+            "body": {
+              "type": "json",
+              "data": "{\"bulk\":{\"state\":\"scheduled\",\"posts\":[{\"networks\":{\"facebook\":{\"type\":\"status\",\"text\":\"Hello from the Publer API\"}},\"accounts\":[{\"id\":\"ACCOUNT_ID\"}]}]}}"
+            }
+          },
+          "docs": "Publish content immediately to connected social networks. Returns a job_id."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get job status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/job_status/{{job_id}}"
+          },
+          "docs": "Monitor an asynchronous operation (such as scheduling or publishing) by its job id."
+        }
+      ]
+    }
+  ]
+}

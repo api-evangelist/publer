@@ -1,0 +1,56 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Publer
+providerId: publer
+created: '2026-06-25'
+modified: '2026-06-25'
+reconciled: false
+tags:
+- Social Media
+- Scheduling
+- Publishing
+- Content Management
+- Marketing
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  The Publer API documents a 429 Too Many Requests response code, indicating
+  that per-account/per-workspace rate limiting is enforced, but specific
+  numeric limits (requests per minute/hour) are not published in the public
+  API reference. Asynchronous operations such as scheduling and publishing are
+  accepted (202) and processed via a job queue, which decouples request
+  submission from downstream social-network processing.
+notes: >-
+  Numeric rate-limit values are not documented publicly and are not reconciled
+  in this artifact. Confirm current limits with Publer (Business tier) during
+  reconciliation. Downstream limits imposed by each social network provider
+  also apply to publishing.
+sources:
+- https://publer.com/docs/api-reference/introduction
+- https://publer.com/docs/getting-started/authentication
+- https://publer.com/docs/posting/create-posts
+responseCodes:
+  throttled: 429
+limits:
+- name: Requests
+  scope: workspace
+  metric: requests
+  limit: see provider documentation
+  notes: A 429 Too Many Requests response indicates throttling; numeric limits are not published.
+- name: Asynchronous Jobs
+  scope: workspace
+  metric: jobs
+  limit: queued
+  notes: Schedule/publish operations return 202 Accepted with a job_id and are processed asynchronously via a job queue.
+policies:
+- name: Async Processing
+  description: Scheduling and publishing are accepted (202) and processed asynchronously; poll GET /job_status/{job_id} for completion.
+- name: Backoff Strategy
+  description: Clients should implement retry with exponential backoff on 429 responses.
+- name: Downstream Network Limits
+  description: Each connected social network (Facebook, Instagram, X, LinkedIn, etc.) enforces its own publishing limits that apply on top of Publer's.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

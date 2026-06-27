@@ -1,0 +1,146 @@
+aid: publer
+url: https://raw.githubusercontent.com/api-evangelist/publer/refs/heads/main/apis.yml
+name: Publer
+kind: company
+description: Publer is a social-media scheduling and management platform for planning,
+  creating, and publishing content across networks like Facebook, Instagram, X,
+  LinkedIn, TikTok, YouTube, Pinterest, and more. The Publer API (v1) lets Business
+  customers programmatically schedule and publish posts, manage connected social
+  accounts and workspaces, work with media libraries, and track asynchronous jobs.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Social Media
+- Scheduling
+- Publishing
+- Content Management
+- Marketing
+created: '2026-06-25'
+modified: '2026-06-25'
+specificationVersion: '0.19'
+apis:
+- aid: publer:posts-scheduling
+  name: Publer Posts & Scheduling API
+  tags:
+  - Posts
+  - Scheduling
+  - Publishing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://publer.com/docs/api-reference/posts
+  baseURL: https://app.publer.com/api/v1
+  properties:
+  - url: https://publer.com/docs/api-reference/posts
+    type: Documentation
+  - url: https://publer.com/docs/posting/create-posts
+    type: APIReference
+  - url: openapi/publer-openapi.yml
+    type: OpenAPI
+  - url: collections/publer.postman_collection.json
+    type: PostmanCollection
+  - url: collections/publer.opencollection.json
+    type: OpenCollection
+  description: List, filter, and search posts, then schedule posts for future
+    publication (including drafts) or publish content immediately across connected
+    social networks. Scheduling and publishing run asynchronously and return a
+    job id.
+- aid: publer:accounts
+  name: Publer Accounts API
+  tags:
+  - Accounts
+  - Social Accounts
+  - Connections
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://publer.com/docs/api-reference/accounts
+  baseURL: https://app.publer.com/api/v1
+  properties:
+  - url: https://publer.com/docs/api-reference/accounts
+    type: Documentation
+  - url: openapi/publer-openapi.yml
+    type: OpenAPI
+  - url: collections/publer.postman_collection.json
+    type: PostmanCollection
+  - url: collections/publer.opencollection.json
+    type: OpenCollection
+  description: Retrieve the list of connected social media accounts available in
+    the selected workspace across providers such as Facebook, Instagram, X,
+    LinkedIn, TikTok, YouTube, Pinterest, Bluesky, Threads, Mastodon, and more.
+- aid: publer:workspaces
+  name: Publer Workspaces API
+  tags:
+  - Workspaces
+  - Organization
+  - Teams
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://publer.com/docs/api-reference/workspaces
+  baseURL: https://app.publer.com/api/v1
+  properties:
+  - url: https://publer.com/docs/api-reference/workspaces
+    type: Documentation
+  - url: openapi/publer-openapi.yml
+    type: OpenAPI
+  - url: collections/publer.postman_collection.json
+    type: PostmanCollection
+  - url: collections/publer.opencollection.json
+    type: OpenCollection
+  description: Retrieve the list of workspaces the authenticated user has access
+    to, including owner, members, plan, and picture, used to scope all other API
+    requests via the Publer-Workspace-Id header.
+- aid: publer:media
+  name: Publer Media API
+  tags:
+  - Media
+  - Library
+  - Assets
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://publer.com/docs/api-reference/media
+  baseURL: https://app.publer.com/api/v1
+  properties:
+  - url: https://publer.com/docs/api-reference/media
+    type: Documentation
+  - url: openapi/publer-openapi.yml
+    type: OpenAPI
+  - url: collections/publer.postman_collection.json
+    type: PostmanCollection
+  - url: collections/publer.opencollection.json
+    type: OpenCollection
+  description: Retrieve a paginated list of media items from the workspace
+    library, filter by type (photo, video, gif), usage status, source, and search
+    term, or fetch specific media items by their IDs.
+- aid: publer:jobs
+  name: Publer Jobs API
+  tags:
+  - Jobs
+  - Async
+  - Status
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://publer.com/docs/api-reference/posts
+  baseURL: https://app.publer.com/api/v1
+  properties:
+  - url: https://publer.com/docs/posting/create-posts
+    type: Documentation
+  - url: openapi/publer-openapi.yml
+    type: OpenAPI
+  - url: collections/publer.postman_collection.json
+    type: PostmanCollection
+  - url: collections/publer.opencollection.json
+    type: OpenCollection
+  description: Poll the status of asynchronous operations (such as scheduling and
+    publishing) by job id, returned as 202 Accepted responses, to monitor
+    completion and retrieve results.
+common:
+- type: GitHubOrganization
+  url: https://github.com/Publer
+- type: LinkedIn
+  url: https://www.linkedin.com/company/publer
+- type: Website
+  url: https://publer.com/
+- type: Documentation
+  url: https://publer.com/docs
+- type: Plans
+  url: plans/publer-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/publer-rate-limits.yml
+- type: FinOps
+  url: finops/publer-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,91 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Publer
+providerId: publer
+created: '2026-06-25'
+modified: '2026-06-25'
+reconciled: false
+tags:
+- Social Media
+- Scheduling
+- Publishing
+- Content Management
+- Marketing
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Publer spend. Publer is billed as a recurring SaaS
+  subscription (Free, Professional, Business) priced per connected social
+  account and per team member, rather than per-API-call. The Publer API is
+  available exclusively to Business subscribers, so API-driven workloads carry
+  the Business subscription cost plus any incremental per-account and
+  per-member charges; annual billing is discounted versus monthly.
+notes: >-
+  Publer does not publish usage-based per-API-call pricing; cost is driven by
+  subscription tier, number of social accounts, and team members. Verify
+  current rates and the Business-tier API requirement on the Publer pricing
+  page during reconciliation.
+sources:
+- https://publer.com/pricing
+- https://publer.com/docs/api-reference/introduction
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Publer
+serviceCategory: Management and Governance
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Monthly or Annual
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+focusColumns:
+  ServiceName: Publer
+  ServiceCategory: Management and Governance
+  ProviderName: Publer
+  PublisherName: Publer
+  InvoiceIssuerName: Publer
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription
+meters:
+- name: subscription
+  description: Recurring subscription charge for the selected plan tier (Professional or Business).
+  unit: subscription
+  aggregation: sum
+  dimensions:
+  - workspace
+  - plan
+- name: social_accounts
+  description: Number of connected social accounts billed per account beyond the included base.
+  unit: accounts
+  aggregation: sum
+  dimensions:
+  - workspace
+  - plan
+- name: team_members
+  description: Number of additional team members billed per member beyond the included base.
+  unit: members
+  aggregation: sum
+  dimensions:
+  - workspace
+  - plan
+principles:
+- name: Visibility
+  description: Track the Publer subscription tier, connected account count, and member count per workspace.
+- name: Allocation
+  description: Map each workspace and its connected accounts to the owning team or client for chargeback.
+- name: Optimization
+  description: Right-size connected accounts and members; choose annual billing for the ~20% discount; consolidate workspaces where possible.
+- name: Accountability
+  description: Assign an owner per workspace and review subscription and per-account spend against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

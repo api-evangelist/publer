@@ -1,0 +1,130 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Publer
+providerId: publer
+created: '2026-06-25'
+modified: '2026-06-25'
+reconciled: false
+tags:
+- Social Media
+- Scheduling
+- Publishing
+- Content Management
+- Marketing
+- Plans
+description: >-
+  Publer is sold as a SaaS subscription with three tiers: a free-forever Free
+  plan, a Professional plan, and a Business plan. Pricing is per-account: each
+  tier includes a base set of social accounts and scales by adding more accounts
+  and team members, with annual billing discounted versus monthly. The Publer
+  API is currently available exclusively to Publer Business users, so API access
+  requires a Business subscription.
+notes: >-
+  Plan prices vary by billing cycle (monthly vs. annual), number of connected
+  social accounts, and team members; representative base prices below reflect
+  publicly listed monthly rates and may change. Verify current pricing and the
+  exact Business-tier requirement for API access on the Publer pricing page.
+sources:
+- https://publer.com/pricing
+- https://publer.com/help/en/article/what-are-publers-plans-and-pricing-15h4yqh/
+- https://publer.com/docs/api-reference/introduction
+plans:
+- id: publer-free
+  name: Free
+  type: free
+  description: >-
+    Free-forever plan to connect and schedule posts for a small number of
+    social accounts. Does not include API access.
+  entries:
+  - label: Free Plan
+    name: free
+    type: flat
+    metric: subscription
+    limit: 3
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  elements:
+  - name: Up to 3 social accounts
+  - name: Post scheduling
+  - name: Content calendar
+- id: publer-professional
+  name: Professional
+  type: paid
+  description: >-
+    Subscription tier for individuals and small teams with analytics,
+    additional scheduling features, and per-account scaling. Does not include
+    API access.
+  entries:
+  - label: Professional Plan (base)
+    name: professional
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: from ~$12/mo for 3 accounts (annual billing discounted ~20%)
+    userMultiplied: false
+  - label: Additional social account
+    name: professional_extra_account
+    type: usage
+    metric: accounts
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: ~$4 per additional account / month
+    userMultiplied: true
+  elements:
+  - name: Social account scheduling
+  - name: Analytics
+  - name: Additional accounts and members
+- id: publer-business
+  name: Business
+  type: paid
+  description: >-
+    Top subscription tier for teams and agencies with collaboration,
+    advanced analytics, and API access. The Publer API is available
+    exclusively to Business users.
+  entries:
+  - label: Business Plan (base)
+    name: business
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: from ~$21/mo for 3 accounts (annual billing discounted ~20%)
+    userMultiplied: false
+  - label: Additional social account
+    name: business_extra_account
+    type: usage
+    metric: accounts
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: ~$7 per additional account / month
+    userMultiplied: true
+  - label: Additional team member
+    name: business_extra_member
+    type: usage
+    metric: members
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: ~$3 per additional member / month
+    userMultiplied: true
+  elements:
+  - name: Team collaboration
+  - name: Advanced analytics
+  - name: API access (Posts, Accounts, Workspaces, Media, Jobs)
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

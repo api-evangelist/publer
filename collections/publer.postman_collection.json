@@ -1,0 +1,196 @@
+{
+  "info": {
+    "name": "Publer API",
+    "description": "The Publer API (v1) lets Publer Business customers schedule and publish social media posts, manage connected accounts and workspaces, work with media, and track asynchronous jobs. Base URL https://app.publer.com/api/v1. Auth: Authorization: Bearer-API YOUR_API_KEY plus Publer-Workspace-Id header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.publer.com/api/v1"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "workspaceId",
+      "value": ""
+    },
+    {
+      "key": "job_id",
+      "value": ""
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "Bearer-API {{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Workspaces",
+      "item": [
+        {
+          "name": "List workspaces",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer-API {{apiKey}}" },
+              { "key": "Publer-Workspace-Id", "value": "{{workspaceId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/workspaces",
+              "host": ["{{baseUrl}}"],
+              "path": ["workspaces"]
+            },
+            "description": "Retrieves a list of all workspaces that the authenticated user has access to."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Accounts",
+      "item": [
+        {
+          "name": "List accounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer-API {{apiKey}}" },
+              { "key": "Publer-Workspace-Id", "value": "{{workspaceId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts"]
+            },
+            "description": "Retrieves a list of social media accounts available in the specified workspace."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Media",
+      "item": [
+        {
+          "name": "List media",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer-API {{apiKey}}" },
+              { "key": "Publer-Workspace-Id", "value": "{{workspaceId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/media?types[]=photo&used[]=false&page=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["media"],
+              "query": [
+                { "key": "types[]", "value": "photo" },
+                { "key": "used[]", "value": "false" },
+                { "key": "page", "value": "0" }
+              ]
+            },
+            "description": "Retrieves a paginated list of media items from the workspace library."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "List posts",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer-API {{apiKey}}" },
+              { "key": "Publer-Workspace-Id", "value": "{{workspaceId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/posts",
+              "host": ["{{baseUrl}}"],
+              "path": ["posts"]
+            },
+            "description": "Retrieves a list of posts based on the specified filters."
+          }
+        },
+        {
+          "name": "Schedule posts",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer-API {{apiKey}}" },
+              { "key": "Publer-Workspace-Id", "value": "{{workspaceId}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bulk\": {\n    \"state\": \"scheduled\",\n    \"posts\": [\n      {\n        \"networks\": {\n          \"facebook\": {\n            \"type\": \"status\",\n            \"text\": \"Hello from the Publer API\"\n          }\n        },\n        \"accounts\": [\n          { \"id\": \"ACCOUNT_ID\", \"scheduled_at\": \"2026-07-01T14:30:00Z\" }\n        ]\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/posts/schedule",
+              "host": ["{{baseUrl}}"],
+              "path": ["posts", "schedule"]
+            },
+            "description": "Schedule posts for future publication, including drafts. Returns a job_id."
+          }
+        },
+        {
+          "name": "Publish posts immediately",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer-API {{apiKey}}" },
+              { "key": "Publer-Workspace-Id", "value": "{{workspaceId}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bulk\": {\n    \"state\": \"scheduled\",\n    \"posts\": [\n      {\n        \"networks\": {\n          \"facebook\": {\n            \"type\": \"status\",\n            \"text\": \"Hello from the Publer API\"\n          }\n        },\n        \"accounts\": [\n          { \"id\": \"ACCOUNT_ID\" }\n        ]\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/posts/schedule/publish",
+              "host": ["{{baseUrl}}"],
+              "path": ["posts", "schedule", "publish"]
+            },
+            "description": "Publish content immediately to connected social networks. Returns a job_id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "Get job status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer-API {{apiKey}}" },
+              { "key": "Publer-Workspace-Id", "value": "{{workspaceId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/job_status/{{job_id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["job_status", "{{job_id}}"]
+            },
+            "description": "Monitor an asynchronous operation (such as scheduling or publishing) by its job id."
+          }
+        }
+      ]
+    }
+  ]
+}

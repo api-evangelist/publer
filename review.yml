@@ -1,0 +1,62 @@
+aid: publer
+name: Publer
+review:
+  question: Does Publer expose a documented public WebSocket API?
+  answer: false
+  date: '2026-06-25'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    Publer's documented API is REST/HTTPS only. Asynchronous operations
+    (scheduling and publishing) are handled via a request/poll pattern: the
+    write endpoints return 202 Accepted with a job_id, and clients poll
+    GET /job_status/{job_id} over HTTPS. There is no Server-Sent Events
+    stream and no WebSocket surface, so no AsyncAPI document was created.
+findings:
+  summary: |
+    Publer does not publish a documented public WebSocket API. The Publer API
+    (v1) exposes only REST (HTTPS) endpoints under
+    https://app.publer.com/api/v1. Authentication uses an API key passed as
+    `Authorization: Bearer-API YOUR_API_KEY` together with a
+    `Publer-Workspace-Id` header, and the API is available exclusively to
+    Publer Business users. Long-running work (scheduling/publishing) is
+    asynchronous but uses HTTP polling of a job-status endpoint rather than
+    any push transport (no SSE, no ws:// or wss://).
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://app.publer.com/api/v1
+      documented: true
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events stream is documented; async results are retrieved by polling GET /job_status/{job_id}.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the Publer API reference as of the review date.
+  endpointsConfirmedRest:
+    - GET  https://app.publer.com/api/v1/workspaces
+    - GET  https://app.publer.com/api/v1/accounts
+    - GET  https://app.publer.com/api/v1/media
+    - GET  https://app.publer.com/api/v1/posts
+    - POST https://app.publer.com/api/v1/posts/schedule
+    - POST https://app.publer.com/api/v1/posts/schedule/publish
+    - GET  https://app.publer.com/api/v1/job_status/{job_id}
+sources:
+  - url: https://publer.com/docs/api-reference/introduction
+    type: Documentation
+    note: States base URL https://app.publer.com/api/v1; REST only; API available exclusively to Business users.
+  - url: https://publer.com/docs/getting-started/authentication
+    type: Documentation
+    note: Auth via Authorization Bearer-API + Publer-Workspace-Id headers; scopes workspaces, accounts, posts, media.
+  - url: https://publer.com/docs/posting/create-posts
+    type: APIReference
+    note: POST /posts/schedule and /posts/schedule/publish return a job_id; poll GET /job_status/{job_id}. No WebSocket.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket or SSE protocol surface exists. Publer's only documented
+    transport is REST over HTTPS, with asynchronous work handled by polling a
+    job-status endpoint. No AsyncAPI document was authored.
