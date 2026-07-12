@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/publer-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: api_key
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'API key passed as `Authorization: Bearer-API YOUR_API_KEY`. A `Publer-Workspace-Id`
+    header is also required to scope requests to a workspace.'
+  sources:
+  - openapi/publer-openapi.yml
+- name: workspace_id
+  type: apiKey
+  in: header
+  parameter: Publer-Workspace-Id
+  description: The id of the workspace to scope the request to.
+  sources:
+  - openapi/publer-openapi.yml

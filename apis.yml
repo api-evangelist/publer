@@ -127,6 +127,10 @@ apis:
     publishing) by job id, returned as 202 Accepted responses, to monitor
     completion and retrieve results.
 common:
+- type: DomainSecurity
+  url: security/publer-domain-security.yml
+- type: Authentication
+  url: authentication/publer-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/Publer
 - type: LinkedIn
@@ -141,6 +145,8 @@ common:
   url: rate-limits/publer-rate-limits.yml
 - type: FinOps
   url: finops/publer-finops.yml
+- type: Blog
+  url: https://publer.com/blog/feed/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
