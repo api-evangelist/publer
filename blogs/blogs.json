@@ -1,0 +1,13 @@
+{
+  "repo": "publer",
+  "feeds": [
+    {
+      "source": "https://publer.com/blog/feed/",
+      "feed_url": "https://publer.com/blog/feed/",
+      "title": "Publer Blog",
+      "saved": 0
+    }
+  ],
+  "fetched": "2026-07-11T11:43:46Z",
+  "post_count": 10
+}
