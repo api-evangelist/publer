@@ -127,6 +127,8 @@ apis:
     publishing) by job id, returned as 202 Accepted responses, to monitor
     completion and retrieve results.
 common:
+- type: AgenticAccess
+  url: agentic-access/publer-agentic-access.yml
 - type: DomainSecurity
   url: security/publer-domain-security.yml
 - type: Authentication
