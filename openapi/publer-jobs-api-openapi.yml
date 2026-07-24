@@ -1,0 +1,81 @@
+openapi: 3.0.1
+info:
+  title: Publer Accounts Jobs API
+  description: 'The Publer API (v1) lets Publer Business customers programmatically schedule and publish social media posts, manage connected social accounts and workspaces, work with the media library, and track asynchronous jobs. Authentication uses an API key passed as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is currently available exclusively to Publer Business users.'
+  termsOfService: https://publer.com/terms
+  contact:
+    name: Publer Support
+    url: https://publer.com/docs
+  version: '1.0'
+servers:
+- url: https://app.publer.com/api/v1
+security:
+- api_key: []
+  workspace_id: []
+tags:
+- name: Jobs
+paths:
+  /job_status/{job_id}:
+    get:
+      operationId: getJobStatus
+      tags:
+      - Jobs
+      summary: Get job status
+      description: Monitor an asynchronous operation (such as scheduling or publishing) by its job id.
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        description: The job id returned by an asynchronous operation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatus'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        type:
+          type: string
+        code:
+          type: string
+    JobStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Current status of the job.
+        payload:
+          type: object
+          description: Result payload of the completed job.
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed as `Authorization: Bearer-API YOUR_API_KEY`. A `Publer-Workspace-Id` header is also required to scope requests to a workspace.'
+    workspace_id:
+      type: apiKey
+      in: header
+      name: Publer-Workspace-Id
+      description: The id of the workspace to scope the request to.
