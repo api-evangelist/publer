@@ -7,7 +7,20 @@ description: Publer is a social-media scheduling and management platform for pla
   LinkedIn, TikTok, YouTube, Pinterest, and more. The Publer API (v1) lets Business
   customers programmatically schedule and publish posts, manage connected social
   accounts and workspaces, work with media libraries, and track asynchronous jobs.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/publer.png
 tags:
 - Social Media
 - Scheduling
@@ -18,114 +31,136 @@ created: '2026-06-25'
 modified: '2026-06-25'
 specificationVersion: '0.19'
 apis:
-- aid: publer:posts-scheduling
-  name: Publer Posts & Scheduling API
-  tags:
-  - Posts
-  - Scheduling
-  - Publishing
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: publer:publer-accounts-api
+  name: Publer Accounts API
+  description: The Accounts API from Publer — 1 operation(s) for accounts.
   humanURL: https://publer.com/docs/api-reference/posts
   baseURL: https://app.publer.com/api/v1
-  properties:
-  - url: https://publer.com/docs/api-reference/posts
-    type: Documentation
-  - url: https://publer.com/docs/posting/create-posts
-    type: APIReference
-  - url: openapi/publer-openapi.yml
-    type: OpenAPI
-  - url: collections/publer.postman_collection.json
-    type: PostmanCollection
-  - url: collections/publer.opencollection.json
-    type: OpenCollection
-  description: List, filter, and search posts, then schedule posts for future
-    publication (including drafts) or publish content immediately across connected
-    social networks. Scheduling and publishing run asynchronously and return a
-    job id.
-- aid: publer:accounts
-  name: Publer Accounts API
   tags:
   - Accounts
-  - Social Accounts
-  - Connections
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://publer.com/docs/api-reference/accounts
-  baseURL: https://app.publer.com/api/v1
   properties:
-  - url: https://publer.com/docs/api-reference/accounts
-    type: Documentation
-  - url: openapi/publer-openapi.yml
-    type: OpenAPI
-  - url: collections/publer.postman_collection.json
-    type: PostmanCollection
-  - url: collections/publer.opencollection.json
-    type: OpenCollection
-  description: Retrieve the list of connected social media accounts available in
-    the selected workspace across providers such as Facebook, Instagram, X,
-    LinkedIn, TikTok, YouTube, Pinterest, Bluesky, Threads, Mastodon, and more.
-- aid: publer:workspaces
-  name: Publer Workspaces API
-  tags:
-  - Workspaces
-  - Organization
-  - Teams
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://publer.com/docs/api-reference/workspaces
-  baseURL: https://app.publer.com/api/v1
-  properties:
-  - url: https://publer.com/docs/api-reference/workspaces
-    type: Documentation
-  - url: openapi/publer-openapi.yml
-    type: OpenAPI
-  - url: collections/publer.postman_collection.json
-    type: PostmanCollection
-  - url: collections/publer.opencollection.json
-    type: OpenCollection
-  description: Retrieve the list of workspaces the authenticated user has access
-    to, including owner, members, plan, and picture, used to scope all other API
-    requests via the Publer-Workspace-Id header.
-- aid: publer:media
-  name: Publer Media API
-  tags:
-  - Media
-  - Library
-  - Assets
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://publer.com/docs/api-reference/media
-  baseURL: https://app.publer.com/api/v1
-  properties:
-  - url: https://publer.com/docs/api-reference/media
-    type: Documentation
-  - url: openapi/publer-openapi.yml
-    type: OpenAPI
-  - url: collections/publer.postman_collection.json
-    type: PostmanCollection
-  - url: collections/publer.opencollection.json
-    type: OpenCollection
-  description: Retrieve a paginated list of media items from the workspace
-    library, filter by type (photo, video, gif), usage status, source, and search
-    term, or fetch specific media items by their IDs.
-- aid: publer:jobs
+  - type: OpenAPI
+    url: openapi/publer-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/posts
+  - type: APIReference
+    url: https://publer.com/docs/posting/create-posts
+  - type: PostmanCollection
+    url: collections/publer.postman_collection.json
+  - type: OpenCollection
+    url: collections/publer.opencollection.json
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/accounts
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/workspaces
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/media
+  - type: Documentation
+    url: https://publer.com/docs/posting/create-posts
+- aid: publer:publer-jobs-api
   name: Publer Jobs API
-  tags:
-  - Jobs
-  - Async
-  - Status
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  description: The Jobs API from Publer — 1 operation(s) for jobs.
   humanURL: https://publer.com/docs/api-reference/posts
   baseURL: https://app.publer.com/api/v1
+  tags:
+  - Jobs
   properties:
-  - url: https://publer.com/docs/posting/create-posts
-    type: Documentation
-  - url: openapi/publer-openapi.yml
-    type: OpenAPI
-  - url: collections/publer.postman_collection.json
-    type: PostmanCollection
-  - url: collections/publer.opencollection.json
-    type: OpenCollection
-  description: Poll the status of asynchronous operations (such as scheduling and
-    publishing) by job id, returned as 202 Accepted responses, to monitor
-    completion and retrieve results.
+  - type: OpenAPI
+    url: openapi/publer-jobs-api-openapi.yml
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/posts
+  - type: APIReference
+    url: https://publer.com/docs/posting/create-posts
+  - type: PostmanCollection
+    url: collections/publer.postman_collection.json
+  - type: OpenCollection
+    url: collections/publer.opencollection.json
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/accounts
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/workspaces
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/media
+  - type: Documentation
+    url: https://publer.com/docs/posting/create-posts
+- aid: publer:publer-media-api
+  name: Publer Media API
+  description: The Media API from Publer — 1 operation(s) for media.
+  humanURL: https://publer.com/docs/api-reference/posts
+  baseURL: https://app.publer.com/api/v1
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/publer-media-api-openapi.yml
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/posts
+  - type: APIReference
+    url: https://publer.com/docs/posting/create-posts
+  - type: PostmanCollection
+    url: collections/publer.postman_collection.json
+  - type: OpenCollection
+    url: collections/publer.opencollection.json
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/accounts
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/workspaces
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/media
+  - type: Documentation
+    url: https://publer.com/docs/posting/create-posts
+- aid: publer:publer-posts-api
+  name: Publer Posts API
+  description: The Posts API from Publer — 3 operation(s) for posts.
+  humanURL: https://publer.com/docs/api-reference/posts
+  baseURL: https://app.publer.com/api/v1
+  tags:
+  - Posts
+  properties:
+  - type: OpenAPI
+    url: openapi/publer-posts-api-openapi.yml
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/posts
+  - type: APIReference
+    url: https://publer.com/docs/posting/create-posts
+  - type: PostmanCollection
+    url: collections/publer.postman_collection.json
+  - type: OpenCollection
+    url: collections/publer.opencollection.json
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/accounts
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/workspaces
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/media
+  - type: Documentation
+    url: https://publer.com/docs/posting/create-posts
+- aid: publer:publer-workspaces-api
+  name: Publer Workspaces API
+  description: The Workspaces API from Publer — 1 operation(s) for workspaces.
+  humanURL: https://publer.com/docs/api-reference/posts
+  baseURL: https://app.publer.com/api/v1
+  tags:
+  - Workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/publer-workspaces-api-openapi.yml
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/posts
+  - type: APIReference
+    url: https://publer.com/docs/posting/create-posts
+  - type: PostmanCollection
+    url: collections/publer.postman_collection.json
+  - type: OpenCollection
+    url: collections/publer.opencollection.json
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/accounts
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/workspaces
+  - type: Documentation
+    url: https://publer.com/docs/api-reference/media
+  - type: Documentation
+    url: https://publer.com/docs/posting/create-posts
 common:
 - type: AgenticAccess
   url: agentic-access/publer-agentic-access.yml
