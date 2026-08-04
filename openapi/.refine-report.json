@@ -1,0 +1,22 @@
+{
+  "provider": "publer",
+  "sources": [
+    "publer-accounts-api-openapi.yml",
+    "publer-jobs-api-openapi.yml",
+    "publer-media-api-openapi.yml",
+    "publer-posts-api-openapi.yml",
+    "publer-workspaces-api-openapi.yml"
+  ],
+  "outputs": [
+    "publer-accounts-api-openapi.yml",
+    "publer-jobs-api-openapi.yml",
+    "publer-media-api-openapi.yml",
+    "publer-posts-api-openapi.yml",
+    "publer-workspaces-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
