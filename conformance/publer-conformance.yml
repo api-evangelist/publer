@@ -1,0 +1,142 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/_original/publer-openapi.yml plus the Publer developer docs
+  (https://publer.com/docs) and help center. Each entry states the evidence that
+  decided it; absence of a claim is recorded as non-conformance, not as unknown.
+provider: Publer
+providerId: publer
+description: >-
+  Cross-cutting standards assertion for the Publer API v1. Publer publishes no
+  conformance or certification claim of any kind — no compliance page, no trust
+  center, no certification badge. Everything below is decided from the published
+  contract and documentation.
+
+standards:
+- id: openapi
+  name: OpenAPI Specification
+  conforms: true
+  version: 3.1.1
+  evidence: >-
+    Publer embeds real OpenAPI 3.1.1 JSON documents inside its own documentation
+    pages (GitBook OpenAPI blocks) covering 21 operations across 19 paths, with
+    servers, securitySchemes and component schemas. Harvested verbatim to
+    openapi/_original/publer-openapi.yml on 2026-08-13.
+  caveat: >-
+    The fragments are published PER PAGE and are not offered as a single
+    downloadable document — there is no openapi.json/yaml at any Publer host
+    (probed 2026-08-13: publer.com/openapi.json 404, app.publer.com/openapi.json
+    410, publer.com/docs/openapi.json 404). Two fragments also reference a
+    security scheme named `Bearer` that they never define.
+- id: json
+  name: JSON media type
+  conforms: true
+  evidence: All requests and responses are application/json; multipart/form-data on media upload.
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    Errors use a bespoke {"errors": ["..."]} envelope with no type, title,
+    status, detail or instance members, and application/problem+json is never
+    served. The 429 response uses a different key again ({"error": "..."}).
+    See errors/publer-problem-types.yml.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: >-
+    Authentication is a long-lived API key in an `Authorization: Bearer-API`
+    header. No authorization endpoint, token endpoint, refresh flow or
+    authorization-server metadata exists.
+    /.well-known/oauth-authorization-server probed 2026-08-13 — publer.com
+    returns the Framer SPA HTML shell, app.publer.com returns 410.
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns no discovery document on either host.
+- id: rfc6750
+  name: RFC 6750 Bearer Token Usage
+  conforms: false
+  evidence: >-
+    Publer uses the Authorization header but with a NON-STANDARD `Bearer-API`
+    auth-scheme rather than `Bearer`, so off-the-shelf bearer-token clients and
+    generated SDKs will not interoperate without customization.
+- id: rfc8594
+  name: RFC 8594 Sunset HTTP Header
+  conforms: false
+  evidence: No Sunset or Deprecation header is documented. See lifecycle/publer-lifecycle.yml.
+- id: rate-limit-headers
+  name: RateLimit header fields
+  conforms: partial
+  evidence: >-
+    Publer returns X-RateLimit-Limit, X-RateLimit-Remaining and
+    X-RateLimit-Reset — the de-facto legacy X- form, not the IETF
+    `RateLimit`/`RateLimit-Policy` fields. No Retry-After is sent on 429.
+- id: idempotency
+  name: Idempotency keys (draft-ietf-httpapi-idempotency-key-header)
+  conforms: false
+  evidence: >-
+    No idempotency key header is documented anywhere, despite 202-async write
+    endpoints that publish to live social networks on retry.
+- id: pagination
+  name: Documented pagination
+  conforms: partial
+  evidence: >-
+    Zero-based `page` query parameter with a `total` field in the response, but
+    no page-size control, no cursor, no Link header and no documented default
+    page size.
+- id: semver
+  name: Semantic Versioning
+  conforms: true
+  evidence: >-
+    "We follow Semantic Versioning. Breaking changes only occur on MAJOR version
+    bumps" — https://publer.com/docs/api-reference/introduction.md
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  version: unstated
+  evidence: >-
+    Publer ships a first-party hosted MCP server (beta) documented at
+    https://publer.com/help/en/article/how-to-set-up-and-use-publers-mcp-server-14orlq0/.
+    Protocol version, transport and tool schemas are not published, and the
+    endpoint is generated per account, so conformance could not be verified
+    against a live tools/list. See mcp/publer-mcp.yml.
+- id: llmstxt
+  name: llms.txt
+  conforms: true
+  evidence: >-
+    https://publer.com/docs/llms.txt returns HTTP 200 text/markdown with a
+    complete documentation index (GitBook-generated). Saved to
+    llms/publer-llms.txt.
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json probed on both
+    publer.com (404) and app.publer.com (410) on 2026-08-13. No card is served.
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  applicable: false
+  evidence: >-
+    N/A — Publer publishes no event surface at all. No webhooks, no SSE, no
+    WebSocket; async work is submit-and-poll over HTTPS. Confirmed in review.yml
+    and re-confirmed 2026-08-13 via the GitBook docs `ask` endpoint.
+- id: security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: /.well-known/security.txt — publer.com 404, app.publer.com 410.
+
+compliance_claims:
+  published: false
+  certifications: []
+  trust_center: null
+  note: >-
+    Publer publishes NO named certification (no SOC 2, ISO 27001, PCI or
+    HIPAA claim), no trust center and no compliance page.
+    https://publer.com/security returns HTTP 200 but is the Framer SPA
+    catch-all serving the marketing homepage, not a security page. No
+    Compliance pointer is emitted in apis.yml.
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

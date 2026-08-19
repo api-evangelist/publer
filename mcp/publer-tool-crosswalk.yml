@@ -1,0 +1,182 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  mcp/publer-mcp.yml (Publer's first-party MCP server, entitlement-gated) bound
+  to openapi/_original/publer-openapi.yml (21 operations harvested verbatim from
+  Publer's own OpenAPI 3.1.1 blocks at https://publer.com/docs).
+provider: Publer
+providerId: publer
+description: >-
+  Binds each candidate Publer MCP tool to the REST operation that backs it. The
+  Publer MCP server is a thin hosted wrapper over the same v1 REST API and uses
+  the same API key and the same scope model, so every tool inherits the
+  parameters and requestBody of its backing operation as its real inputSchema.
+  CONFIDENCE IS DELIBERATELY CAPPED AT MEDIUM: Publer's MCP server is in beta,
+  gated to Enterprise customers and Top Ambassadors, and publishes no static
+  endpoint, so tools/list could not be introspected. Tool NAMES below are our
+  candidates, not Publer's strings; the REST bindings are exact.
+
+surfaces:
+  openapi:
+    path: openapi/_original/publer-openapi.yml
+    operations: 21
+    gated: false
+    note: Harvested from public docs; the API itself requires a Business/Enterprise key.
+  graphql:
+    endpoint: null
+    note: Publer publishes no GraphQL surface.
+  mcp:
+    url: null
+    gated: true
+    note: >-
+      Per-account URL generated in the Publer app; no public endpoint exists to
+      introspect. See mcp/publer-mcp.yml.
+
+coverage:
+  rest_operations: 21
+  tools_mapped: 16
+  mcp_only: 0
+  rest_only: 5
+
+crosswalk:
+- tool: list_workspaces
+  category: identity
+  rest:
+  - listWorkspaces
+  binding: 'GET /workspaces'
+  confidence: medium
+  note: Backs Publer's published prompt pattern for selecting a workspace context.
+- tool: list_accounts
+  category: identity
+  rest:
+  - listAccounts
+  binding: 'GET /accounts'
+  confidence: high
+  note: >-
+    Publer publishes the example prompt "List all my connected Publer social
+    accounts", which can only be served by GET /accounts.
+- tool: get_current_user
+  category: identity
+  rest:
+  - getCurrentUser
+  binding: 'GET /users/me'
+  confidence: medium
+- tool: list_posts
+  category: content
+  rest:
+  - listPosts
+  binding: 'GET /posts'
+  confidence: high
+  note: >-
+    Publer publishes the example prompt "Show me all my draft posts", served by
+    GET /posts with a state filter.
+- tool: schedule_posts
+  category: content
+  rest:
+  - schedulePosts
+  binding: 'POST /posts/schedule'
+  confidence: high
+  note: >-
+    Publer publishes the prompts "Create a draft post..." and "Schedule a post
+    for next Monday at 10 AM", both of which are POST /posts/schedule with
+    bulk.state=draft or scheduled. Async — returns job_id.
+- tool: publish_posts
+  category: content
+  rest:
+  - createPost
+  binding: 'POST /posts/schedule/publish'
+  confidence: medium
+  note: Async — returns job_id; pair with get_job_status.
+- tool: update_post
+  category: content
+  rest:
+  - updatePost
+  binding: 'PUT /posts/{id}'
+  confidence: medium
+- tool: delete_posts
+  category: content
+  rest:
+  - deleteMultiplePosts
+  binding: 'DELETE /posts'
+  confidence: medium
+- tool: list_media
+  category: media
+  rest:
+  - listMedia
+  binding: 'GET /media'
+  confidence: medium
+- tool: upload_media
+  category: media
+  rest:
+  - uploadAMediaFileDirectly
+  binding: 'POST /media'
+  confidence: low
+  note: >-
+    multipart/form-data upload; an MCP tool cannot carry a file body directly,
+    so a hosted server most likely exposes upload_media_from_url instead.
+- tool: upload_media_from_url
+  category: media
+  rest:
+  - uploadMediaFromURL
+  binding: 'POST /media/from-url'
+  confidence: medium
+  note: Async — returns job_id.
+- tool: get_job_status
+  category: jobs
+  rest:
+  - getJobStatus
+  binding: 'GET /job_status/{job_id}'
+  confidence: high
+  note: >-
+    Required by every write path. Publer's write operations are 202 Accepted +
+    job_id, so any MCP server that can schedule or publish must also be able to
+    resolve the job.
+- tool: get_analytics_charts
+  category: analytics
+  rest:
+  - getAvailableAnalyticsCharts
+  binding: 'GET /analytics/charts'
+  confidence: medium
+- tool: get_chart_data
+  category: analytics
+  rest:
+  - getAnalyticsChartData
+  binding: 'GET /analytics/chart_data'
+  confidence: medium
+- tool: get_post_insights
+  category: analytics
+  rest:
+  - getPostInsights
+  binding: 'GET /analytics/{account_id}/post_insights'
+  confidence: medium
+- tool: get_best_times
+  category: analytics
+  rest:
+  - getBestTimesToPostForAccount
+  binding: 'GET /analytics/{account_id}/best_times'
+  confidence: medium
+
+mcp_only: []
+
+rest_only:
+- operationId: getAnalyticsMembersData
+  binding: 'GET /analytics/members'
+  reason: No published prompt or tool evidence; analytics-scope reporting endpoint.
+- operationId: getHashtagInsights
+  binding: 'GET /analytics/{account_id}/hashtag_insights'
+  reason: No published prompt or tool evidence.
+- operationId: getHashtagPerformingPosts
+  binding: 'GET /analytics/{account_id}/hashtag_performing_posts'
+  reason: No published prompt or tool evidence.
+- operationId: listCompetitors
+  binding: 'GET /competitors/{account_id}'
+  reason: >-
+    Competitor endpoints are a separate tag with no MCP evidence; unmapped
+    rather than guessed.
+- operationId: getCompetitorsAnalytics
+  binding: 'GET /competitors/{account_id}/analytics'
+  reason: No MCP evidence.
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,81 +1,131 @@
-openapi: 3.0.1
+openapi: 3.1.1
 info:
-  title: Publer Accounts Jobs API
-  description: 'The Publer API (v1) lets Publer Business customers programmatically schedule and publish social media posts, manage connected social accounts and workspaces, work with the media library, and track asynchronous jobs. Authentication uses an API key passed as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is currently available exclusively to Publer Business users.'
+  title: Publer Jobs API
+  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
+    - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
+    LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
+    and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together
+    with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
   termsOfService: https://publer.com/terms
   contact:
     name: Publer Support
+    email: support@publer.com
     url: https://publer.com/docs
-  version: '1.0'
+  version: 1.0.0
 servers:
 - url: https://app.publer.com/api/v1
 security:
-- api_key: []
-  workspace_id: []
+- BearerApiAuth: []
 tags:
 - name: Jobs
+  description: Endpoints for managing asynchronous jobs
 paths:
   /job_status/{job_id}:
     get:
-      operationId: getJobStatus
+      summary: Get job status
+      description: Check the status of an asynchronous job, including URL media uploads
       tags:
       - Jobs
-      summary: Get job status
-      description: Monitor an asynchronous operation (such as scheduling or publishing) by its job id.
       parameters:
-      - name: job_id
-        in: path
-        required: true
-        description: The job id returned by an asynchronous operation.
-        schema:
+      - schema:
           type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve posts from
+        required: true
+      - schema:
+          type: string
+        name: job_id
+        in: path
+        description: ID of the job to check
+        required: true
       responses:
         '200':
-          description: OK
+          description: Job status retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JobStatus'
+                $ref: '#/components/schemas/JobStatusResponse'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
+                $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          description: Permission denied or missing required scope
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: getJobStatus
 components:
   schemas:
-    Error:
+    401ErrorResponse:
       type: object
       properties:
-        message:
-          type: string
-        type:
-          type: string
-        code:
-          type: string
-    JobStatus:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    403ErrorResponse:
       type: object
       properties:
-        status:
-          type: string
-          description: Current status of the job.
-        payload:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    JobStatusResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the request was successful
+        data:
           type: object
-          description: Result payload of the completed job.
+          properties:
+            status:
+              type: string
+              enum:
+              - working
+              - complete
+              - failed
+              description: "Current status of the job \n\n - `working`: The job is still processing.\n\
+                \ - `complete`: The job has completed successfully.\n - `failed`: The job has failed."
+            result:
+              type: object
+              description: Result data, contents depend on job type
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - working
+                  - complete
+                  - failed
+                  description: "Current status of the job \n\n - `working`: The job is still processing.\n\
+                    \ - `complete`: The job has completed successfully.\n - `failed`: The job has failed."
+                payload:
+                  type: object
+                  description: Result payload containing any operation results
+                  properties:
+                    failures:
+                      type: object
+                      description: Any failures that occurred during processing
+                plan:
+                  type: object
+                  description: Current user's plan information
+                  properties:
+                    rate:
+                      type: string
+                      description: The rate plan of the workspace
+                    locked:
+                      type: boolean
+                      description: Whether the workspace is locked
   securitySchemes:
-    api_key:
+    BearerApiAuth:
       type: apiKey
-      in: header
       name: Authorization
-      description: 'API key passed as `Authorization: Bearer-API YOUR_API_KEY`. A `Publer-Workspace-Id` header is also required to scope requests to a workspace.'
-    workspace_id:
-      type: apiKey
       in: header
-      name: Publer-Workspace-Id
-      description: The id of the workspace to scope the request to.
+      description: 'API key authentication. Format: "Bearer-API YOUR_API_KEY"'

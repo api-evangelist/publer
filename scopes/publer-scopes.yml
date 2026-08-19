@@ -1,0 +1,133 @@
+generated: '2026-08-13'
+method: searched
+docs: https://publer.com/docs/getting-started/authentication.md
+source: >-
+  https://publer.com/docs/getting-started/authentication.md ("API Key Scopes"
+  table), https://publer.com/docs/getting-started/quickstart.md,
+  https://publer.com/help/en/article/how-to-access-the-publer-api-1w08edo/ and
+  https://publer.com/help/en/article/how-to-set-up-and-use-publers-mcp-server-14orlq0/
+provider: Publer
+providerId: publer
+
+scheme: api-key-scopes
+oauth2: false
+note: >-
+  THESE ARE NOT OAUTH 2.0 SCOPES. Publer runs no OAuth 2.0 authorization server
+  and issues no access tokens — there is no authorization endpoint, no token
+  endpoint, and no /.well-known/oauth-authorization-server (probed 2026-08-13:
+  publer.com returns the Framer SPA shell, app.publer.com returns 410). What
+  Publer publishes is a real, user-selected PERMISSION SCOPE model bound to a
+  long-lived API key: the user picks scopes when the key is created in Settings
+  -> API & Webhooks, and the same scope set governs both REST and MCP access.
+  Recorded here because it is the provider's published permission reference.
+
+grant_flow: none
+consent_ui: in-app key creation dialog
+scope_selection: per-key, chosen by the user at creation time
+downscoping: >-
+  Publer recommends creating separate keys per use case (least privilege). A
+  key's scopes cannot be changed after creation — remove the key and create a
+  new one.
+enforcement:
+  insufficient_scope_status: 403
+  insufficient_scope_body: '{"errors": ["..."]}'
+  note: >-
+    403 also signals a missing Publer-Workspace-Id header and a missing plan
+    entitlement, so an insufficient-scope failure is not distinguishable by
+    status alone.
+
+scopes:
+- name: workspaces
+  description: Retrieve the user's workspaces.
+  required: true
+  required_note: Selected by default and mandatory on every key.
+  example_endpoints:
+  - GET /workspaces
+  operations:
+  - listWorkspaces
+  consequence: read
+- name: accounts
+  description: Retrieve the user's connected social accounts for the selected workspace.
+  required: true
+  required_note: Selected by default and mandatory on every key.
+  example_endpoints:
+  - GET /accounts
+  operations:
+  - listAccounts
+  consequence: read
+- name: posts
+  description: Manage the user's posts — list, schedule, publish, update and delete.
+  required: false
+  example_endpoints:
+  - GET /posts
+  - POST /posts/schedule
+  - POST /posts/schedule/publish
+  - PUT /posts/{id}
+  - DELETE /posts
+  - GET /job_status/{job_id}
+  operations:
+  - listPosts
+  - schedulePosts
+  - createPost
+  - updatePost
+  - deleteMultiplePosts
+  - getJobStatus
+  consequence: write
+  note: >-
+    A single scope covers both read and write on posts. There is no read-only
+    posts scope, so any integration that needs to LIST posts is also granted the
+    ability to PUBLISH and DELETE them. This is the sharpest least-privilege gap
+    in Publer's scope model.
+- name: media
+  description: Upload and list media assets in the workspace library.
+  required: false
+  example_endpoints:
+  - GET /media
+  - POST /media
+  - POST /media/from-url
+  operations:
+  - listMedia
+  - uploadAMediaFileDirectly
+  - uploadMediaFromURL
+  consequence: write
+- name: analytics
+  description: >-
+    Read analytics — charts, chart data, post insights, hashtag analysis, best
+    times to post, member activity and competitor analysis.
+  required: false
+  example_endpoints:
+  - GET /analytics/charts
+  - GET /analytics/chart_data
+  - GET /analytics/{account_id}/post_insights
+  - GET /analytics/{account_id}/best_times
+  - GET /analytics/{account_id}/hashtag_insights
+  - GET /analytics/members
+  - GET /competitors/{account_id}
+  operations:
+  - getAvailableAnalyticsCharts
+  - getAnalyticsChartData
+  - getPostInsights
+  - getBestTimesToPostForAccount
+  - getHashtagInsights
+  - getHashtagPerformingPosts
+  - getAnalyticsMembersData
+  - listCompetitors
+  - getCompetitorsAnalytics
+  consequence: read
+  note: >-
+    Named in the help center and MCP setup articles ("select any additional
+    scopes ... such as Posts, Media, or Analytics") but MISSING from the scope
+    table in the developer docs, which lists only workspaces, accounts, posts
+    and media. The analytics endpoints additionally return 403 "requires
+    analytics access or paying subscription", so scope alone is not sufficient.
+
+gaps:
+- The docs scope table omits `analytics`, which the help center documents.
+- No read-only variant of `posts` or `media`; read and write share one scope.
+- No scope is declared in the OpenAPI security requirements — the spec declares
+  only the apiKey scheme, so scope requirements are not machine-readable
+  per-operation. The operation mappings above are ours, derived from the docs.
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

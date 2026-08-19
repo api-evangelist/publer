@@ -1,0 +1,104 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  openapi/_original/publer-openapi.yml (21 operations harvested verbatim from
+  Publer's own OpenAPI 3.1.1 blocks at https://publer.com/docs), plus the
+  Publer quickstart, media-handling, update/delete and analytics documentation.
+  Publer publishes no skills, AGENTS.md or agent instructions of its own — these
+  are API Evangelist packaged skills, grounded only in real operationIds.
+provider: Publer
+providerId: publer
+description: >-
+  Packaged Agent Skills for the Publer API v1. Every skill is grounded in
+  operationIds that exist in the specification; none invents an endpoint. All of
+  them assume the same two headers (Authorization: Bearer-API, and
+  Publer-Workspace-Id) and the same submit-and-poll contract on writes.
+skills:
+- name: publer-schedule-a-post
+  file: publer-schedule-a-post.md
+  description: >-
+    Schedule content to connected accounts and confirm it landed, including the
+    partial-failure check most integrations miss.
+  operations:
+  - listWorkspaces
+  - listAccounts
+  - schedulePosts
+  - getJobStatus
+  - listPosts
+  scopes:
+  - workspaces
+  - accounts
+  - posts
+  consequence: write
+- name: publer-upload-media-and-publish
+  file: publer-upload-media-and-publish.md
+  description: >-
+    Get an asset into the media library (direct upload or from URL) and publish
+    it immediately, across two async job hops.
+  operations:
+  - listAccounts
+  - listMedia
+  - uploadAMediaFileDirectly
+  - uploadMediaFromURL
+  - getJobStatus
+  - createPost
+  scopes:
+  - workspaces
+  - accounts
+  - media
+  - posts
+  consequence: write
+- name: publer-manage-scheduled-content
+  file: publer-manage-scheduled-content.md
+  description: Find, update and bulk-delete existing posts safely.
+  operations:
+  - listWorkspaces
+  - listAccounts
+  - listPosts
+  - updatePost
+  - deleteMultiplePosts
+  - getJobStatus
+  scopes:
+  - workspaces
+  - accounts
+  - posts
+  consequence: write
+- name: publer-pull-social-analytics
+  file: publer-pull-social-analytics.md
+  description: >-
+    Pull charts, post insights, hashtag performance, best times to post, member
+    activity and competitor comparison for reporting.
+  operations:
+  - listWorkspaces
+  - listAccounts
+  - getAvailableAnalyticsCharts
+  - getAnalyticsChartData
+  - getPostInsights
+  - getHashtagInsights
+  - getHashtagPerformingPosts
+  - getBestTimesToPostForAccount
+  - getAnalyticsMembersData
+  - listCompetitors
+  - getCompetitorsAnalytics
+  scopes:
+  - workspaces
+  - accounts
+  - analytics
+  consequence: read
+shared_rules:
+- 'Auth: `Authorization: Bearer-API YOUR_API_KEY` — the `Bearer-API` prefix is
+  non-standard; a plain `Bearer` fails with 401.'
+- 'Workspace: `Publer-Workspace-Id` is required on most endpoints; omitting it
+  returns 403, not 401.'
+- 'Async: writes return 202 + job_id. Poll GET /job_status/{job_id} and treat a
+  non-empty payload.failures[] as a failure even when status is "complete".'
+- 'Idempotency: none exists. Never blind-retry a write.'
+- 'Rate limit: 100 requests / 2-minute fixed window per user account. Read
+  X-RateLimit-Remaining and X-RateLimit-Reset. No Retry-After on 429.'
+- 'Errors: {"errors": ["..."]} with no machine code — except 429, which returns
+  {"error": "..."}.'
+- 'Entitlement: the API requires an Enterprise plan, a Business plan in good
+  standing, or Top Ambassador status.'
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

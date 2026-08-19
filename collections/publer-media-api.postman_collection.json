@@ -1,0 +1,1029 @@
+{
+  "item": [
+    {
+      "id": "ad0351be-9af7-4cf7-8847-0d335e88c31d",
+      "name": "Media",
+      "description": {
+        "content": "Endpoints for uploading and managing media files",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "240e2590-e527-401b-8402-ca4dc3827685",
+          "name": "List Media",
+          "request": {
+            "name": "List Media",
+            "description": {
+              "content": "Retrieves a paginated list of media items from the user's library. The endpoint supports filtering by various parameters and can also retrieve specific media items by their IDs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "media"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>,<string>",
+                  "description": "Specific media IDs to retrieve. If provided, pagination and other filters are ignored"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number for pagination (0-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "types",
+                  "value": "<string>,<string>",
+                  "description": "(Required) Filter by media types"
+                },
+                {
+                  "disabled": false,
+                  "key": "used",
+                  "value": "<boolean>,<boolean>",
+                  "description": "(Required) Filter by used status"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>,<string>",
+                  "description": "Filter by source"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search term to filter media by name or caption"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to retrieve media from",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "aa21ee3c-e01e-4338-a00f-645b02833285",
+              "name": "Successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "used",
+                      "value": "<boolean>,<boolean>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve media from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"media\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"gif\",\n      \"name\": \"string\",\n      \"caption\": \"string\",\n      \"path\": \"string\",\n      \"thumbnails\": [\n        {\n          \"id\": \"string\",\n          \"small\": \"string\",\n          \"real\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"small\": \"string\",\n          \"real\": \"string\"\n        }\n      ],\n      \"created_at\": \"1983-02-20T18:08:11.430Z\",\n      \"updated_at\": \"1979-04-16T14:29:20.589Z\",\n      \"favorite\": true,\n      \"in_library\": false\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"gif\",\n      \"name\": \"string\",\n      \"caption\": \"string\",\n      \"path\": \"string\",\n      \"thumbnails\": [\n        {\n          \"id\": \"string\",\n          \"small\": \"string\",\n          \"real\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"small\": \"string\",\n          \"real\": \"string\"\n        }\n      ],\n      \"created_at\": \"1983-10-04T19:04:38.992Z\",\n      \"updated_at\": \"1954-05-20T23:55:32.533Z\",\n      \"favorite\": false,\n      \"in_library\": true\n    }\n  ],\n  \"total\": 5289\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c74dc17-f7c8-4715-9a38-c1bc34a8cf29",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "used",
+                      "value": "<boolean>,<boolean>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve media from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9c2f4a1-0964-4c2a-b125-c10370539656",
+              "name": "Permission denied or missing required scope",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "used",
+                      "value": "<boolean>,<boolean>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve media from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e4cee0d-9dfc-45b9-9ba7-95cf923e2871",
+          "name": "Upload a media file directly",
+          "request": {
+            "name": "Upload a media file directly",
+            "description": {
+              "content": "Upload a media file (image, video, or document) to be used in social media posts",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "media"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to upload media",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "value": "<string>",
+                  "type": "text",
+                  "contentType": "application/octet-stream",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "direct_upload",
+                  "value": "false",
+                  "type": "text",
+                  "description": "Whether to upload directly to our S3 cloud (slower, but required if you need the final media URL)"
+                },
+                {
+                  "key": "in_library",
+                  "value": "false",
+                  "type": "text",
+                  "description": "Whether to save to media library"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "71417f2a-79e3-4b51-8d91-bc7bc5b20f58",
+              "name": "Media file uploaded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to upload media",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<string>",
+                      "type": "text",
+                      "contentType": "application/octet-stream"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to upload directly to our S3 cloud (slower, but required if you need the final media URL)",
+                        "type": "text/plain"
+                      },
+                      "key": "direct_upload",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to save to media library",
+                        "type": "text/plain"
+                      },
+                      "key": "in_library",
+                      "value": "false",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"path\": \"string\",\n  \"thumbnail\": \"string\",\n  \"validity\": {},\n  \"width\": 5307.177075158188,\n  \"height\": 2296.50267451578,\n  \"source\": \"string\",\n  \"type\": \"string\",\n  \"name\": \"string\",\n  \"caption\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04459d1a-22fd-44ba-9bfb-e94be143603f",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to upload media",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<string>",
+                      "type": "text",
+                      "contentType": "application/octet-stream"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to upload directly to our S3 cloud (slower, but required if you need the final media URL)",
+                        "type": "text/plain"
+                      },
+                      "key": "direct_upload",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to save to media library",
+                        "type": "text/plain"
+                      },
+                      "key": "in_library",
+                      "value": "false",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60554bad-b166-4ac7-bfe3-8c3c77e75b44",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to upload media",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<string>",
+                      "type": "text",
+                      "contentType": "application/octet-stream"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to upload directly to our S3 cloud (slower, but required if you need the final media URL)",
+                        "type": "text/plain"
+                      },
+                      "key": "direct_upload",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to save to media library",
+                        "type": "text/plain"
+                      },
+                      "key": "in_library",
+                      "value": "false",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "392e9550-9fc2-4f02-8ed6-f544e9f2bf76",
+              "name": "Permission denied or missing required scope",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to upload media",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<string>",
+                      "type": "text",
+                      "contentType": "application/octet-stream"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to upload directly to our S3 cloud (slower, but required if you need the final media URL)",
+                        "type": "text/plain"
+                      },
+                      "key": "direct_upload",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to save to media library",
+                        "type": "text/plain"
+                      },
+                      "key": "in_library",
+                      "value": "false",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a11a64dc-2693-400c-b0b3-4ad600743606",
+          "name": "Upload media from URL",
+          "request": {
+            "name": "Upload media from URL",
+            "description": {
+              "content": "Upload media files by providing URLs",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "media",
+                "from-url"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to upload media",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"media\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    }\n  ],\n  \"type\": \"<string>\",\n  \"direct_upload\": false,\n  \"in_library\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "577d58d2-9d6c-45b0-94bb-a52e5612e431",
+              "name": "Media upload job created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media",
+                    "from-url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to upload media",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"media\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    }\n  ],\n  \"type\": \"<string>\",\n  \"direct_upload\": false,\n  \"in_library\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"job_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a74996ef-452e-44a8-8e9d-c7fdd022240f",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media",
+                    "from-url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to upload media",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"media\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    }\n  ],\n  \"type\": \"<string>\",\n  \"direct_upload\": false,\n  \"in_library\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2d024fc-9a78-45b2-8e23-cfe700db353b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media",
+                    "from-url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to upload media",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"media\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    }\n  ],\n  \"type\": \"<string>\",\n  \"direct_upload\": false,\n  \"in_library\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "803660fe-d46e-4daa-a043-87425dc7ac91",
+              "name": "Permission denied or missing required scope",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "media",
+                    "from-url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to upload media",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"media\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"caption\": \"<string>\",\n      \"source\": \"<string>\"\n    }\n  ],\n  \"type\": \"<string>\",\n  \"direct_upload\": false,\n  \"in_library\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.publer.com/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bec582b3-e044-447c-afcc-845329b5447e",
+    "name": "Publer Media API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Publer API (v1) is a RESTful JSON interface for automating social media workflows - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.\n\nContact Support:\n Name: Publer Support\n Email: support@publer.com",
+      "type": "text/plain"
+    }
+  }
+}

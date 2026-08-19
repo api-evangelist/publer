@@ -1,22 +1,24 @@
-generated: '2026-07-15'
+generated: '2026-08-13'
 method: generated
-source: openapi/publer-openapi.yml
+source: openapi/publer-accounts-api-openapi.yml, openapi/publer-analytics-api-openapi.yml, openapi/publer-competitors-api-openapi.yml,
+  openapi/publer-jobs-api-openapi.yml, openapi/publer-media-api-openapi.yml, openapi/publer-posts-api-openapi.yml,
+  openapi/publer-users-api-openapi.yml, openapi/publer-workspaces-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
-  operations: 7
+  operations: 21
   by_action_class:
-    connected: 5
-    acting: 2
+    connected: 15
+    acting: 6
   by_consequence:
-    read: 5
-    write: 2
+    read: 15
+    write: 6
   human_in_the_loop_required: 0
 operations:
-- path: /workspaces
+- path: /accounts
   method: get
-  operationId: listWorkspaces
+  operationId: listAccounts
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -24,9 +26,99 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /accounts
+- path: /analytics/{account_id}/best_times
   method: get
-  operationId: listAccounts
+  operationId: getBestTimesToPostForAccount
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /analytics/charts
+  method: get
+  operationId: getAvailableAnalyticsCharts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /analytics/chart_data
+  method: get
+  operationId: getAnalyticsChartData
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /analytics/{account_id}/hashtag_insights
+  method: get
+  operationId: getHashtagInsights
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /analytics/{account_id}/hashtag_performing_posts
+  method: get
+  operationId: getHashtagPerformingPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /analytics/members
+  method: get
+  operationId: getAnalyticsMembersData
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /analytics/{account_id}/post_insights
+  method: get
+  operationId: getPostInsights
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /competitors/{account_id}
+  method: get
+  operationId: listCompetitors
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /competitors/{account_id}/analytics
+  method: get
+  operationId: getCompetitorsAnalytics
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /job_status/{job_id}
+  method: get
+  operationId: getJobStatus
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -44,6 +136,38 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /media
+  method: post
+  operationId: uploadAMediaFileDirectly
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /media/from-url
+  method: post
+  operationId: uploadMediaFromURL
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
 - path: /posts
   method: get
   operationId: listPosts
@@ -54,6 +178,22 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /posts
+  method: delete
+  operationId: deleteMultiplePosts
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
 - path: /posts/schedule
   method: post
   operationId: schedulePosts
@@ -72,7 +212,7 @@ operations:
     audit: required
 - path: /posts/schedule/publish
   method: post
-  operationId: publishPosts
+  operationId: createPost
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -86,9 +226,35 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /job_status/{job_id}
+- path: /posts/{id}
+  method: put
+  operationId: updatePost
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /users/me
   method: get
-  operationId: getJobStatus
+  operationId: getCurrentUser
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /workspaces
+  method: get
+  operationId: listWorkspaces
   x-agentic-access:
     action-class: connected
     consequence: read

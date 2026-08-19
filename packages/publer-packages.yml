@@ -1,0 +1,71 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  Registry searches of npm, PyPI, RubyGems and GitHub for Publer client
+  libraries, plus https://publer.com/docs/overview.md and the GitBook docs
+  `ask` endpoint, which state Publer publishes no official SDKs, client
+  libraries or CLI.
+provider: Publer
+providerId: publer
+summary:
+  official_count: 0
+  community_count: 4
+  registries_searched:
+  - npm
+  - pypi
+  - rubygems
+  - github
+  note: >-
+    Publer publishes NO first-party SDK, client library or CLI. The Publer docs
+    (https://publer.com/docs) document only raw HTTP/curl usage, and the
+    github.com/Publer organization exists but has 0 public repositories
+    (verified 2026-08-13 via api.github.com/orgs/Publer -> public_repos: 0).
+    Every package below is third-party/community work and is recorded as such;
+    none of them is endorsed, maintained or referenced by Publer.
+packages:
+- name: publer-mcp-server
+  registry: npm
+  url: https://www.npmjs.com/package/publer-mcp-server
+  repository: https://github.com/alexkess/publer-mcp-server
+  language: javascript
+  official: false
+  version: 1.1.0
+  published: '2026-08-10'
+  note: >-
+    Community MCP server wrapping the Publer API, by alexkess. NOT Publer's own
+    MCP server — Publer ships a first-party hosted MCP server whose URL is
+    generated per account inside the app (see mcp/publer-mcp.yml).
+- name: n8n-nodes-publer
+  registry: npm
+  url: https://www.npmjs.com/package/n8n-nodes-publer
+  repository: null
+  language: javascript
+  official: false
+  version: 1.0.4
+  published: '2025-11-14'
+  note: Community n8n community-node for the Publer API.
+- name: '@adaptive-ds/n8n-nodes-publer'
+  registry: npm
+  url: https://www.npmjs.com/package/@adaptive-ds/n8n-nodes-publer
+  repository: https://github.com/david1gp/n8n-nodes-publer
+  language: javascript
+  official: false
+  version: 1.1.16
+  published: '2026-02-15'
+  note: Community n8n node for Publer, maintained by a third party.
+- name: publer-python
+  registry: github
+  url: https://github.com/storydivision/publer-python
+  repository: https://github.com/storydivision/publer-python
+  language: python
+  official: false
+  version: null
+  published: null
+  note: >-
+    Community Python wrapper published only as a GitHub repository — it is not
+    on PyPI (pypi.org/pypi/publer/json returns 404, verified 2026-08-13), so
+    there is no registry metadata endpoint to read a version or release date
+    from. Consumers cannot pin a released version.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

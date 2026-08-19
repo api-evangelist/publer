@@ -4,8 +4,17 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Publer
 providerId: publer
 created: '2026-06-25'
-modified: '2026-06-25'
+modified: '2026-08-13'
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://publer.com/help/en/article/what-are-publers-plans-and-pricing-15h4yqh/,
+  https://publer.com/help/en/article/what-is-included-in-publer-business-1c57hsq/,
+  https://publer.com/help/en/article/what-is-included-in-publer-enterprise-13ap85n/,
+  https://publer.com/help/en/article/does-publer-have-a-public-api-194nknf/ and
+  https://publer.com/pricing
 reconciled: false
+plan_count: 4
 tags:
 - Social Media
 - Scheduling
@@ -14,28 +23,61 @@ tags:
 - Marketing
 - Plans
 description: >-
-  Publer is sold as a SaaS subscription with three tiers: a free-forever Free
-  plan, a Professional plan, and a Business plan. Pricing is per-account: each
-  tier includes a base set of social accounts and scales by adding more accounts
-  and team members, with annual billing discounted versus monthly. The Publer
-  API is currently available exclusively to Publer Business users, so API access
-  requires a Business subscription.
+  Publer is sold as a SaaS subscription in four tiers — Free, Professional,
+  Business and Enterprise. Pricing scales per connected social account and per
+  team member rather than per API call; every 10th social account and every 10th
+  team member is free, and paying yearly saves up to 20%. Paid tiers include
+  unlimited workspaces at no extra cost.
+api_entitlement:
+  required_plan:
+  - Enterprise
+  - Business (accounts in good standing only — no failed or locked subscriptions)
+  - Top Ambassadors
+  excluded:
+  - Free
+  - Professional
+  note: >-
+    The Public API is NOT sold as a separate product or metered add-on. It is an
+    entitlement of the subscription tier plus account standing, which means an
+    account can lose API access without changing plan. The MCP server is a
+    further-gated beta, limited to Top Ambassadors on the Enterprise plan.
+  source: https://publer.com/help/en/article/does-publer-have-a-public-api-194nknf/
 notes: >-
-  Plan prices vary by billing cycle (monthly vs. annual), number of connected
-  social accounts, and team members; representative base prices below reflect
-  publicly listed monthly rates and may change. Verify current pricing and the
-  exact Business-tier requirement for API access on the Publer pricing page.
+  PRICE FIGURES ARE APPROXIMATE AND WERE NOT RE-VERIFIABLE ON 2026-08-13.
+  https://publer.com/pricing returns HTTP 200 but is a Framer page that renders
+  every price client-side — the 815 KB HTML payload contains no price strings at
+  all, and no machine-readable pricing or catalog endpoint is published. The
+  figures below were observed on 2026-06-25 and are retained as approximations,
+  flagged with price_verified: false. Plan STRUCTURE (tiers, per-account and
+  per-member scaling, the every-10th-free rule, the 20% annual discount, the
+  14-day trial and the API entitlement) is verified from the help center
+  articles cited above.
 sources:
 - https://publer.com/pricing
 - https://publer.com/help/en/article/what-are-publers-plans-and-pricing-15h4yqh/
-- https://publer.com/docs/api-reference/introduction
+- https://publer.com/help/en/article/what-is-included-in-publer-business-1c57hsq/
+- https://publer.com/help/en/article/what-is-included-in-publer-enterprise-13ap85n/
+- https://publer.com/help/en/article/does-publer-have-a-public-api-194nknf/
+- https://publer.com/docs/api-reference/introduction.md
+billing:
+  currency: USD
+  periods:
+  - monthly
+  - annual
+  annual_discount: up to 20%
+  trial: 14-day free trial on Business and Enterprise; credit card or PayPal required
+  volume_rule: Every 10th social account and every 10th team member is free.
+  workspaces: Unlimited on all paid plans, at no extra cost.
 plans:
 - id: publer-free
   name: Free
   type: free
+  api_access: false
+  price_verified: true
   description: >-
-    Free-forever plan to connect and schedule posts for a small number of
-    social accounts. Does not include API access.
+    Free-forever plan to connect and schedule posts for a small number of social
+    accounts. Twitter/X accounts cannot be connected on Free. Does not include
+    API access.
   entries:
   - label: Free Plan
     name: free
@@ -48,16 +90,22 @@ plans:
     price: $0
     userMultiplied: false
   elements:
-  - name: Up to 3 social accounts
-  - name: Post scheduling
-  - name: Content calendar
+  - name: 1 workspace
+  - name: 3 social accounts (excluding Twitter/X)
+  - name: 10 pending scheduled posts per account
+  - name: 25 saved drafts
+  - name: 24 hours of published-post history
+  - name: Link in Bio for Instagram
+  - name: Free trials on paid features
 - id: publer-professional
   name: Professional
   type: paid
+  api_access: false
+  price_verified: false
   description: >-
-    Subscription tier for individuals and small teams with analytics,
-    additional scheduling features, and per-account scaling. Does not include
-    API access.
+    Subscription tier for individuals and small teams — unlimited scheduled
+    posts and drafts, Twitter/X support, eternal post history, bulk scheduling
+    up to 500 posts, media library and analytics. Does NOT include API access.
   entries:
   - label: Professional Plan (base)
     name: professional
@@ -67,7 +115,7 @@ plans:
     timeFrame: month
     geo: global
     unit: 1
-    price: from ~$12/mo for 3 accounts (annual billing discounted ~20%)
+    price: approx. $12/mo for 3 accounts (unverified 2026-08-13; annual ~20% cheaper)
     userMultiplied: false
   - label: Additional social account
     name: professional_extra_account
@@ -77,19 +125,24 @@ plans:
     timeFrame: month
     geo: global
     unit: 1
-    price: ~$4 per additional account / month
+    price: approx. $4 per additional account / month (unverified 2026-08-13)
     userMultiplied: true
   elements:
-  - name: Social account scheduling
+  - name: Unlimited scheduled posts and drafts
+  - name: Twitter/X accounts
+  - name: Bulk scheduling up to 500 posts
+  - name: Media Library
   - name: Analytics
-  - name: Additional accounts and members
 - id: publer-business
   name: Business
   type: paid
+  api_access: conditional
+  price_verified: false
   description: >-
-    Top subscription tier for teams and agencies with collaboration,
-    advanced analytics, and API access. The Publer API is available
-    exclusively to Business users.
+    Full-feature tier for teams and agencies. Includes everything in
+    Professional plus team collaboration and advanced analytics. THE PUBLIC API
+    IS AVAILABLE ON THIS TIER ONLY WHILE THE ACCOUNT IS IN GOOD STANDING — an
+    account with a failed or locked subscription loses API access.
   entries:
   - label: Business Plan (base)
     name: business
@@ -99,7 +152,7 @@ plans:
     timeFrame: month
     geo: global
     unit: 1
-    price: from ~$21/mo for 3 accounts (annual billing discounted ~20%)
+    price: approx. $21/mo for 3 accounts (unverified 2026-08-13; annual ~20% cheaper)
     userMultiplied: false
   - label: Additional social account
     name: business_extra_account
@@ -109,7 +162,7 @@ plans:
     timeFrame: month
     geo: global
     unit: 1
-    price: ~$7 per additional account / month
+    price: approx. $7 per additional account / month (unverified 2026-08-13)
     userMultiplied: true
   - label: Additional team member
     name: business_extra_member
@@ -119,12 +172,42 @@ plans:
     timeFrame: month
     geo: global
     unit: 1
-    price: ~$3 per additional member / month
+    price: approx. $3 per additional member / month (unverified 2026-08-13)
     userMultiplied: true
   elements:
-  - name: Team collaboration
+  - name: Everything in Professional
+  - name: Team collaboration and workspaces
   - name: Advanced analytics
-  - name: API access (Posts, Accounts, Workspaces, Media, Jobs)
+  - name: 14-day free trial
+  - name: 'Public API access (scopes: workspaces, accounts, posts, media, analytics)'
+- id: publer-enterprise
+  name: Enterprise
+  type: paid
+  api_access: true
+  price_verified: false
+  description: >-
+    Top tier — "full access to all superpowers on Publer", with higher volume
+    discounts for large social-account counts, an extendable 14-day trial, and
+    monthly or annual payment. Public API access is unconditional on this tier,
+    and Enterprise is the only tier where the beta MCP server is offered (to Top
+    Ambassadors).
+  entries:
+  - label: Enterprise Plan
+    name: enterprise
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: not published — volume-discounted, contact Publer
+    userMultiplied: false
+  elements:
+  - name: Everything in Business
+  - name: Higher discounts for large volumes of social accounts
+  - name: Extendable free trial
+  - name: Public API access
+  - name: MCP server (beta, Top Ambassadors)
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

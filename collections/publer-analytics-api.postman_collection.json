@@ -1,0 +1,2245 @@
+{
+  "item": [
+    {
+      "id": "b34153b6-865c-44f8-813e-2a90e6a28919",
+      "name": "Analytics",
+      "description": {
+        "content": "Endpoints for retrieving analytics data and charts",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4449aa08-897f-452a-9c16-73d5bf519903",
+          "name": "Get Best Times to Post for Account",
+          "request": {
+            "name": "Get Best Times to Post for Account",
+            "description": {
+              "content": "Retrieves the optimal posting times for a specific social media account based on historical analytics data. Returns a heatmap of posting performance across days of the week and hours of the day, tailored to the specified account's audience engagement patterns.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                ":account_id",
+                "best_times"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "competitors",
+                  "value": "<string>",
+                  "description": "Include competitor data in best times analysis. Set to 'true' to analyze competitor posting patterns"
+                },
+                {
+                  "disabled": false,
+                  "key": "competitor_id",
+                  "value": "<string>",
+                  "description": "Specific competitor ID to analyze. Used in conjunction with competitors=true parameter"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "(Required) Start date for analytics data range (YYYY-MM-DD format). Filters data from this date onwards"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "(Required) End date for analytics data range (YYYY-MM-DD format). Filters data up to this date"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_id",
+                  "description": "Social media account ID to analyze posting times for. When provided, analysis is specific to this account's performance data"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to retrieve best times from",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "19607733-4101-419f-9adb-2766301ade01",
+              "name": "Best times to post data organized by day of the week and hour for the specific account",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "best_times"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "competitors",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "competitor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Social media account ID to analyze posting times for. When provided, analysis is specific to this account's performance data"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve best times from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    3155.008911706707,\n    8439.080704717415\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33cb91e4-aaa1-4e90-b900-b9b936b67e03",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "best_times"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "competitors",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "competitor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Social media account ID to analyze posting times for. When provided, analysis is specific to this account's performance data"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve best times from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6738c123-e6fb-4e30-a72f-e62a27787f55",
+              "name": "Permission denied - requires analytics access or paying subscription",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "best_times"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "competitors",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "competitor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Social media account ID to analyze posting times for. When provided, analysis is specific to this account's performance data"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve best times from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a0ed8990-0e04-4180-8862-48f035627603",
+          "name": "Get Available Analytics Charts",
+          "request": {
+            "name": "Get Available Analytics Charts",
+            "description": {
+              "content": "Retrieves a list of available analytics charts filtered by account type and chart type. Charts include growth metrics (followers, connections), insights (engagement, reach), and demographics (countries, ages).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                "charts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "account_type",
+                  "value": "<string>",
+                  "description": "Social media platform type to filter charts for (e.g., 'ig_business', 'fb_page', 'twitter', 'linkedin', 'youtube', 'tiktok', 'google', 'pin_business')"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to retrieve charts from",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6711ef12-3c1f-413a-91c3-d2dace0c9f03",
+              "name": "List of available charts with metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve charts from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"title\": \"string\",\n    \"group_id\": \"string\",\n    \"tooltip\": \"string\",\n    \"type\": \"vertical\",\n    \"last_value\": false,\n    \"show_percentage\": true\n  },\n  {\n    \"id\": \"string\",\n    \"title\": \"string\",\n    \"group_id\": \"string\",\n    \"tooltip\": \"string\",\n    \"type\": \"side_by_side\",\n    \"last_value\": true,\n    \"show_percentage\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49bfe5b8-7e0f-4c63-93ce-a3d65897a01b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve charts from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "511bc153-2acd-4d6d-9f6d-ddd7beef7746",
+              "name": "Permission denied or missing required scope",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve charts from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3f8705b7-fa9c-4bd2-9f9c-a29bf6ef9640",
+          "name": "Get Analytics Chart Data",
+          "request": {
+            "name": "Get Analytics Chart Data",
+            "description": {
+              "content": "Retrieves analytics data for specific charts by their IDs. Returns current and previous period data for comparison. Supports growth metrics, post insights, and demographic data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                "chart_data"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "chart_ids",
+                  "value": "<string>",
+                  "description": "(Required) Array of chart IDs to retrieve data for. Use chart IDs from the /analytics/charts endpoint"
+                },
+                {
+                  "disabled": false,
+                  "key": "chart_ids",
+                  "value": "<string>",
+                  "description": "(Required) Array of chart IDs to retrieve data for. Use chart IDs from the /analytics/charts endpoint"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "Start date for analytics data (YYYY-MM-DD format)"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "End date for analytics data (YYYY-MM-DD format)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_id",
+                  "description": "Optional account ID to filter analytics data for a specific social media account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to retrieve data from",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3b8c6c95-a993-4e58-9e09-78e8fd6d1d7c",
+              "name": "Analytics chart data with current and previous period values",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "chart_data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chart_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "chart_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Optional account ID to filter analytics data for a specific social media account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve data from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"current\": {\n    \"key_0\": {}\n  },\n  \"previous\": {\n    \"key_0\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7ca9478-7eb0-4b47-9247-d382cb1d53d3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "chart_data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chart_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "chart_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Optional account ID to filter analytics data for a specific social media account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve data from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd21b540-9fd0-4697-9be2-7ff307a79dbd",
+              "name": "Permission denied or missing required scope",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "chart_data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chart_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "chart_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Optional account ID to filter analytics data for a specific social media account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve data from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3eac19c1-a9d4-416a-9c88-ab2133631678",
+          "name": "Get Hashtag Insights",
+          "request": {
+            "name": "Get Hashtag Insights",
+            "description": {
+              "content": "Retrieves comprehensive analytics data for hashtags used in published posts. Provides metrics like reach, engagement, likes, comments, shares, and video views for each hashtag, along with recent posts using each hashtag and hashtag performance scores.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                ":account_id",
+                "hashtag_insights"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "Start date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled on or after this date"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "End date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled on or before this date"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "<string>",
+                  "description": "Field to sort hashtag results by. Supports various engagement and performance metrics"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_type",
+                  "value": "<string>",
+                  "description": "Sort order direction"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number for pagination (0-based indexing). Each page contains 10 hashtags"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Search query to filter hashtags by name using case-insensitive matching"
+                },
+                {
+                  "disabled": false,
+                  "key": "member_id",
+                  "value": "<string>",
+                  "description": "Filter hashtags by specific workspace member ID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_id",
+                  "description": "Filter hashtags for a specific social media account ID. If omitted, includes all workspace accounts"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to retrieve insights from",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ddd274c1-a3eb-481c-897c-1eb0b290fadf",
+              "name": "Hashtag insights data with analytics metrics and pagination information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "hashtag_insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter hashtags for a specific social media account ID. If omitted, includes all workspace accounts"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve insights from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"records\": [\n    {\n      \"hashtag\": \"string\",\n      \"posts\": 6109,\n      \"recent_posts\": [\n        {\n          \"id\": \"string\",\n          \"text\": \"string\",\n          \"scheduled_at\": \"1952-10-18T11:58:33.186Z\"\n        },\n        {\n          \"id\": \"string\",\n          \"text\": \"string\",\n          \"scheduled_at\": \"2022-03-06T22:02:57.839Z\"\n        }\n      ],\n      \"reach\": 4262,\n      \"likes\": 751,\n      \"comments\": 1377,\n      \"shares\": 5067,\n      \"engagement\": 4717,\n      \"video_views\": 7252,\n      \"link_clicks\": 2385,\n      \"post_clicks\": 1880,\n      \"saves\": 144,\n      \"hashtag_score\": 9356.020409566208\n    },\n    {\n      \"hashtag\": \"string\",\n      \"posts\": 8611,\n      \"recent_posts\": [\n        {\n          \"id\": \"string\",\n          \"text\": \"string\",\n          \"scheduled_at\": \"1960-07-03T18:08:29.749Z\"\n        },\n        {\n          \"id\": \"string\",\n          \"text\": \"string\",\n          \"scheduled_at\": \"1972-12-26T00:55:07.531Z\"\n        }\n      ],\n      \"reach\": 6744,\n      \"likes\": 4958,\n      \"comments\": 1026,\n      \"shares\": 432,\n      \"engagement\": 9484,\n      \"video_views\": 6596,\n      \"link_clicks\": 4920,\n      \"post_clicks\": 275,\n      \"saves\": 1126,\n      \"hashtag_score\": 2352.975263959347\n    }\n  ],\n  \"total\": 5265\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2c6f891-c98a-4aab-97f7-672cf5df83f9",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "hashtag_insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter hashtags for a specific social media account ID. If omitted, includes all workspace accounts"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve insights from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5383c37-8bc5-4b8c-8165-c732e18e2112",
+              "name": "Permission denied - requires analytics access or paying subscription",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "hashtag_insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter hashtags for a specific social media account ID. If omitted, includes all workspace accounts"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve insights from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c1dbc82e-8e32-4076-afd5-c3c98efc21de",
+          "name": "Get Hashtag Performing Posts",
+          "request": {
+            "name": "Get Hashtag Performing Posts",
+            "description": {
+              "content": "Retrieves the top performing posts for a specific hashtag. Returns up to 6 posts that used the hashtag, with comprehensive analytics metrics including engagement, reach, likes, comments, shares, and video views.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                ":account_id",
+                "hashtag_performing_posts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "hashtag",
+                  "value": "<string>",
+                  "description": "(Required) The hashtag to retrieve performing posts for (with # symbol). This parameter is required to filter posts by the specific hashtag"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "Start date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or after this date"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "End date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or before this date"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "<string>",
+                  "description": "Field to sort post results by. Supports various engagement and performance metrics"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_type",
+                  "value": "<string>",
+                  "description": "Sort order direction"
+                },
+                {
+                  "disabled": false,
+                  "key": "member_id",
+                  "value": "<string>",
+                  "description": "Filter posts by specific workspace member ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Search query to filter posts by content text, title, or link information using case-insensitive matching"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_id",
+                  "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to retrieve posts from",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "89c0e862-44d2-4d86-a250-56d38bc5a5c5",
+              "name": "Hashtag performing posts data with analytics metrics",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "hashtag_performing_posts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "hashtag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve posts from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"title\": \"string\",\n    \"scheduled_at\": \"2020-12-22T05:34:01.909Z\",\n    \"account_id\": \"string\",\n    \"hashtags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"analytics\": {\n      \"reach\": 8477,\n      \"likes\": 8309,\n      \"comments\": 6145,\n      \"shares\": 8077,\n      \"engagement\": 9136,\n      \"engagement_rate\": 1419.14358932288,\n      \"video_views\": 8611,\n      \"link_clicks\": 1904,\n      \"post_clicks\": 9591,\n      \"saves\": 2390\n    },\n    \"details\": {\n      \"labels\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        }\n      ]\n    }\n  },\n  {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"title\": \"string\",\n    \"scheduled_at\": \"2011-09-08T02:30:19.102Z\",\n    \"account_id\": \"string\",\n    \"hashtags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"analytics\": {\n      \"reach\": 3952,\n      \"likes\": 5282,\n      \"comments\": 2837,\n      \"shares\": 2908,\n      \"engagement\": 6554,\n      \"engagement_rate\": 7009.859653745853,\n      \"video_views\": 5420,\n      \"link_clicks\": 9960,\n      \"post_clicks\": 9551,\n      \"saves\": 8603\n    },\n    \"details\": {\n      \"labels\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        }\n      ]\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c75d2f4b-8f46-4fe1-a8ce-6d5fe9dfbde1",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "hashtag_performing_posts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "hashtag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve posts from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91eedf30-d7ce-4ed1-b845-42400e19f92b",
+              "name": "Permission denied - requires analytics access or paying subscription",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "hashtag_performing_posts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "hashtag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve posts from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9a624c0b-0446-4513-afab-170536bcddc9",
+          "name": "Get Analytics Members Data",
+          "request": {
+            "name": "Get Analytics Members Data",
+            "description": {
+              "content": "Retrieves analytics data for workspace members showing their posting activity and engagement metrics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "(Required) Start date for analytics data range (YYYY-MM-DD format). Filters data from this date onwards"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "(Required) End date for analytics data range (YYYY-MM-DD format). Filters data up to this date"
+                },
+                {
+                  "disabled": false,
+                  "key": "account_id",
+                  "value": "<string>",
+                  "description": "Optional account ID to filter analytics data for a specific social media account"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to retrieve members from",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "64e835c5-5b8d-4082-a671-562716acc1a1",
+              "name": "Members analytics data with performance metrics",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "account_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve members from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"engagements\": 2179,\n    \"posts\": 7066,\n    \"reach\": 8513,\n    \"account_ids\": [\n      \"string\",\n      \"string\"\n    ],\n    \"user\": {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"picture\": \"string\"\n    }\n  },\n  {\n    \"engagements\": 7786,\n    \"posts\": 4915,\n    \"reach\": 9123,\n    \"account_ids\": [\n      \"string\",\n      \"string\"\n    ],\n    \"user\": {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"picture\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f48c587a-8522-4858-80b2-b1d5a912c2b1",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "account_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve members from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d5ba28c-c628-4d2a-8045-6a93f35f68bf",
+              "name": "Permission denied - requires analytics access or paying subscription",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "account_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve members from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e6217d7-8f2c-4a01-9685-add7c0110c6f",
+          "name": "Get Post Insights",
+          "request": {
+            "name": "Get Post Insights",
+            "description": {
+              "content": "Retrieves comprehensive analytics data for published posts with advanced filtering, sorting, and pagination capabilities.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                ":account_id",
+                "post_insights"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "competitors",
+                  "value": "<string>",
+                  "description": "Include competitor analysis data. Set to 'true' to retrieve competitor post insights"
+                },
+                {
+                  "disabled": false,
+                  "key": "competitor_id",
+                  "value": "<string>",
+                  "description": "Specific competitor account ID to analyze when competitors=true. Works in conjunction with account_id parameter"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "(Required) Start date for post insights data range (YYYY-MM-DD format). Filters posts scheduled on or after this date"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "(Required) End date for post insights data range (YYYY-MM-DD format). Filters posts scheduled on or before this date"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Search query to filter posts by text content, title, link description, or video title using case-insensitive matching"
+                },
+                {
+                  "disabled": false,
+                  "key": "postType",
+                  "value": "<string>",
+                  "description": "Filter posts by specific post type (e.g., image, video, link, text, carousel)"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "<string>",
+                  "description": "Field to sort results by. Supports various engagement and performance metrics"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_type",
+                  "value": "<string>",
+                  "description": "Sort order direction"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number for pagination (0-based indexing). Each page contains 10 posts"
+                },
+                {
+                  "disabled": false,
+                  "key": "member_id",
+                  "value": "<string>",
+                  "description": "Filter posts by specific workspace member/user ID who created or manages the posts"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_id",
+                  "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts. Used with competitors parameter for competitor-specific analysis"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ID of the workspace to retrieve insights from",
+                "key": "Publer-Workspace-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "06331773-3074-4050-88bf-f38c9e5e3fda",
+              "name": "Post insights data with analytics metrics and pagination information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "post_insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "competitors",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "competitor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "postType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts. Used with competitors parameter for competitor-specific analysis"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve insights from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"posts\": [\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"title\": \"string\",\n      \"scheduled_at\": \"2016-05-31T22:39:27.108Z\",\n      \"post_type\": \"string\",\n      \"account_id\": \"string\",\n      \"details\": {\n        \"labels\": [\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"color\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"color\": \"string\"\n          }\n        ]\n      },\n      \"analytics\": {\n        \"reach\": 3687,\n        \"engagement\": 3027,\n        \"engagement_rate\": 3994.024873771347,\n        \"likes\": 2799,\n        \"comments\": 5530,\n        \"shares\": 6986,\n        \"saves\": 147,\n        \"video_views\": 5096,\n        \"link_clicks\": 9845,\n        \"post_clicks\": 8150,\n        \"click_through_rate\": 5459.040483661833,\n        \"reach_rate\": 5730.735320151815\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"title\": \"string\",\n      \"scheduled_at\": \"1992-05-08T12:35:20.420Z\",\n      \"post_type\": \"string\",\n      \"account_id\": \"string\",\n      \"details\": {\n        \"labels\": [\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"color\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"color\": \"string\"\n          }\n        ]\n      },\n      \"analytics\": {\n        \"reach\": 4182,\n        \"engagement\": 3666,\n        \"engagement_rate\": 1129.598632880372,\n        \"likes\": 7964,\n        \"comments\": 1879,\n        \"shares\": 4309,\n        \"saves\": 6554,\n        \"video_views\": 8433,\n        \"link_clicks\": 9882,\n        \"post_clicks\": 3145,\n        \"click_through_rate\": 1918.4683105926458,\n        \"reach_rate\": 158.3655852809207\n      }\n    }\n  ],\n  \"total\": 6316\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28defb00-4140-4cd2-9be7-265a494e0021",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "post_insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "competitors",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "competitor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "postType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts. Used with competitors parameter for competitor-specific analysis"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve insights from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "50854669-2df0-4a12-b0b5-ac36d3a0bec5",
+              "name": "Permission denied - requires analytics access or paying subscription",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    ":account_id",
+                    "post_insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "competitors",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "competitor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "postType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_id",
+                      "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts. Used with competitors parameter for competitor-specific analysis"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ID of the workspace to retrieve insights from",
+                    "key": "Publer-Workspace-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.publer.com/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "82111857-b73a-4606-b546-f4f43d7f6f98",
+    "name": "Publer Analytics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Publer API (v1) is a RESTful JSON interface for automating social media workflows - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.\n\nContact Support:\n Name: Publer Support\n Email: support@publer.com",
+      "type": "text/plain"
+    }
+  }
+}

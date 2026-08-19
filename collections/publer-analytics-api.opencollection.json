@@ -1,0 +1,399 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Publer Analytics API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Best Times to Post for Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/analytics/:account_id/best_times",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "Social media account ID to analyze posting times for. When provided, analysis is specific to this account's performance data"
+              },
+              {
+                "name": "competitors",
+                "value": "",
+                "type": "query",
+                "description": "Include competitor data in best times analysis. Set to 'true' to analyze competitor posting patterns"
+              },
+              {
+                "name": "competitor_id",
+                "value": "",
+                "type": "query",
+                "description": "Specific competitor ID to analyze. Used in conjunction with competitors=true parameter"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date for analytics data range (YYYY-MM-DD format). Filters data from this date onwards"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date for analytics data range (YYYY-MM-DD format). Filters data up to this date"
+              }
+            ]
+          },
+          "docs": "Retrieves the optimal posting times for a specific social media account based on historical analytics data. Returns a heatmap of posting performance across days of the week and hours of the day, tailored to the specified account's audience engagement patterns."
+        },
+        {
+          "info": {
+            "name": "Get Available Analytics Charts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/analytics/charts",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "account_type",
+                "value": "",
+                "type": "query",
+                "description": "Social media platform type to filter charts for (e.g., 'ig_business', 'fb_page', 'twitter', 'linkedin', 'youtube', 'tiktok', 'google', 'pin_business')"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of available analytics charts filtered by account type and chart type. Charts include growth metrics (followers, connections), insights (engagement, reach), and demographics (countries, ages)."
+        },
+        {
+          "info": {
+            "name": "Get Analytics Chart Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/analytics/chart_data",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "chart_ids",
+                "value": "",
+                "type": "query",
+                "description": "Array of chart IDs to retrieve data for. Use chart IDs from the /analytics/charts endpoint"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "Optional account ID to filter analytics data for a specific social media account"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date for analytics data (YYYY-MM-DD format)"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date for analytics data (YYYY-MM-DD format)"
+              }
+            ]
+          },
+          "docs": "Retrieves analytics data for specific charts by their IDs. Returns current and previous period data for comparison. Supports growth metrics, post insights, and demographic data."
+        },
+        {
+          "info": {
+            "name": "Get Hashtag Insights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/analytics/:account_id/hashtag_insights",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled on or after this date"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled on or before this date"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort hashtag results by. Supports various engagement and performance metrics"
+              },
+              {
+                "name": "sort_type",
+                "value": "",
+                "type": "query",
+                "description": "Sort order direction"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "Filter hashtags for a specific social media account ID. If omitted, includes all workspace accounts"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (0-based indexing). Each page contains 10 hashtags"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter hashtags by name using case-insensitive matching"
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter hashtags by specific workspace member ID"
+              }
+            ]
+          },
+          "docs": "Retrieves comprehensive analytics data for hashtags used in published posts. Provides metrics like reach, engagement, likes, comments, shares, and video views for each hashtag, along with recent posts using each hashtag and hashtag performance scores."
+        },
+        {
+          "info": {
+            "name": "Get Hashtag Performing Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/analytics/:account_id/hashtag_performing_posts",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "hashtag",
+                "value": "",
+                "type": "query",
+                "description": "The hashtag to retrieve performing posts for (with # symbol). This parameter is required to filter posts by the specific hashtag"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or after this date"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or before this date"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort post results by. Supports various engagement and performance metrics"
+              },
+              {
+                "name": "sort_type",
+                "value": "",
+                "type": "query",
+                "description": "Sort order direction"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts"
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter posts by specific workspace member ID"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter posts by content text, title, or link information using case-insensitive matching"
+              }
+            ]
+          },
+          "docs": "Retrieves the top performing posts for a specific hashtag. Returns up to 6 posts that used the hashtag, with comprehensive analytics metrics including engagement, reach, likes, comments, shares, and video views."
+        },
+        {
+          "info": {
+            "name": "Get Analytics Members Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/analytics/members",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date for analytics data range (YYYY-MM-DD format). Filters data from this date onwards"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date for analytics data range (YYYY-MM-DD format). Filters data up to this date"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional account ID to filter analytics data for a specific social media account"
+              }
+            ]
+          },
+          "docs": "Retrieves analytics data for workspace members showing their posting activity and engagement metrics."
+        },
+        {
+          "info": {
+            "name": "Get Post Insights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/analytics/:account_id/post_insights",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "competitors",
+                "value": "",
+                "type": "query",
+                "description": "Include competitor analysis data. Set to 'true' to retrieve competitor post insights"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "Filter posts for a specific social media account ID. If omitted, includes all workspace accounts. Used with competitors parameter for competitor-specific analysis"
+              },
+              {
+                "name": "competitor_id",
+                "value": "",
+                "type": "query",
+                "description": "Specific competitor account ID to analyze when competitors=true. Works in conjunction with account_id parameter"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date for post insights data range (YYYY-MM-DD format). Filters posts scheduled on or after this date"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date for post insights data range (YYYY-MM-DD format). Filters posts scheduled on or before this date"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter posts by text content, title, link description, or video title using case-insensitive matching"
+              },
+              {
+                "name": "postType",
+                "value": "",
+                "type": "query",
+                "description": "Filter posts by specific post type (e.g., image, video, link, text, carousel)"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by. Supports various engagement and performance metrics"
+              },
+              {
+                "name": "sort_type",
+                "value": "",
+                "type": "query",
+                "description": "Sort order direction"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (0-based indexing). Each page contains 10 posts"
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter posts by specific workspace member/user ID who created or manages the posts"
+              }
+            ]
+          },
+          "docs": "Retrieves comprehensive analytics data for published posts with advanced filtering, sorting, and pagination capabilities."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

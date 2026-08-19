@@ -4,8 +4,12 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Publer
 providerId: publer
 created: '2026-06-25'
-modified: '2026-06-25'
-reconciled: false
+modified: '2026-08-13'
+generated: '2026-08-13'
+method: searched
+source: https://publer.com/docs/getting-started/rate-limits.md
+reconciled: true
+limit_count: 17
 tags:
 - Social Media
 - Scheduling
@@ -16,41 +20,176 @@ tags:
 - Quotas
 - Throttling
 description: >-
-  The Publer API documents a 429 Too Many Requests response code, indicating
-  that per-account/per-workspace rate limiting is enforced, but specific
-  numeric limits (requests per minute/hour) are not published in the public
-  API reference. Asynchronous operations such as scheduling and publishing are
-  accepted (202) and processed via a job queue, which decouples request
-  submission from downstream social-network processing.
+  Publer publishes concrete, numeric rate limits. The API limit is 100 requests
+  per 2-minute fixed window, applied PER USER ACCOUNT across all of that user's
+  API keys — creating additional keys does not buy additional throughput. Every
+  response carries X-RateLimit-Limit, X-RateLimit-Remaining and
+  X-RateLimit-Reset, and exhaustion returns 429 with a distinct error envelope.
+  Separately, Publer enforces per-network DAILY POST LIMITS on a rolling
+  24-hour UTC window that vary by plan; these are business limits enforced
+  downstream and surface as per-account job failures, not as HTTP 429.
 notes: >-
-  Numeric rate-limit values are not documented publicly and are not reconciled
-  in this artifact. Confirm current limits with Publer (Business tier) during
-  reconciliation. Downstream limits imposed by each social network provider
-  also apply to publishing.
+  Higher limits are available on request — Publer asks for expected request
+  volume, use case, critical endpoints, and company/contact details, by email to
+  support@publer.com. Downstream limits imposed by each connected social
+  network also apply on top of Publer's own.
 sources:
-- https://publer.com/docs/api-reference/introduction
-- https://publer.com/docs/getting-started/authentication
-- https://publer.com/docs/posting/create-posts
+- https://publer.com/docs/getting-started/rate-limits.md
+- https://publer.com/docs/overview.md
+- https://publer.com/docs/api-reference/introduction.md
+
 responseCodes:
   throttled: 429
+
+headers:
+- name: X-RateLimit-Limit
+  description: Total requests allowed in the current window.
+  example: '100'
+- name: X-RateLimit-Remaining
+  description: Requests remaining in the current time window.
+  example: '0'
+- name: X-RateLimit-Reset
+  description: UNIX timestamp when the window resets (next available slot).
+  example: '1714558492'
+retry_after: false
+retry_after_note: >-
+  Publer does NOT send Retry-After on 429. Clients must compute the wait from
+  X-RateLimit-Reset.
+
+exhaustion:
+  status: 429
+  body: '{"error": "Rate limit exceeded. Retry later."}'
+  envelope_note: >-
+    Singular `error` string — every other error on this API uses an `errors`
+    array. A client parsing `errors[]` gets undefined on a 429.
+  headers_on_exhaustion:
+  - 'X-RateLimit-Remaining: 0'
+  - X-RateLimit-Reset set to a future timestamp
+
 limits:
-- name: Requests
-  scope: workspace
+- name: API requests
+  scope: user-account
   metric: requests
-  limit: see provider documentation
-  notes: A 429 Too Many Requests response indicates throttling; numeric limits are not published.
-- name: Asynchronous Jobs
+  limit: 100
+  window: 2 minutes
+  algorithm: fixed-window
+  burst: null
+  notes: >-
+    Applied per user account ACROSS ALL API KEYS. Documented verbatim: "Limits
+    are applied per user account (across all API keys) and use a fixed-window
+    algorithm."
+
+- name: Daily post limit — Facebook Posts & Reels
+  scope: per-profile
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 12, professional: 24, business: 36}
+- name: Daily post limit — Facebook Stories
+  scope: per-profile
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 12, professional: 24, business: 36}
+- name: Daily post limit — Instagram Posts & Reels
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 15, professional: 20, business: 25}
+- name: Daily post limit — Instagram Stories
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 15, professional: 20, business: 25}
+- name: Daily post limit — Threads App Posts
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 150, professional: 200, business: 250}
+- name: Daily post limit — TikTok Videos
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 15, professional: 20, business: 25}
+- name: Daily post limit — Twitter / X Posts
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 25, professional: 50, business: 100}
+- name: Daily post limit — Mastodon Posts
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 25, professional: 50, business: 100}
+- name: Daily post limit — Bluesky Posts
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 25, professional: 50, business: 100}
+- name: Daily post limit — LinkedIn Profile Posts
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 10, professional: 12, business: 14}
+- name: Daily post limit — LinkedIn Page Posts
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 12, professional: 18, business: 24}
+- name: Daily post limit — Pinterest Pins
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 12, professional: 24, business: 36}
+- name: Daily post limit — Google Business Updates
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 5, professional: 10, business: 15}
+- name: Daily post limit — YouTube Videos & Shorts
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 5, professional: 10, business: 15}
+- name: Daily post limit — WordPress Articles
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 12, professional: 18, business: 24}
+- name: Daily post limit — Telegram Messages
+  scope: per-account
+  metric: posts
+  window: rolling 24 hours (UTC)
+  by_plan: {free: 5, professional: 10, business: 15}
+
+- name: Asynchronous jobs
   scope: workspace
   metric: jobs
-  limit: queued
-  notes: Schedule/publish operations return 202 Accepted with a job_id and are processed asynchronously via a job queue.
+  limit: not published
+  notes: >-
+    Schedule/publish/media-from-URL operations return 202 Accepted with a
+    job_id and are processed asynchronously. No queue depth or concurrency
+    limit is documented.
+
 policies:
-- name: Async Processing
-  description: Scheduling and publishing are accepted (202) and processed asynchronously; poll GET /job_status/{job_id} for completion.
-- name: Backoff Strategy
-  description: Clients should implement retry with exponential backoff on 429 responses.
-- name: Downstream Network Limits
-  description: Each connected social network (Facebook, Instagram, X, LinkedIn, etc.) enforces its own publishing limits that apply on top of Publer's.
+- name: Requesting higher limits
+  description: >-
+    Email support@publer.com with expected request volume (per minute/hour/day),
+    use case and critical endpoints, and project/company contact info.
+- name: Publisher best practices
+  description: >-
+    Publer recommends caching idempotent responses, using bulk endpoints
+    (POST /posts/schedule for multiple posts), staggering non-urgent requests to
+    off-peak hours, monitoring the X-RateLimit-* headers, and exponential
+    backoff as the limit approaches.
+- name: Async processing
+  description: >-
+    Scheduling and publishing are accepted (202) and processed asynchronously;
+    poll GET /job_status/{job_id} for completion and inspect payload.failures[].
+- name: Downstream network limits
+  description: >-
+    Each connected social network enforces its own publishing limits that apply
+    on top of Publer's, and Publer's own daily post limits are aligned to those
+    community guidelines.
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

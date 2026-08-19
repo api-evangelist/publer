@@ -1,0 +1,189 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Publer Posts API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Posts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/posts",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Filter by post state\n\n Available options: \n\n `all`, `scheduled`, `scheduled_approved`, `scheduled_pending`, `scheduled_declined`, `scheduled_reauth`, `scheduled_locked`, `published`, `published_posted`, `published_deleted`, `published_hidden`, `draft`, `draft_dated`, `draft_undated`, `draft_private`, `draft_public`, `failed`, `recycling`, `recycling_active`, `recycling_paused`, `recycling_expired`, `recycling_failed`, `recycling_pending`, `recycling_declined`, `recycling_reauth`, `recycling_locked`, `recurring`"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Filter posts scheduled/published after this date \n\n- Example: 2025-05-15 \n\n Required if `to` is provided"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Filter posts scheduled/published before this date \n\n- Example: 2025-05-15 \n\n Required if `from` is provided"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "account_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter posts by multiple account IDs"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter posts by content"
+              },
+              {
+                "name": "postType",
+                "value": "",
+                "type": "query",
+                "description": "Filter by post type \n\n Available options: \n\n `status`, `link`, `photo`, `gif`, `video`, `reel`, `story`, `short`, `poll`, `document`, `carousel`, `article`"
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter posts by team member ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of posts based on the specified filters."
+        },
+        {
+          "info": {
+            "name": "Delete Multiple Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.publer.com/api/v1/posts",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "post_ids",
+                "value": "",
+                "type": "query",
+                "description": "Array of post IDs to delete. Can include both MongoDB ObjectIDs and PostgreSQL IDs."
+              }
+            ]
+          },
+          "docs": "Deletes one or multiple posts from the workspace specifying exact post IDs. Authorization rules apply to ensure users can only delete posts they have permission to delete."
+        },
+        {
+          "info": {
+            "name": "Schedule posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.publer.com/api/v1/posts/schedule",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Schedule one or more posts for publishing. Supports immediate publishing, scheduled publishing, auto-scheduling, recurring posts, and more."
+        },
+        {
+          "info": {
+            "name": "Create post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.publer.com/api/v1/posts/schedule/publish",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new social media post. Can be scheduled for immediate publishing, future publishing, or saved as a draft."
+        },
+        {
+          "info": {
+            "name": "Update Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.publer.com/api/v1/posts/:id",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the post to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing post. The behavior differs depending on whether the post is already published or not."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

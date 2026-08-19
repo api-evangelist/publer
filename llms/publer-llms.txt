@@ -1,0 +1,72 @@
+# Publer API
+
+## Publer API
+
+- [Overview](https://publer.com/docs/overview.md)
+- [Quickstart Guide](https://publer.com/docs/getting-started/quickstart.md)
+- [Authentication](https://publer.com/docs/getting-started/authentication.md)
+- [Rate Limits](https://publer.com/docs/getting-started/rate-limits.md)
+- [Introduction](https://publer.com/docs/api-reference/introduction.md)
+- [Users](https://publer.com/docs/api-reference/users.md)
+- [Workspaces](https://publer.com/docs/api-reference/workspaces.md)
+- [Accounts](https://publer.com/docs/api-reference/accounts.md)
+- [Posts](https://publer.com/docs/api-reference/posts.md)
+- [Media](https://publer.com/docs/api-reference/media.md)
+- [Creating Posts](https://publer.com/docs/posting/create-posts.md)
+- [Publishing Methods](https://publer.com/docs/posting/create-posts/publishing-methods.md)
+- [Immediate Publishing](https://publer.com/docs/posting/create-posts/publishing-methods/immediate-publishing.md)
+- [Manual Scheduling](https://publer.com/docs/posting/create-posts/publishing-methods/manual-scheduling.md)
+- [Draft Posts](https://publer.com/docs/posting/create-posts/publishing-methods/draft-posts.md)
+- [Ideas](https://publer.com/docs/posting/create-posts/publishing-methods/ideas.md)
+- [Auto-Scheduling](https://publer.com/docs/posting/create-posts/publishing-methods/auto-scheduling.md)
+- [Recycling Posts](https://publer.com/docs/posting/create-posts/publishing-methods/recycling-posts.md)
+- [Recurring Posts](https://publer.com/docs/posting/create-posts/publishing-methods/recurring-posts.md)
+- [Bulk Scheduling](https://publer.com/docs/posting/create-posts/publishing-methods/bulk-scheduling.md)
+- [Content Types](https://publer.com/docs/posting/create-posts/content-types.md)
+- [Text Posts](https://publer.com/docs/posting/create-posts/content-types/text-posts.md)
+- [Photo Posts](https://publer.com/docs/posting/create-posts/content-types/photo-posts.md)
+- [Video Posts](https://publer.com/docs/posting/create-posts/content-types/video-posts.md)
+- [Link Posts](https://publer.com/docs/posting/create-posts/content-types/link-posts.md)
+- [Polls](https://publer.com/docs/posting/create-posts/content-types/polls.md)
+- [GIF Posts](https://publer.com/docs/posting/create-posts/content-types/gif-posts.md)
+- [Post Callbacks](https://publer.com/docs/posting/create-posts/content-types/post-callbacks.md)
+- [Post with Signature](https://publer.com/docs/posting/create-posts/content-types/post-with-signature.md)
+- [Post with Watermark](https://publer.com/docs/posting/create-posts/content-types/post-with-watermark.md)
+- [Post with Location](https://publer.com/docs/posting/create-posts/content-types/post-with-location.md)
+- [Platform-Specific Formats](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats.md)
+- [Facebook Text Posts with Background](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/facebook-text-posts-with-background.md)
+- [Multi-Link Posts (Facebook Carousels)](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/multi-link-posts-facebook-carousels.md)
+- [LinkedIn PDF Carousels](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/linkedin-pdf-carousels.md)
+- [Pinterest Pins With a Link URL](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/pinterest-pins-with-a-link-url.md)
+- [Google Business Profiles: Updates, Photos, Events & Offers](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/google-business-profiles-updates-photos-events-and-offers.md)
+- [Reels, Shorts & Stories](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/reels-shorts-and-stories.md)
+- [Twitter/X Long-Form Posts](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/twitter-x-long-form-posts.md)
+- [Twitter/X Community Posts](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/twitter-x-community-posts.md)
+- [TikTok Video & Multi-Photo Posts](https://publer.com/docs/posting/create-posts/content-types/platform-specific-formats/tiktok-video-and-multi-photo-posts.md)
+- [Media Handling](https://publer.com/docs/posting/create-posts/media-handling.md)
+- [Media Options](https://publer.com/docs/posting/create-posts/media-options.md)
+- [Networks](https://publer.com/docs/posting/create-posts/networks.md)
+- [Updating Posts](https://publer.com/docs/posting/update-posts.md)
+- [Deleting Posts](https://publer.com/docs/posting/delete-posts.md)
+- [Charts](https://publer.com/docs/analytics/charts.md)
+- [Post Insights](https://publer.com/docs/analytics/post-insights.md)
+- [Hashtag Analysis](https://publer.com/docs/analytics/hashtag-analysis.md)
+- [Best Times to Post](https://publer.com/docs/analytics/best-times-to-post.md)
+- [Members](https://publer.com/docs/analytics/members.md)
+- [Competitor Analysis](https://publer.com/docs/analytics/competitor-analysis.md)
+
+
+---
+
+# Agent Instructions
+This documentation is published with GitBook. GitBook is the documentation platform designed so that both humans and AI agents can read, navigate, and reason over technical content effectively. Learn more at gitbook.com.
+
+## Querying This Documentation
+If you need additional information, you can query the documentation dynamically by asking a question.
+Perform an HTTP GET request on a page URL with the `ask` query parameter:
+```
+GET https://publer.com/docs/overview.md?ask=<question>
+```
+The question should be specific, self-contained, and written in natural language.
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.

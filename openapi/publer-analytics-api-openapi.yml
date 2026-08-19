@@ -1,0 +1,958 @@
+openapi: 3.1.1
+info:
+  title: Publer Analytics API
+  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
+    - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
+    LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
+    and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together
+    with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
+  termsOfService: https://publer.com/terms
+  contact:
+    name: Publer Support
+    email: support@publer.com
+    url: https://publer.com/docs
+  version: 1.0.0
+servers:
+- url: https://app.publer.com/api/v1
+security:
+- BearerApiAuth: []
+tags:
+- name: Analytics
+  description: Endpoints for retrieving analytics data and charts
+paths:
+  /analytics/{account_id}/best_times:
+    get:
+      summary: Get Best Times to Post for Account
+      description: Retrieves the optimal posting times for a specific social media account based on historical
+        analytics data. Returns a heatmap of posting performance across days of the week and hours of
+        the day, tailored to the specified account's audience engagement patterns.
+      tags:
+      - Analytics
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve best times from
+        required: true
+      - schema:
+          type: string
+        name: account_id
+        in: path
+        description: Social media account ID to analyze posting times for. When provided, analysis is
+          specific to this account's performance data
+        required: false
+      - schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+        name: competitors
+        in: query
+        description: Include competitor data in best times analysis. Set to 'true' to analyze competitor
+          posting patterns
+        required: false
+      - schema:
+          type: string
+        name: competitor_id
+        in: query
+        description: Specific competitor ID to analyze. Used in conjunction with competitors=true parameter
+        required: false
+      - schema:
+          type: string
+          format: date
+        name: from
+        in: query
+        description: Start date for analytics data range (YYYY-MM-DD format). Filters data from this date
+          onwards
+        required: true
+      - schema:
+          type: string
+          format: date
+        name: to
+        in: query
+        description: End date for analytics data range (YYYY-MM-DD format). Filters data up to this date
+        required: true
+      responses:
+        '200':
+          description: Best times to post data organized by day of the week and hour for the specific
+            account
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Heatmap data showing optimal posting times with scores for each hour of each
+                  day, specific to the account's audience
+                additionalProperties:
+                  type: array
+                  description: Array of 24 hourly scores (0-23) for each day of the week
+                  items:
+                    type: number
+                    description: Engagement score for this hour (higher = better posting time)
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          description: Permission denied - requires analytics access or paying subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: getBestTimesToPostForAccount
+  /analytics/charts:
+    get:
+      summary: Get Available Analytics Charts
+      description: Retrieves a list of available analytics charts filtered by account type and chart type.
+        Charts include growth metrics (followers, connections), insights (engagement, reach), and demographics
+        (countries, ages).
+      tags:
+      - Analytics
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve charts from
+        required: true
+      - schema:
+          type: string
+          enum:
+          - ig_business
+          - fb_page
+          - twitter
+          - linkedin
+          - youtube
+          - tiktok
+          - google
+          - pin_business
+          - pin_personal
+          - threads
+          - wordpress_oauth
+          - in_profile
+          - in_page
+          - mastodon
+          - bluesky
+        name: account_type
+        in: query
+        description: Social media platform type to filter charts for (e.g., 'ig_business', 'fb_page',
+          'twitter', 'linkedin', 'youtube', 'tiktok', 'google', 'pin_business')
+        required: false
+      responses:
+        '200':
+          description: List of available charts with metadata
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Unique identifier for the chart
+                    title:
+                      type: string
+                      description: Display title of the chart
+                    group_id:
+                      type: string
+                      description: Group category (growth, insights, demographics)
+                    tooltip:
+                      type: string
+                      description: Tooltip text explaining the chart
+                    type:
+                      type: string
+                      description: Chart visualization type
+                      enum:
+                      - vertical
+                      - horizontal
+                      - side_by_side
+                    last_value:
+                      type: boolean
+                      description: Whether to show the most recent value
+                    show_percentage:
+                      type: boolean
+                      description: Whether values should be displayed as percentages
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          description: Permission denied or missing required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: getAvailableAnalyticsCharts
+  /analytics/chart_data:
+    get:
+      summary: Get Analytics Chart Data
+      description: Retrieves analytics data for specific charts by their IDs. Returns current and previous
+        period data for comparison. Supports growth metrics, post insights, and demographic data.
+      tags:
+      - Analytics
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve data from
+        required: true
+      - schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        name: chart_ids
+        in: query
+        description: Array of chart IDs to retrieve data for. Use chart IDs from the /analytics/charts
+          endpoint
+        required: true
+      - schema:
+          type: string
+        name: account_id
+        in: path
+        description: Optional account ID to filter analytics data for a specific social media account
+        required: false
+      - schema:
+          type: string
+          format: date
+        name: from
+        in: query
+        description: Start date for analytics data (YYYY-MM-DD format)
+        required: false
+      - schema:
+          type: string
+          format: date
+        name: to
+        in: query
+        description: End date for analytics data (YYYY-MM-DD format)
+        required: false
+      responses:
+        '200':
+          description: Analytics chart data with current and previous period values
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current:
+                    type: object
+                    description: Current period data for requested charts
+                    additionalProperties:
+                      type: object
+                      description: Chart-specific data structure with metrics and values
+                  previous:
+                    type: object
+                    description: Previous period data for comparison
+                    additionalProperties:
+                      type: object
+                      description: Previous period chart data for trend analysis
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          description: Permission denied or missing required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: getAnalyticsChartData
+  /analytics/{account_id}/hashtag_insights:
+    get:
+      summary: Get Hashtag Insights
+      description: Retrieves comprehensive analytics data for hashtags used in published posts. Provides
+        metrics like reach, engagement, likes, comments, shares, and video views for each hashtag, along
+        with recent posts using each hashtag and hashtag performance scores.
+      tags:
+      - Analytics
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve insights from
+        required: true
+      - schema:
+          type: string
+          format: date
+        name: from
+        in: query
+        description: Start date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled
+          on or after this date
+        required: false
+      - schema:
+          type: string
+          format: date
+        name: to
+        in: query
+        description: End date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled
+          on or before this date
+        required: false
+      - schema:
+          type: string
+          enum:
+          - posts
+          - reach
+          - likes
+          - comments
+          - shares
+          - video_views
+        name: sort_by
+        in: query
+        description: Field to sort hashtag results by. Supports various engagement and performance metrics
+        required: false
+      - schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+        name: sort_type
+        in: query
+        description: Sort order direction
+        required: false
+      - schema:
+          type: string
+        name: account_id
+        in: path
+        description: Filter hashtags for a specific social media account ID. If omitted, includes all
+          workspace accounts
+        required: false
+      - schema:
+          type: integer
+          minimum: 0
+        name: page
+        in: query
+        description: Page number for pagination (0-based indexing). Each page contains 10 hashtags
+        required: false
+      - schema:
+          type: string
+        name: query
+        in: query
+        description: Search query to filter hashtags by name using case-insensitive matching
+        required: false
+      - schema:
+          type: string
+        name: member_id
+        in: query
+        description: Filter hashtags by specific workspace member ID
+        required: false
+      responses:
+        '200':
+          description: Hashtag insights data with analytics metrics and pagination information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    description: Array of hashtags with detailed analytics data
+                    items:
+                      type: object
+                      properties:
+                        hashtag:
+                          type: string
+                          description: 'The hashtag text (without # symbol)'
+                        posts:
+                          type: integer
+                          description: Number of posts using this hashtag
+                        recent_posts:
+                          type: array
+                          description: Array of recent post objects using this hashtag (up to 3 posts)
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: Unique identifier for the post
+                              text:
+                                type: string
+                                description: Post content text
+                              scheduled_at:
+                                type: string
+                                format: date-time
+                                description: Date and time when post was scheduled/published
+                        reach:
+                          type: integer
+                          description: Total reach across all posts using this hashtag
+                        likes:
+                          type: integer
+                          description: Total likes across all posts using this hashtag
+                        comments:
+                          type: integer
+                          description: Total comments across all posts using this hashtag
+                        shares:
+                          type: integer
+                          description: Total shares across all posts using this hashtag
+                        engagement:
+                          type: integer
+                          description: Total engagement (likes + comments + shares) across all posts using
+                            this hashtag
+                        video_views:
+                          type: integer
+                          description: Total video views across all video posts using this hashtag
+                        link_clicks:
+                          type: integer
+                          description: Total link clicks across all posts using this hashtag
+                        post_clicks:
+                          type: integer
+                          description: Total post clicks across all posts using this hashtag
+                        saves:
+                          type: integer
+                          description: Total saves across all posts using this hashtag
+                        hashtag_score:
+                          type: number
+                          format: float
+                          description: Performance score of the hashtag as percentage relative to overall
+                            post engagement
+                  total:
+                    type: integer
+                    description: Total number of hashtags matching the filter criteria (for pagination)
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          description: Permission denied - requires analytics access or paying subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: getHashtagInsights
+  /analytics/{account_id}/hashtag_performing_posts:
+    get:
+      summary: Get Hashtag Performing Posts
+      description: Retrieves the top performing posts for a specific hashtag. Returns up to 6 posts that
+        used the hashtag, with comprehensive analytics metrics including engagement, reach, likes, comments,
+        shares, and video views.
+      tags:
+      - Analytics
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve posts from
+        required: true
+      - schema:
+          type: string
+        name: hashtag
+        in: query
+        description: 'The hashtag to retrieve performing posts for (with # symbol). This parameter is
+          required to filter posts by the specific hashtag'
+        required: true
+      - schema:
+          type: string
+          format: date
+        name: from
+        in: query
+        description: Start date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or
+          after this date
+        required: false
+      - schema:
+          type: string
+          format: date
+        name: to
+        in: query
+        description: End date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or
+          before this date
+        required: false
+      - schema:
+          type: string
+          enum:
+          - scheduled_at
+          - reach
+          - engagement
+          - engagement_rate
+          - click_through_rate
+          - reach_rate
+          - postType
+          - likes
+          - video_views
+          - comments
+          - shares
+          - saves
+          - link_clicks
+          - post_clicks
+        name: sort_by
+        in: query
+        description: Field to sort post results by. Supports various engagement and performance metrics
+        required: false
+      - schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+        name: sort_type
+        in: query
+        description: Sort order direction
+        required: false
+      - schema:
+          type: string
+        name: account_id
+        in: path
+        description: Filter posts for a specific social media account ID. If omitted, includes all workspace
+          accounts
+        required: false
+      - schema:
+          type: string
+        name: member_id
+        in: query
+        description: Filter posts by specific workspace member ID
+        required: false
+      - schema:
+          type: string
+        name: query
+        in: query
+        description: Search query to filter posts by content text, title, or link information using case-insensitive
+          matching
+        required: false
+      responses:
+        '200':
+          description: Hashtag performing posts data with analytics metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array of top performing posts using the specified hashtag (up to 6 posts)
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Unique identifier for the post
+                    text:
+                      type: string
+                      description: Post content text
+                    title:
+                      type: string
+                      description: Post title if available
+                    scheduled_at:
+                      type: string
+                      format: date-time
+                      description: Date and time when post was scheduled/published
+                    account_id:
+                      type: string
+                      description: ID of the social media account that published this post
+                    hashtags:
+                      type: array
+                      description: Array of hashtags used in this post
+                      items:
+                        type: string
+                    analytics:
+                      type: object
+                      description: Comprehensive analytics data for the post
+                      properties:
+                        reach:
+                          type: integer
+                          description: Total reach of the post
+                        likes:
+                          type: integer
+                          description: Number of likes received
+                        comments:
+                          type: integer
+                          description: Number of comments received
+                        shares:
+                          type: integer
+                          description: Number of shares/reposts
+                        engagement:
+                          type: integer
+                          description: Total engagement (likes + comments + shares)
+                        engagement_rate:
+                          type: number
+                          format: float
+                          description: Engagement rate as percentage
+                        video_views:
+                          type: integer
+                          description: Number of video views (for video posts)
+                        link_clicks:
+                          type: integer
+                          description: Number of link clicks
+                        post_clicks:
+                          type: integer
+                          description: Number of post clicks
+                        saves:
+                          type: integer
+                          description: Number of saves/bookmarks
+                    details:
+                      type: object
+                      description: Additional post details and metadata
+                      properties:
+                        labels:
+                          type: array
+                          description: Labels assigned to this post
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: Label ID
+                              name:
+                                type: string
+                                description: Label name
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          description: Permission denied - requires analytics access or paying subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: getHashtagPerformingPosts
+  /analytics/members:
+    get:
+      summary: Get Analytics Members Data
+      description: Retrieves analytics data for workspace members showing their posting activity and engagement
+        metrics.
+      tags:
+      - Analytics
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve members from
+        required: true
+      - schema:
+          type: string
+          format: date
+        name: from
+        in: query
+        description: Start date for analytics data range (YYYY-MM-DD format). Filters data from this date
+          onwards
+        required: true
+      - schema:
+          type: string
+          format: date
+        name: to
+        in: query
+        description: End date for analytics data range (YYYY-MM-DD format). Filters data up to this date
+        required: true
+      - schema:
+          type: string
+        name: account_id
+        in: query
+        description: Optional account ID to filter analytics data for a specific social media account
+        required: false
+      responses:
+        '200':
+          description: Members analytics data with performance metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                description: List of members with their analytics data
+                items:
+                  type: object
+                  properties:
+                    engagements:
+                      type: integer
+                      description: Total engagements (likes + comments + shares + post clicks) for the
+                        member
+                    posts:
+                      type: integer
+                      description: Total number of posts created by the member
+                    reach:
+                      type: integer
+                      description: Total reach for the member's posts (only included for supported account
+                        types)
+                    account_ids:
+                      type: array
+                      description: List of account IDs the member posted to
+                      items:
+                        type: string
+                    user:
+                      type: object
+                      description: User information for the member
+                      properties:
+                        id:
+                          type: string
+                          description: User ID
+                        name:
+                          type: string
+                          description: User's display name
+                        picture:
+                          type: string
+                          description: URL to user's profile picture
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          description: Permission denied - requires analytics access or paying subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: getAnalyticsMembersData
+  /analytics/{account_id}/post_insights:
+    get:
+      summary: Get Post Insights
+      description: Retrieves comprehensive analytics data for published posts with advanced filtering,
+        sorting, and pagination capabilities.
+      tags:
+      - Analytics
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve insights from
+        required: true
+      - schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+        name: competitors
+        in: query
+        description: Include competitor analysis data. Set to 'true' to retrieve competitor post insights
+        required: false
+      - schema:
+          type: string
+        name: account_id
+        in: path
+        description: Filter posts for a specific social media account ID. If omitted, includes all workspace
+          accounts. Used with competitors parameter for competitor-specific analysis
+        required: false
+      - schema:
+          type: string
+        name: competitor_id
+        in: query
+        description: Specific competitor account ID to analyze when competitors=true. Works in conjunction
+          with account_id parameter
+        required: false
+      - schema:
+          type: string
+          format: date
+        name: from
+        in: query
+        description: Start date for post insights data range (YYYY-MM-DD format). Filters posts scheduled
+          on or after this date
+        required: true
+      - schema:
+          type: string
+          format: date
+        name: to
+        in: query
+        description: End date for post insights data range (YYYY-MM-DD format). Filters posts scheduled
+          on or before this date
+        required: true
+      - schema:
+          type: string
+        name: query
+        in: query
+        description: Search query to filter posts by text content, title, link description, or video title
+          using case-insensitive matching
+        required: false
+      - schema:
+          type: string
+          enum:
+          - poll
+          - status
+          - link
+          - carousel
+          - photo
+          - git
+          - video
+          - reel
+          - document
+          - short
+          - article
+          - story
+        name: postType
+        in: query
+        description: Filter posts by specific post type (e.g., image, video, link, text, carousel)
+        required: false
+      - schema:
+          type: string
+          enum:
+          - scheduled_at
+          - reach
+          - engagement
+          - engagement_rate
+          - click_through_rate
+          - reach_rate
+          - postType
+          - likes
+          - video_views
+          - comments
+          - shares
+          - saves
+          - link_clicks
+          - post_clicks
+        name: sort_by
+        in: query
+        description: Field to sort results by. Supports various engagement and performance metrics
+        required: false
+      - schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+        name: sort_type
+        in: query
+        description: Sort order direction
+        required: false
+      - schema:
+          type: integer
+          minimum: 0
+        name: page
+        in: query
+        description: Page number for pagination (0-based indexing). Each page contains 10 posts
+        required: false
+      - schema:
+          type: string
+        name: member_id
+        in: query
+        description: Filter posts by specific workspace member/user ID who created or manages the posts
+        required: false
+      responses:
+        '200':
+          description: Post insights data with analytics metrics and pagination information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    description: Array of posts with detailed analytics data
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier for the post
+                        text:
+                          type: string
+                          description: Post content text
+                        title:
+                          type: string
+                          description: Post title
+                        scheduled_at:
+                          type: string
+                          format: date-time
+                          description: Date and time when post was scheduled/published
+                        post_type:
+                          type: string
+                          description: Type of post (image, video, link, etc.)
+                        account_id:
+                          type: string
+                          description: ID of the social media account
+                        details:
+                          type: object
+                          properties:
+                            labels:
+                              type: array
+                              description: Labels/tags associated with the post
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  name:
+                                    type: string
+                                  color:
+                                    type: string
+                        analytics:
+                          type: object
+                          description: Comprehensive analytics data for the post
+                          properties:
+                            reach:
+                              type: integer
+                              description: Number of unique users who saw the post
+                            engagement:
+                              type: integer
+                              description: Total engagement count (likes + comments + shares + saves +
+                                clicks)
+                            engagement_rate:
+                              type: number
+                              format: float
+                              description: Engagement rate as percentage
+                            likes:
+                              type: integer
+                              description: Number of likes/reactions
+                            comments:
+                              type: integer
+                              description: Number of comments
+                            shares:
+                              type: integer
+                              description: Number of shares/reposts
+                            saves:
+                              type: integer
+                              description: Number of saves/bookmarks
+                            video_views:
+                              type: integer
+                              description: Number of video views (for video posts)
+                            link_clicks:
+                              type: integer
+                              description: Number of link clicks
+                            post_clicks:
+                              type: integer
+                              description: Number of post profile clicks
+                            click_through_rate:
+                              type: number
+                              format: float
+                              description: Click-through rate percentage
+                            reach_rate:
+                              type: number
+                              format: float
+                              description: Reach rate percentage
+                  total:
+                    type: integer
+                    description: Total number of posts matching the filter criteria (for pagination)
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          description: Permission denied - requires analytics access or paying subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: getPostInsights
+components:
+  schemas:
+    401ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    403ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+  securitySchemes:
+    BearerApiAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'API key authentication. Format: "Bearer-API YOUR_API_KEY"'

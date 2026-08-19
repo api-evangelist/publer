@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Publer Accounts API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/accounts",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieves a list of social media accounts available in the specified workspace."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

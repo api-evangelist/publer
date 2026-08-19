@@ -1,6 +1,6 @@
 openapi: 3.1.1
 info:
-  title: Publer Accounts API
+  title: Publer Users API
   description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
     - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
     LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
@@ -17,47 +17,38 @@ servers:
 security:
 - BearerApiAuth: []
 tags:
-- name: Accounts
-  description: Endpoints for managing connected social accounts
+- name: Users
+  description: Endpoints for managing user accounts and authentication
 paths:
-  /accounts:
+  /users/me:
     get:
-      summary: List Accounts
-      description: Retrieves a list of social media accounts available in the specified workspace.
+      summary: Get Current User
+      description: Retrieves information about the currently authenticated user.
       tags:
-      - Accounts
-      parameters:
-      - schema:
-          type: string
-        name: Publer-Workspace-Id
-        in: header
-        description: ID of the workspace to retrieve accounts from
-        required: true
+      - Users
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Account'
+                $ref: '#/components/schemas/User'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/401ErrorResponseWithWorkspace'
+                $ref: '#/components/schemas/401ErrorResponse'
         '403':
           description: Permission denied or missing required scope
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: listAccounts
+      operationId: getCurrentUser
 components:
   schemas:
-    401ErrorResponseWithWorkspace:
+    401ErrorResponse:
       type: object
       properties:
         errors:
@@ -73,49 +64,25 @@ components:
           description: List of error messages
           items:
             type: string
-    Account:
+    User:
       type: object
       properties:
         id:
           type: string
-          description: Unique identifier for the account
-        provider:
+          description: Unique identifier for the user
+        email:
           type: string
-          description: The social network provider
-          enum:
-          - bluesky
-          - facebook
-          - instagram
-          - linkedin
-          - twitter
-          - tiktok
-          - youtube
-          - pinterest
-          - google
-          - wordpress
-          - telegram
-          - mastodon
-          - threads
+          format: email
+          description: Email address of the user
         name:
           type: string
-          description: The display name of the social media account
-        social_id:
+          description: Full name of the user
+        first_name:
           type: string
-          description: Unique identifier for the account on the social media platform
+          description: First name of the user
         picture:
           type: string
-          description: URL to the account's avatar/logo
-        type:
-          type: string
-          description: Account type
-          enum:
-          - page
-          - profile
-          - group
-          - business
-          - channel
-          - location
-          - blog
+          description: URL to the profile picture of the user
   securitySchemes:
     BearerApiAuth:
       type: apiKey

@@ -1,0 +1,165 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://publer.com/help/en/article/how-to-set-up-and-use-publers-mcp-server-14orlq0/
+  (Publer Help Center, "How to set up and use Publer's MCP server", updated
+  12/08/2026) and
+  https://publer.com/help/en/category/automations-1a56089/
+provider: Publer
+providerId: publer
+name: Publer MCP Server
+status: published
+maturity: beta
+description: >-
+  Publer ships a FIRST-PARTY, HOSTED (remote) MCP server that connects an
+  MCP-compatible client — Publer names Claude, ChatGPT and Cursor — to a Publer
+  workspace. It is configured from the Publer app under Settings -> AI &
+  Automations -> AI & MCP -> MCP. The user first creates a Publer API key and
+  selects its scopes (Workspaces and Accounts are mandatory; Posts, Media and
+  Analytics are optional), and Publer then GENERATES A PER-ACCOUNT MCP SERVER
+  URL that the user pastes into the AI client's connector settings, together
+  with an authorization header carrying the same API key.
+
+deployment:
+  mode: remote
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: searched
+  note: >-
+    Deliberately null endpoint. Publer does NOT publish a static MCP URL: the
+    help article states the server URL is generated for the account after an API
+    key is supplied, and instructs users not to share the MCP server URL
+    publicly. No endpoint was guessed or probed — a fabricated URL would falsely
+    read as a verified agent surface. `mode: remote` is asserted because the
+    documented artifact is a server URL pasted into a client's connector
+    settings, not an npx/stdio package; there is no local-stdio distribution.
+
+availability:
+  general_availability: false
+  gated: true
+  entitlement: >-
+    BETA. Publer states MCP is "available in BETA with our top ambassadors and
+    Enterprise customers", and that MCP access depends on plan and account
+    setup. The underlying Public API itself is limited to Enterprise plan users,
+    Business plan users in good standing, and Top Ambassadors.
+
+authentication:
+  scheme: api-key
+  transport: authorization header
+  detail: >-
+    The same Publer API key used for the REST API ("Authorization: Bearer-API
+    YOUR_API_KEY"). Permissions available through MCP are exactly the scopes
+    selected when the API key was created — see scopes/publer-scopes.yml.
+  oauth: false
+
+tools:
+  status: candidate
+  method: derived
+  source: >-
+    Derived from openapi/_original/publer-openapi.yml (21 operations harvested
+    from Publer's own docs) and cross-checked against the four example prompts
+    Publer publishes in the MCP help article. The live tools/list was NOT
+    introspected: no public endpoint exists to POST to, and the server is
+    entitlement-gated, so real tool names and inputSchemas require an
+    authenticated introspection against a provisioned per-account URL.
+  published_example_prompts:
+  - List all my connected Publer social accounts.
+  - Show me all my draft posts in Publer so I can review what is pending.
+  - 'Create a draft post for Instagram and Facebook that says: "Excited to share
+    our latest update!"'
+  - Schedule a post for next Monday at 10 AM for my LinkedIn Page.
+  candidates:
+  - name: list_workspaces
+    rest: listWorkspaces
+    scope: workspaces
+    consequence: read
+  - name: list_accounts
+    rest: listAccounts
+    scope: accounts
+    consequence: read
+  - name: get_current_user
+    rest: getCurrentUser
+    scope: workspaces
+    consequence: read
+  - name: list_posts
+    rest: listPosts
+    scope: posts
+    consequence: read
+  - name: schedule_posts
+    rest: schedulePosts
+    scope: posts
+    consequence: write
+  - name: publish_posts
+    rest: createPost
+    scope: posts
+    consequence: write
+  - name: update_post
+    rest: updatePost
+    scope: posts
+    consequence: write
+  - name: delete_posts
+    rest: deleteMultiplePosts
+    scope: posts
+    consequence: write
+  - name: list_media
+    rest: listMedia
+    scope: media
+    consequence: read
+  - name: upload_media
+    rest: uploadAMediaFileDirectly
+    scope: media
+    consequence: write
+  - name: upload_media_from_url
+    rest: uploadMediaFromURL
+    scope: media
+    consequence: write
+  - name: get_job_status
+    rest: getJobStatus
+    scope: posts
+    consequence: read
+  - name: get_analytics_charts
+    rest: getAvailableAnalyticsCharts
+    scope: analytics
+    consequence: read
+  - name: get_chart_data
+    rest: getAnalyticsChartData
+    scope: analytics
+    consequence: read
+  - name: get_post_insights
+    rest: getPostInsights
+    scope: analytics
+    consequence: read
+  - name: get_best_times
+    rest: getBestTimesToPostForAccount
+    scope: analytics
+    consequence: read
+
+probes:
+- url: https://publer.com/mcp
+  status: 200
+  result: miss
+  note: Framer SPA catch-all — returned the Publer homepage, not an MCP surface.
+- url: https://app.publer.com/mcp
+  status: 410
+  result: miss
+- url: https://mcp.publer.com
+  status: 400
+  result: miss
+- url: https://publer.com/docs/mcp
+  status: 404
+  result: miss
+
+related:
+  community_servers:
+  - https://github.com/alexkess/publer-mcp-server
+  - https://github.com/pweightman/publer-mcp-server
+  note: >-
+    Third-party MCP servers exist for Publer and are NOT the server documented
+    above. They are catalogued in packages/publer-packages.yml as community
+    software.
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

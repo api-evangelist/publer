@@ -1,0 +1,139 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Publer Media API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Media",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/media",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "Specific media IDs to retrieve. If provided, pagination and other filters are ignored"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (0-based)"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "Filter by media types"
+              },
+              {
+                "name": "used",
+                "value": "",
+                "type": "query",
+                "description": "Filter by used status"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter by source"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term to filter media by name or caption"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of media items from the user's library. The endpoint supports filtering by various parameters and can also retrieve specific media items by their IDs."
+        },
+        {
+          "info": {
+            "name": "Upload a media file directly",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.publer.com/api/v1/media",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "direct_upload",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "in_library",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Upload a media file (image, video, or document) to be used in social media posts"
+        },
+        {
+          "info": {
+            "name": "Upload media from URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.publer.com/api/v1/media/from-url",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upload media files by providing URLs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

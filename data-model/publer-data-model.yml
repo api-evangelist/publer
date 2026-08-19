@@ -1,0 +1,331 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/_original/publer-openapi.yml (35 component schemas, 21 operations),
+  enriched from https://publer.com/docs/api-reference/accounts.md and
+  https://publer.com/docs/posting/create-posts.md
+provider: Publer
+providerId: publer
+description: >-
+  Entity-relationship graph for the Publer API v1, derived from $ref links and
+  id-reference fields in Publer's own OpenAPI blocks. Identifiers are
+  24-character hexadecimal strings with NO type prefix, so relationships are
+  established by field name rather than by id shape.
+
+id_format:
+  style: 24-char hex (MongoDB ObjectId shape)
+  prefixed: false
+  example: 5f8d7a62c9e77e001f36e3a1
+
+entities:
+- name: User
+  schema: User
+  description: The authenticated Publer user.
+  operations:
+  - getCurrentUser
+  fields:
+  - id
+  - email
+  - name
+  - first_name
+  - picture
+  relationships:
+  - type: has_many
+    target: Workspace
+    via: GET /workspaces
+    note: A user can belong to multiple workspaces.
+
+- name: Workspace
+  schema: Workspace
+  description: >-
+    The tenancy boundary. Groups social accounts, members, media and content.
+    Almost every other call is scoped to one via the Publer-Workspace-Id header.
+  operations:
+  - listWorkspaces
+  fields:
+  - id
+  - name
+  - owner
+  - members
+  - plan
+  - picture
+  relationships:
+  - type: belongs_to
+    target: User
+    via: owner.id
+  - type: has_many
+    target: User
+    via: members[]
+  - type: has_many
+    target: Account
+    via: 'header Publer-Workspace-Id -> GET /accounts'
+  - type: has_many
+    target: MediaItem
+    via: 'header Publer-Workspace-Id -> GET /media'
+  - type: has_many
+    target: Post
+    via: 'header Publer-Workspace-Id -> GET /posts'
+
+- name: Account
+  schema: Account
+  description: A connected social profile, page, group, channel, location or blog.
+  operations:
+  - listAccounts
+  fields:
+  - id
+  - provider
+  - type
+  - name
+  - social_id
+  - picture
+  domains:
+    provider:
+    - bluesky
+    - facebook
+    - instagram
+    - linkedin
+    - twitter
+    - tiktok
+    - youtube
+    - pinterest
+    - google
+    - wordpress
+    - telegram
+    - mastodon
+    - threads
+    type:
+    - page
+    - profile
+    - group
+    - business
+    - channel
+    - location
+    - blog
+  relationships:
+  - type: belongs_to
+    target: Workspace
+    via: Publer-Workspace-Id header scope
+  - type: has_many
+    target: Post
+    via: post.account_id
+  - type: has_many
+    target: Competitor
+    via: 'GET /competitors/{account_id}'
+  - type: has_one
+    target: Analytics
+    via: 'GET /analytics/{account_id}/...'
+
+- name: Post
+  schema: PostDetail / PostSummary
+  description: >-
+    A piece of content targeted at exactly ONE account. Publishing to five
+    accounts creates five Post records from a single bulk request.
+  operations:
+  - listPosts
+  - schedulePosts
+  - createPost
+  - updatePost
+  - deleteMultiplePosts
+  fields:
+  - id
+  - text
+  - state
+  - type
+  - account_id
+  - user
+  - scheduled_at
+  - created_at
+  - updated_at
+  - post_link
+  - media
+  - link
+  - labels
+  - auto
+  - recycling
+  - recurring
+  domains:
+    state:
+    - scheduled
+    - draft
+    - draft_private
+    - draft_public
+    - recurring
+  relationships:
+  - type: belongs_to
+    target: Account
+    via: account_id
+  - type: belongs_to
+    target: User
+    via: user.id
+  - type: has_many
+    target: MediaItem
+    via: media[]
+  - type: has_one
+    target: LinkDetails
+    via: link
+
+- name: BulkPostsRequest
+  schema: BulkPostsRequest
+  description: >-
+    The write envelope. `bulk.posts[]` carries per-network content keyed by
+    provider name, plus `accounts[]` targets with optional per-account
+    scheduled_at and callbacks (share / comments / delete).
+  operations:
+  - schedulePosts
+  - createPost
+  relationships:
+  - type: has_many
+    target: Account
+    via: bulk.posts[].accounts[].id
+  - type: has_many
+    target: NetworkContent
+    via: bulk.posts[].networks.<provider>
+  - type: produces
+    target: Job
+    via: 202 -> job_id
+
+- name: NetworkContent
+  schema: >-
+    FacebookNetworkContent, InstagramNetworkContent, TwitterNetworkContent,
+    LinkedInNetworkContent, PinterestNetworkContent, YouTubeNetworkContent,
+    TikTokNetworkContent, GoogleBusinessNetworkContent, WordPressNetworkContent,
+    TelegramNetworkContent, MastodonNetworkContent, ThreadsNetworkContent,
+    BlueskyNetworkContent
+  description: >-
+    Thirteen per-network content shapes — one polymorphic variant per supported
+    social network, keyed by provider name inside `networks`. This is the
+    richest part of Publer's model and where all the platform-specific
+    behaviour lives.
+  relationships:
+  - type: has_many
+    target: MediaItem
+    via: media[]
+  - type: has_one
+    target: LinkDetails
+    via: link
+  - type: has_one
+    target: CarouselOptions
+    via: carouselOptions
+  - type: has_many
+    target: FacebookSublink
+    via: sublinks[]
+
+- name: MediaItem
+  schema: MediaItem / MediaUploadResponse
+  description: An image, video or GIF in the workspace media library.
+  operations:
+  - listMedia
+  - uploadAMediaFileDirectly
+  - uploadMediaFromURL
+  fields:
+  - id
+  - type
+  - name
+  - caption
+  - path
+  - thumbnails
+  - alt_text
+  - width
+  - height
+  - source
+  - validity
+  - favorite
+  - in_library
+  - created_at
+  - updated_at
+  domains:
+    type:
+    - photo
+    - video
+    - gif
+    source:
+    - canva
+    - vista
+    - postnitro
+    - contentdrips
+    - openai
+    - favorites
+    - upload
+  relationships:
+  - type: belongs_to
+    target: Workspace
+    via: Publer-Workspace-Id header scope
+  - type: has_many
+    target: Post
+    via: referenced by post.media[]
+
+- name: Job
+  schema: JobResponse / JobStatusResponse
+  description: >-
+    The async handle for every write. Returned as job_id on 202 and resolved by
+    polling. payload.failures[] carries per-account failures even when status is
+    "complete".
+  operations:
+  - getJobStatus
+  fields:
+  - job_id
+  - status
+  - payload.failures[]
+  domains:
+    status:
+    - working
+    - complete
+    - failed
+  relationships:
+  - type: references
+    target: Account
+    via: payload.failures[].account_id
+  - type: produces
+    target: Post
+    via: on completion
+
+- name: Competitor
+  schema: inline
+  description: A tracked competing social account, scoped to one of your accounts.
+  operations:
+  - listCompetitors
+  - getCompetitorsAnalytics
+  relationships:
+  - type: belongs_to
+    target: Account
+    via: 'path parameter account_id'
+
+- name: Analytics
+  schema: inline
+  description: >-
+    Read-only derived metrics — charts, chart data, post insights, hashtag
+    insights, best times to post, member activity. Not a stored entity;
+    computed per account and time range.
+  operations:
+  - getAvailableAnalyticsCharts
+  - getAnalyticsChartData
+  - getPostInsights
+  - getHashtagInsights
+  - getHashtagPerformingPosts
+  - getBestTimesToPostForAccount
+  - getAnalyticsMembersData
+  relationships:
+  - type: belongs_to
+    target: Account
+    via: 'path parameter account_id'
+
+notes:
+- >-
+  Cardinality trap: one bulk request fans out to N accounts and produces N Post
+  records, but only ONE job_id. A client cannot correlate a returned post id to
+  a request item except through account_id.
+- >-
+  PostSummary (list view) and PostDetail (single view) are different shapes —
+  PostSummary carries has_media and network, PostDetail carries the full media
+  array, labels, recycling and recurring. Do not assume list results are
+  complete objects.
+- >-
+  Provider defect carried verbatim: LinkedInNetworkContent,
+  MastodonNetworkContent and TwitterNetworkContent contain literal JavaScript
+  comment strings as property NAMES ("// Poll-specific properties") in Publer's
+  published schemas. They are not real fields and will break strict schema
+  validators.
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

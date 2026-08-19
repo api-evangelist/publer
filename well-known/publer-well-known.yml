@@ -1,0 +1,87 @@
+generated: '2026-08-13'
+method: probed
+source: Live HTTP probes of publer.com and app.publer.com on 2026-08-13
+provider: Publer
+providerId: publer
+summary:
+  hosts_probed: 2
+  paths_probed: 12
+  documents_found: 0
+  note: >-
+    NOTHING WAS FOUND. publer.com is a Framer-hosted marketing site with an SPA
+    catch-all: every unknown path answers HTTP 200 with the site's HTML shell
+    (`<meta name="generator" content="Framer">`, `<title>Powerful Social Media
+    Management & Scheduling Tools | Publer</title>`), so the 200s recorded below
+    are NOT documents and are treated as misses. app.publer.com answers 410 Gone
+    for every /.well-known/ path. No WellKnown or SecurityTxt pointer is emitted
+    in apis.yml, because Publer does not serve any of these surfaces.
+probes:
+- host: publer.com
+  path: /.well-known/security.txt
+  status: 404
+  document: false
+  file: null
+- host: publer.com
+  path: /.well-known/openid-configuration
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+  note: SPA catch-all — returned the Framer marketing page, not an OIDC discovery document.
+- host: publer.com
+  path: /.well-known/oauth-authorization-server
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+  note: SPA catch-all — HTML shell, not an OAuth authorization server metadata document.
+- host: publer.com
+  path: /.well-known/api-catalog
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+  note: SPA catch-all — HTML shell, not an RFC 9727 api-catalog document.
+- host: publer.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+  document: false
+  file: null
+- host: publer.com
+  path: /.well-known/agent-card.json
+  status: 404
+  document: false
+  file: null
+- host: publer.com
+  path: /.well-known/agent.json
+  status: 404
+  document: false
+  file: null
+- host: app.publer.com
+  path: /.well-known/security.txt
+  status: 410
+  document: false
+  file: null
+- host: app.publer.com
+  path: /.well-known/openid-configuration
+  status: 410
+  document: false
+  file: null
+- host: app.publer.com
+  path: /.well-known/oauth-authorization-server
+  status: 410
+  document: false
+  file: null
+- host: app.publer.com
+  path: /.well-known/api-catalog
+  status: 410
+  document: false
+  file: null
+- host: app.publer.com
+  path: /.well-known/agent-card.json
+  status: 410
+  document: false
+  file: null
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,24 +1,115 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/publer-openapi.yml
+generated: '2026-08-13'
+method: searched
+docs: https://publer.com/docs/getting-started/authentication.md
+source: >-
+  https://publer.com/docs/getting-started/authentication.md,
+  https://publer.com/docs/api-reference/introduction.md,
+  https://publer.com/help/en/article/how-to-access-the-publer-api-1w08edo/ —
+  cross-checked against openapi/_original/publer-openapi.yml
+provider: Publer
+providerId: publer
 summary:
   types:
   - apiKey
   api_key_in:
   - header
+  oauth2: false
+  openid_connect: false
+  mtls: false
+  scoped: true
+  note: >-
+    API key only. Publer runs no OAuth 2.0 or OIDC authorization server, and
+    serves no /.well-known/oauth-authorization-server or
+    /.well-known/openid-configuration (probed 2026-08-13 — publer.com returns a
+    Framer SPA HTML shell, app.publer.com returns 410). Keys are long-lived and
+    user-scoped; the scope set is chosen at creation time.
 schemes:
-- name: api_key
+- name: BearerApiAuth
   type: apiKey
   in: header
   parameter: Authorization
-  description: 'API key passed as `Authorization: Bearer-API YOUR_API_KEY`. A `Publer-Workspace-Id`
-    header is also required to scope requests to a workspace.'
+  format: 'Bearer-API YOUR_API_KEY'
+  description: >-
+    API key passed as `Authorization: Bearer-API YOUR_API_KEY`. The auth-scheme
+    token is `Bearer-API`, NOT the RFC 6750 `Bearer` — off-the-shelf bearer
+    clients and generated SDKs will fail with 401 unless the prefix is
+    customized. This is the single most common integration mistake on this API.
   sources:
-  - openapi/publer-openapi.yml
+  - openapi/_original/publer-openapi.yml
+  - https://publer.com/docs/getting-started/authentication.md
 - name: workspace_id
   type: apiKey
   in: header
   parameter: Publer-Workspace-Id
-  description: The id of the workspace to scope the request to.
+  description: >-
+    Workspace scoping header, required on most endpoints (accounts, media,
+    posts, analytics, competitors, jobs). Obtained from GET /workspaces.
+    Omitting it returns 403 Forbidden, not 401 — a distinction that misleads
+    clients into re-checking their key.
   sources:
-  - openapi/publer-openapi.yml
+  - openapi/_original/publer-openapi.yml
+  - https://publer.com/docs/api-reference/workspaces.md
+  note: >-
+    Declared as a securityScheme in some of Publer's per-page OpenAPI blocks and
+    as a required header PARAMETER in others — the specification is not
+    internally consistent about which it is.
+key_management:
+  issuance: >-
+    Self-service in the Publer app — Settings -> Access & Login -> API Keys (the
+    help center also documents Settings -> API & Webhooks). Name is required;
+    scopes are selected at creation.
+  visibility: shown once at creation; not retrievable afterwards
+  rotation: >-
+    Manual. Publer recommends rotating every 90-180 days, or after team changes
+    or incidents. Keys cannot be re-scoped — remove and recreate.
+  revocation: self-service removal from the same settings screen
+  expiry: not documented
+  multiple_keys: >-
+    Supported and recommended (separate keys per use case for least privilege),
+    but note the rate limit is applied per USER ACCOUNT across all keys, so
+    splitting keys does not split throughput.
+  self_test: >-
+    The app provides a "Try it out" console that fires test requests against
+    selected endpoints with the new key.
+scopes:
+  supported: true
+  model: per-key permission scopes selected at creation
+  mandatory:
+  - workspaces
+  - accounts
+  optional:
+  - posts
+  - media
+  - analytics
+  see: scopes/publer-scopes.yml
+errors:
+  '401':
+  - Missing or invalid Authorization header
+  - Key revoked or expired
+  '403':
+  - Insufficient scopes for the endpoint
+  - Missing Publer-Workspace-Id header
+  - Plan entitlement missing (e.g. analytics requires a paying subscription)
+  body: '{"errors": ["Detailed error message"]}'
+  note: >-
+    403 conflates three unrelated causes and there is no machine-readable code
+    to tell them apart — only the message string.
+entitlement:
+  gated: true
+  requirement: >-
+    Enterprise plan, Business plan in good standing (no failed or locked
+    subscription), or Top Ambassador status.
+  source: https://publer.com/help/en/article/does-publer-have-a-public-api-194nknf/
+transport:
+  https_required: true
+  tls: TLSv1.3 on app.publer.com (probed 2026-08-13)
+  see: security/publer-domain-security.yml
+provider_guidance:
+- Store keys in environment variables or a secrets vault, never in code.
+- Rotate every 90-180 days or after any team change or incident.
+- Create separate keys per use case (least privilege).
+- Never log a full key; mask all but the last 4 characters.
+- Always use HTTPS.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

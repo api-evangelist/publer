@@ -1,0 +1,105 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://publer.com/docs/api-reference/introduction.md,
+  https://publer.com/docs/overview.md, https://status.publer.com,
+  https://publer.com/roadmap,
+  https://publer.com/help/en/article/does-publer-have-a-public-api-194nknf/
+provider: Publer
+providerId: publer
+
+versioning:
+  documented: true
+  style: uri-path
+  current_version: v1
+  scheme: semver
+  policy: >-
+    "Current version: v1 (in the URL path). We follow Semantic Versioning.
+    Breaking changes only occur on MAJOR version bumps; you will be notified in
+    advance."
+  breaking_change_notice: advance notice promised, no notice period stated
+  source: https://publer.com/docs/api-reference/introduction.md
+  header_negotiation: false
+
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    Publer publishes NO deprecation policy. There is no documented Sunset or
+    Deprecation response header (RFC 8594), no deprecation window, no
+    end-of-life schedule, and no operation in the specification carries
+    `deprecated: true`. The semver statement above governs breaking changes, not
+    retirement, so no Deprecation pointer is emitted in apis.yml.
+
+changelog:
+  published: false
+  url: null
+  note: >-
+    No API changelog exists. https://publer.com/changelog and
+    https://publer.com/whats-new both return HTTP 200 from the Framer SPA
+    catch-all serving the marketing homepage (verified 2026-08-13 —
+    `<title>Powerful Social Media Management & Scheduling Tools | Publer</title>`),
+    which is not a changelog. The GitBook docs `ask` endpoint confirms: "I don't
+    see a dedicated API changelog". Product-level change news is announced on
+    the blog (https://publer.com/blog) and the roadmap.
+
+status_page:
+  published: true
+  url: https://status.publer.com
+  status: 200
+  provider: first-party
+  components_monitored:
+  - Authentication
+  - Connecting social accounts
+  - Uploading photos & videos
+  - Processing videos
+  - Scheduling posts
+  - Publishing posts
+  - Analytics
+  - Billing
+  - Public API
+  api_component: >-
+    "Public API" is monitored as its own component — the API has first-class
+    status visibility, not just a bundled app-health signal.
+  history_feed: false
+  machine_readable: false
+  note: Automated monitoring page; no documented status API, RSS or webhook.
+
+sla:
+  published: false
+  note: >-
+    No public SLA, uptime commitment or credit policy for the API. Enterprise
+    terms are not published.
+
+availability:
+  general_availability: true
+  launched: 2026
+  entitlement: >-
+    The Public API is limited to Enterprise plan users, Business plan users in
+    good standing (no failed or locked subscriptions), and Top Ambassadors. It
+    is not available on Free or Professional.
+  source: https://publer.com/help/en/article/does-publer-have-a-public-api-194nknf/
+  beta_surfaces:
+  - name: MCP server
+    status: beta
+    entitlement: Top Ambassadors on the Enterprise plan
+    source: https://publer.com/help/en/article/how-to-set-up-and-use-publers-mcp-server-14orlq0/
+
+roadmap:
+  published: true
+  url: https://publer.com/roadmap
+  status: 200
+  scope: product
+  note: Public product roadmap and feature voting; not API-specific.
+
+support:
+  email: support@publer.com
+  help_center: https://publer.com/help
+  chat: true
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

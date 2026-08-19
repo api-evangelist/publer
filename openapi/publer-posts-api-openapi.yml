@@ -1,237 +1,470 @@
-openapi: 3.0.1
+openapi: 3.1.1
 info:
-  title: Publer Accounts Posts API
-  description: 'The Publer API (v1) lets Publer Business customers programmatically schedule and publish social media posts, manage connected social accounts and workspaces, work with the media library, and track asynchronous jobs. Authentication uses an API key passed as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is currently available exclusively to Publer Business users.'
+  title: Publer Posts API
+  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
+    - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
+    LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
+    and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together
+    with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
   termsOfService: https://publer.com/terms
   contact:
     name: Publer Support
+    email: support@publer.com
     url: https://publer.com/docs
-  version: '1.0'
+  version: 1.0.0
 servers:
 - url: https://app.publer.com/api/v1
 security:
-- api_key: []
-  workspace_id: []
+- BearerApiAuth: []
 tags:
 - name: Posts
+  description: Endpoints for managing social media posts
 paths:
   /posts:
     get:
-      operationId: listPosts
+      summary: List Posts
+      description: Retrieves a list of posts based on the specified filters.
       tags:
       - Posts
-      summary: List posts
-      description: Retrieves a list of posts based on the specified filters.
       parameters:
-      - name: state
-        in: query
-        required: false
-        description: Filter by a single post state.
-        schema:
+      - schema:
           type: string
-      - name: state[]
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to retrieve posts from
+        required: true
+      - schema:
+          type: string
+          enum:
+          - all
+          - scheduled
+          - scheduled_approved
+          - scheduled_pending
+          - scheduled_declined
+          - scheduled_reauth
+          - scheduled_locked
+          - published
+          - published_posted
+          - published_deleted
+          - published_hidden
+          - draft
+          - draft_dated
+          - draft_undated
+          - draft_private
+          - draft_public
+          - failed
+          - recycling
+          - recycling_active
+          - recycling_paused
+          - recycling_expired
+          - recycling_failed
+          - recycling_pending
+          - recycling_declined
+          - recycling_reauth
+          - recycling_locked
+          - recurring
+        name: state
         in: query
+        description: "Filter by post state\n\n Available options: \n\n `all`, `scheduled`, `scheduled_approved`,\
+          \ `scheduled_pending`, `scheduled_declined`, `scheduled_reauth`, `scheduled_locked`, `published`,\
+          \ `published_posted`, `published_deleted`, `published_hidden`, `draft`, `draft_dated`, `draft_undated`,\
+          \ `draft_private`, `draft_public`, `failed`, `recycling`, `recycling_active`, `recycling_paused`,\
+          \ `recycling_expired`, `recycling_failed`, `recycling_pending`, `recycling_declined`, `recycling_reauth`,\
+          \ `recycling_locked`, `recurring`"
         required: false
-        description: Filter by multiple post states.
-        schema:
+      - schema:
           type: array
           items:
             type: string
-      - name: from
+            enum:
+            - all
+            - scheduled
+            - scheduled_approved
+            - scheduled_pending
+            - scheduled_declined
+            - scheduled_reauth
+            - scheduled_locked
+            - published
+            - published_posted
+            - published_deleted
+            - published_hidden
+            - draft
+            - draft_dated
+            - draft_undated
+            - draft_private
+            - draft_public
+            - failed
+            - recycling
+            - recycling_active
+            - recycling_paused
+            - recycling_expired
+            - recycling_failed
+            - recycling_pending
+            - recycling_declined
+            - recycling_reauth
+            - recycling_locked
+            - recurring
+        style: form
+        explode: true
+        name: state
         in: query
+        description: "Filter by multiple post states\n\n Available options: \n\n `all`, `scheduled`, `scheduled_approved`,\
+          \ `scheduled_pending`, `scheduled_declined`, `scheduled_reauth`, `scheduled_locked`, `published`,\
+          \ `published_posted`, `published_deleted`, `published_hidden`, `draft`, `draft_dated`, `draft_undated`,\
+          \ `draft_private`, `draft_public`, `failed`, `recycling`, `recycling_active`, `recycling_paused`,\
+          \ `recycling_expired`, `recycling_failed`, `recycling_pending`, `recycling_declined`, `recycling_reauth`,\
+          \ `recycling_locked`, `recurring`"
         required: false
-        description: ISO date/datetime. Required if `to` is used.
-        schema:
+      - schema:
           type: string
-      - name: to
+          format: date
+        name: from
         in: query
+        description: "Filter posts scheduled/published after this date \n\n- Example: 2025-05-15 \n\n\
+          \ Required if `to` is provided"
         required: false
-        description: ISO date/datetime. Required if `from` is used.
-        schema:
+      - schema:
           type: string
-      - name: page
+          format: date
+        name: to
         in: query
+        description: "Filter posts scheduled/published before this date \n\n- Example: 2025-05-15 \n\n\
+          \ Required if `from` is provided"
         required: false
-        description: Page number (default 0).
-        schema:
+      - schema:
           type: integer
-          default: 0
-      - name: account_ids[]
+        name: page
         in: query
+        description: Page number for pagination
         required: false
-        description: List of account IDs to filter by.
-        schema:
+      - schema:
           type: array
           items:
             type: string
-      - name: query
+        style: form
+        explode: true
+        name: account_ids
         in: query
+        description: Filter posts by multiple account IDs
         required: false
-        description: Full-text search keyword.
-        schema:
+      - schema:
           type: string
-      - name: postType
+        name: query
         in: query
+        description: Search query to filter posts by content
         required: false
-        description: Filter by post type.
-        schema:
+      - schema:
           type: string
-      - name: member_id
+          enum:
+          - status
+          - link
+          - photo
+          - gif
+          - video
+          - reel
+          - story
+          - short
+          - poll
+          - document
+          - carousel
+          - article
+        name: postType
         in: query
+        description: "Filter by post type \n\n Available options: \n\n `status`, `link`, `photo`, `gif`,\
+          \ `video`, `reel`, `story`, `short`, `poll`, `document`, `carousel`, `article`"
         required: false
-        description: Filter by workspace member.
-        schema:
+      - schema:
           type: string
+        name: member_id
+        in: query
+        description: Filter posts by team member ID
+        required: false
       responses:
         '200':
-          description: OK
+          description: Successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Post'
+                $ref: '#/components/schemas/PostsListResponse'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/401ErrorResponseWithWorkspace'
+        '403':
+          description: Permission denied or missing required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: listPosts
+    delete:
+      summary: Delete Multiple Posts
+      description: Deletes one or multiple posts from the workspace specifying exact post IDs. Authorization
+        rules apply to ensure users can only delete posts they have permission to delete.
+      tags:
+      - Posts
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace containing the posts
+        required: true
+      - schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        name: post_ids
+        in: query
+        description: Array of post IDs to delete. Can include both MongoDB ObjectIDs and PostgreSQL IDs.
+        required: true
+      responses:
+        '200':
+          description: Posts deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted_ids:
+                    type: array
+                    description: Array of IDs of successfully deleted posts
+                    items:
+                      type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponseWithWorkspace'
+        '403':
+          description: Permission denied or missing required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      operationId: deleteMultiplePosts
   /posts/schedule:
     post:
+      summary: Schedule posts
+      description: Schedule one or more posts for publishing. Supports immediate publishing, scheduled
+        publishing, auto-scheduling, recurring posts, and more.
       operationId: schedulePosts
       tags:
       - Posts
-      summary: Schedule posts
-      description: Schedule posts for future publication, including drafts. The operation is processed asynchronously and returns a job id to poll for status.
-      requestBody:
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to schedule posts in
         required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BulkPostRequest'
       responses:
-        '202':
-          description: Accepted
+        '200':
+          description: Posts scheduled successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobResponse'
         '400':
-          description: Bad Request
+          description: Invalid scheduling parameters
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/401ErrorResponseWithWorkspace'
+        '403':
+          description: Permission denied or missing required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkPostsRequest'
+        description: Post scheduling parameters
+        required: true
   /posts/schedule/publish:
     post:
-      operationId: publishPosts
+      summary: Create post
+      description: Creates a new social media post. Can be scheduled for immediate publishing, future
+        publishing, or saved as a draft.
+      operationId: createPost
       tags:
       - Posts
-      summary: Publish posts immediately
-      description: Publish content immediately to the connected social networks. The operation is processed asynchronously and returns a job id to poll for status.
-      requestBody:
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace to create post in
         required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BulkPostRequest'
       responses:
-        '202':
-          description: Accepted
+        '200':
+          description: Post creation job initiated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobResponse'
         '400':
-          description: Bad Request
+          description: Invalid post data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/401ErrorResponseWithWorkspace'
+        '403':
+          description: Permission denied or missing required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkPostsRequest'
+        description: Post creation parameters
+        required: true
+  /posts/{id}:
+    put:
+      summary: Update Post
+      description: Updates an existing post. The behavior differs depending on whether the post is already
+        published or not.
+      tags:
+      - Posts
+      parameters:
+      - schema:
+          type: string
+        name: Publer-Workspace-Id
+        in: header
+        description: ID of the workspace containing the post
+        required: true
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: ID of the post to update
+        required: true
+      responses:
+        '200':
+          description: Post updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostDetail'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResponseWithWorkspace'
+        '403':
+          description: Forbidden - You cannot update a post that has been published with approval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Error message explaining why the post couldn't be updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/422ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post:
+                  type: object
+                  required:
+                  - text
+                  properties:
+                    text:
+                      type: string
+                      description: The main content text of the post
+                    title:
+                      type: string
+                      description: Title for the post (used in some networks)
+        description: Post update parameters
+        required: true
+      operationId: updatePost
 components:
   schemas:
-    BulkPost:
+    401ErrorResponseWithWorkspace:
       type: object
       properties:
-        networks:
-          type: object
-          description: Platform-specific content keyed by network provider (for example facebook, instagram, twitter, linkedin).
-          additionalProperties:
-            type: object
-            properties:
-              type:
-                type: string
-                description: Content format.
-                enum:
-                - status
-                - photo
-                - video
-                - link
-                - carousel
-                - pdf
-              text:
-                type: string
-                description: Post content.
-        accounts:
+        errors:
           type: array
-          description: Target accounts with optional scheduling time.
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: Account id to publish to.
-              scheduled_at:
-                type: string
-                format: date-time
-                description: Scheduled publication time for this account.
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        type:
-          type: string
-        code:
-          type: string
-    Post:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the post.
-        state:
-          type: string
-          description: Current state of the post.
-        text:
-          type: string
-          description: Post content text.
-        scheduled_at:
-          type: string
-          format: date-time
-          description: Scheduled publication time.
-        account_ids:
-          type: array
-          description: Accounts the post targets.
+          description: List of error messages
           items:
             type: string
-        postType:
+    403ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    422ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    BlueskyNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
           type: string
-          description: Type of the post.
-    BulkPostRequest:
+          description: Content type for Bluesky
+          enum:
+          - status
+          - photo
+          - video
+          - link
+        text:
+          type: string
+          description: Post text content
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        replyTo:
+          type: string
+          description: ID of the post to reply to
+        labels:
+          type: array
+          description: Self-labeled content warnings or categories
+          items:
+            type: string
+    BulkPostsRequest:
       type: object
       required:
       - bulk
@@ -244,7 +477,7 @@ components:
           properties:
             state:
               type: string
-              description: Publishing method / post state.
+              description: State of the posts
               enum:
               - scheduled
               - draft
@@ -253,27 +486,1466 @@ components:
               - recurring
             posts:
               type: array
+              description: List of posts to create
               items:
-                $ref: '#/components/schemas/BulkPost'
+                type: object
+                required:
+                - networks
+                properties:
+                  networks:
+                    type: object
+                    description: Network-specific content for the post
+                    properties:
+                      facebook:
+                        $ref: '#/components/schemas/FacebookNetworkContent'
+                      instagram:
+                        $ref: '#/components/schemas/InstagramNetworkContent'
+                      twitter:
+                        $ref: '#/components/schemas/TwitterNetworkContent'
+                      linkedin:
+                        $ref: '#/components/schemas/LinkedInNetworkContent'
+                      pinterest:
+                        $ref: '#/components/schemas/PinterestNetworkContent'
+                      google:
+                        $ref: '#/components/schemas/GoogleBusinessNetworkContent'
+                      youtube:
+                        $ref: '#/components/schemas/YouTubeNetworkContent'
+                      tiktok:
+                        $ref: '#/components/schemas/TikTokNetworkContent'
+                      wordpress_oauth:
+                        $ref: '#/components/schemas/WordPressNetworkContent'
+                      wordpress_basic:
+                        $ref: '#/components/schemas/WordPressNetworkContent'
+                      telegram:
+                        $ref: '#/components/schemas/TelegramNetworkContent'
+                      mastodon:
+                        $ref: '#/components/schemas/MastodonNetworkContent'
+                      threads:
+                        $ref: '#/components/schemas/ThreadsNetworkContent'
+                      bluesky:
+                        $ref: '#/components/schemas/BlueskyNetworkContent'
+                  accounts:
+                    type: array
+                    description: List of accounts to post to
+                    items:
+                      type: object
+                      required:
+                      - id
+                      properties:
+                        id:
+                          type: string
+                          description: Account identifier
+                        scheduled_at:
+                          type: string
+                          description: Time to schedule the post
+                          format: date-time
+                        labels:
+                          type: array
+                          description: List of labels for the post
+                          items:
+                            type: string
+                        previewed_media:
+                          type: boolean
+                          description: Whether media has been previewed
+                        share:
+                          type: object
+                          description: Auto-share settings for this post
+                          properties:
+                            text:
+                              type: string
+                              description: Custom text for the shared post. If not provided, the original
+                                post text will be used.
+                            account_ids:
+                              type: array
+                              description: Array of account IDs to share the post with
+                              items:
+                                type: string
+                            after:
+                              type: object
+                              description: When to share the post after the original is published
+                              properties:
+                                duration:
+                                  type: number
+                                  description: The duration value
+                                unit:
+                                  type: string
+                                  description: The time unit (Minute, Hour, Day, Week)
+                                  enum:
+                                  - Minute
+                                  - Hour
+                                  - Day
+                                  - Week
+                            delay:
+                              type: object
+                              description: Delay between sharing to multiple accounts
+                              properties:
+                                duration:
+                                  type: number
+                                  description: The duration value
+                                unit:
+                                  type: string
+                                  description: The time unit (Minute, Hour, Day, Week)
+                                  enum:
+                                  - Minute
+                                  - Hour
+                                  - Day
+                                  - Week
+                        comments:
+                          type: array
+                          description: Follow-up comments to be posted after the original post
+                          items:
+                            type: object
+                            properties:
+                              text:
+                                type: string
+                                description: The text content of the comment
+                              language:
+                                type: string
+                                description: The language of the comment
+                              delay:
+                                type: object
+                                description: When to post the comment after the original post is published
+                                properties:
+                                  duration:
+                                    type: number
+                                    description: The duration value
+                                  unit:
+                                    type: string
+                                    description: The time unit (Minute, Hour, Day, Week)
+                                    enum:
+                                    - Minute
+                                    - Hour
+                                    - Day
+                                    - Week
+                              media:
+                                type: object
+                                description: Media to include with the comment
+                                properties:
+                                  type:
+                                    type: string
+                                    description: Type of media (photo, video, gif)
+                                    enum:
+                                    - photo
+                                    - video
+                                    - gif
+                                  path:
+                                    type: string
+                                    description: Path to the media file
+                                  caption:
+                                    type: string
+                                    description: Caption for the media
+                                  thumbnail:
+                                    type: string
+                                    description: Thumbnail for video media
+                                  thumbnails:
+                                    type: object
+                                    description: Different sizes of thumbnails for video media
+                                    properties:
+                                      real:
+                                        type: string
+                                        description: Full-size thumbnail
+                                      small:
+                                        type: string
+                                        description: Small thumbnail
+                        delete:
+                          type: object
+                          description: Auto-delete settings for this post
+                          properties:
+                            hide:
+                              type: boolean
+                              description: If true, the post will be hidden instead of deleted (platform-dependent)
+                            delay:
+                              type: object
+                              description: When to delete/hide the post after it's published
+                              properties:
+                                duration:
+                                  type: number
+                                  description: The duration value
+                                unit:
+                                  type: string
+                                  description: The time unit (Minute, Hour, Day, Week)
+                                  enum:
+                                  - Minute
+                                  - Hour
+                                  - Day
+                                  - Week
+                  recycling:
+                    type: object
+                    description: Recycling configuration for the post
+                    properties:
+                      solo:
+                        type: boolean
+                        description: Whether to recycle as a solo post
+                      gap:
+                        type: integer
+                        description: Gap between recycles
+                      gap_freq:
+                        type: string
+                        description: Frequency of the gap
+                        enum:
+                        - Day
+                        - Week
+                        - Month
+                      start_date:
+                        type: string
+                        description: Start date for recycling
+                        format: date
+                      expire_count:
+                        type: string
+                        description: Number of times to recycle
+                      expire_date:
+                        type: string
+                        description: Date when recycling expires
+                        format: date
+                  recurring:
+                    type: object
+                    description: Recurring configuration for the post
+                    required:
+                    - start_date
+                    - end_date
+                    - repeat
+                    - repeat_rate
+                    properties:
+                      start_date:
+                        type: string
+                        description: Start date for recurring posts
+                        format: date-time
+                      end_date:
+                        type: string
+                        description: End date for recurring posts
+                        format: date-time
+                      repeat:
+                        type: string
+                        description: Recurrence pattern
+                        enum:
+                        - daily
+                        - weekly
+                        - monthly
+                        - yearly
+                      days_of_week:
+                        type: array
+                        description: Days of the week (0=Monday, 6=Sunday)
+                        items:
+                          type: integer
+                          minimum: 0
+                          maximum: 6
+                      repeat_rate:
+                        type: integer
+                        description: Rate of repetition
+                  share_next:
+                    type: boolean
+                    description: Whether to share the post next in queue
+                  range:
+                    type: object
+                    description: Time range for auto-scheduled posts
+                    properties:
+                      start_date:
+                        type: string
+                        description: Start date of the range
+                        format: date-time
+                      end_date:
+                        type:
+                        - string
+                        - 'null'
+                        description: End date of the range
+                        format: date-time
+                  auto:
+                    type: boolean
+                    description: Whether to use auto scheduling
+    CarouselOptions:
+      type: object
+      description: Carousel-specific options
+      properties:
+        slides:
+          type: array
+          description: Individual slide configurations
+          items:
+            type: object
+            properties:
+              media_id:
+                type: string
+                description: Media ID for this slide
+              alt_text:
+                type: string
+                description: Accessibility description for this slide
+              caption:
+                type: string
+                description: Caption for this specific slide
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    FacebookNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Facebook
+          enum:
+          - status
+          - photo
+          - video
+          - link
+          - carousel
+          - story
+          - reel
+          - gif
+        text:
+          type: string
+          description: Post text content
+        title:
+          type: string
+          description: Video title (for videos, truncated to 255 chars)
+        excerpt:
+          type: string
+          description: Post excerpt
+        url:
+          type: string
+          description: Link URL for link posts
+        post_id:
+          type: string
+          description: Facebook post ID after publishing
+        post_link:
+          type: string
+          description: Facebook post URL after publishing
+        question:
+          type: string
+          description: Poll question
+        duration:
+          type: integer
+          description: Poll duration in hours
+        details:
+          type: object
+          description: Details for the post
+          properties:
+            type:
+              type: string
+              description: Network-specific content type
+              enum:
+              - reel
+              - story
+            text_format_preset_id:
+              type: string
+              description: Background color for the post
+              enum:
+              - '106018623298955'
+              - '365653833956649'
+              - '618093735238824'
+              - '191761991491375'
+              - '2193627793985415'
+              - '200521337465306'
+              - '1821844087883360'
+              - '177465482945164'
+              - '160419724814650'
+              - '248623902401250'
+              - '240401816771706'
+              - '1868855943417360'
+              - '255989551804163'
+              - '1792915444087912'
+              - '1654916007940525'
+              - '1679248482160767'
+              - '518948401838663'
+              - '423339708139719'
+              - '204187940028597'
+              - '621731364695726'
+              - '518596398537417'
+              - '134273813910336'
+              - '217321755510854'
+              - '323371698179784'
+              - '901751159967576'
+              - '552118025129095'
+              - '263789377694911'
+              - '606643333067842'
+              - '458988134561491'
+              - '548109108916650'
+              - '175493843120364'
+              - '338976169966519'
+              - '206513879997925'
+              - '168373304017982'
+              - '1271157196337260'
+              - '174496469882866'
+              - '862667370603267'
+              - '127541261450947'
+              - '218067308976029'
+              - '688479024672716'
+              - '238863426886624'
+              - '301029513638534'
+              - '154977255088164'
+              - '1941912679424590'
+              - '396343990807392'
+              - '143093446467972'
+              - '161409924510923'
+              - '145893972683590'
+              - '217761075370932'
+              - '931584293685988'
+              - '148862695775447'
+              - '100114277230063'
+              - '558836317844129'
+              - '172497526576609'
+              - '433967226963128'
+              - '197865920864520'
+              - '643122496026756'
+              - '762009070855346'
+              - '228164237768720'
+              - '146487026137131'
+              - '221828835275596'
+              - '1903718606535395'
+              - '1881421442117417'
+              - '249307305544279'
+              - '1777259169190672'
+              - '303063890126415'
+              - '122708641613922'
+              - '319468561816672'
+              - '121945541697934'
+              - '288211338285858'
+              - '446330032368780'
+              - '219266485227663'
+              - '1289741387813798'
+              - '1365883126823705'
+            feed:
+              type: boolean
+              description: Whether to share the reel to feed
+            reminder:
+              type: boolean
+              description: Use reminder publishing instead of API
+            audio:
+              type: string
+              description: Audio name for the reel
+            start:
+              type: string
+              description: Start time for events
+            end:
+              type: string
+              description: End time for events
+            coupon:
+              type: string
+              description: Coupon code
+            terms:
+              type: string
+              description: Terms and conditions
+            privacy:
+              type: string
+              description: Privacy setting
+            comment:
+              type: boolean
+              description: Allow comments
+            duet:
+              type: boolean
+              description: Allow duets
+            stitch:
+              type: boolean
+              description: Allow stitch
+            promotional:
+              type: boolean
+              description: Mark as promotional content
+            paid:
+              type: boolean
+              description: Mark as paid partnership
+            language:
+              type: string
+              description: Content language
+            auto_add_music:
+              type: boolean
+              description: Auto add music
+            sponsor:
+              type: object
+              description: Sponsor information for branded content
+              properties:
+                id:
+                  type: string
+                  description: Sponsor Facebook ID
+                name:
+                  type: string
+                  description: Sponsor name
+                verified:
+                  type: boolean
+                  description: Whether sponsor is verified
+                boost:
+                  type: boolean
+                  description: Whether post can be boosted
+            community:
+              type: object
+              description: Community information
+              properties:
+                id:
+                  type: string
+                  description: Community ID
+                name:
+                  type: string
+                  description: Community name
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        sublinks:
+          type: array
+          description: Facebook carousel sublinks
+          items:
+            $ref: '#/components/schemas/FacebookSublink'
+        tags:
+          type: array
+          description: Post tags
+          items:
+            type: string
+        categories:
+          type: array
+          description: Post categories
+          items:
+            type: string
+        featured_media:
+          type: object
+          description: Featured media information
+          properties:
+            path:
+              type: string
+              description: Path to featured media
+        options:
+          type: array
+          description: Poll options
+          items:
+            type: string
+    FacebookSublink:
+      type: object
+      description: Configuration for a Facebook link post sublink preview
+      properties:
+        url:
+          type: string
+          description: URL of the link
+        provider_display:
+          type: string
+          description: Display name of the link provider (typically domain name)
+        original_description:
+          type: string
+          description: Original meta description of the linked webpage
+        original_title:
+          type: string
+          description: Original meta title of the linked webpage
+        original_images:
+          type: array
+          description: Array of original images found on the linked webpage
+          items:
+            type: string
+            format: uri
+        original_url:
+          type: string
+          description: Original URL without protocol
+        description:
+          type: string
+          description: Description to use in the link preview (can be customized)
+        title:
+          type: string
+          description: Title to use in the link preview (can be customized)
+        images:
+          type: array
+          description: Images to use in the link preview (can be customized)
+          items:
+            type: string
+            format: uri
+        default_image:
+          type: integer
+          description: Index of the default image to display in the preview (0-based)
+          minimum: 0
+        caption:
+          type: string
+          description: Additional caption for the link
+        call_to_action:
+          type: string
+          description: Call-to-action button type for the link preview
+          enum:
+          - NO_BUTTON
+          - SHOP_NOW
+          - BOOK_TRAVEL
+          - LEARN_MORE
+          - SIGN_UP
+          - DOWNLOAD
+          - GET_OFFER
+          - GET_DIRECTIONS
+          - BUY_NOW
+          - CALL_NOW
+          - APPLY_NOW
+          - MESSAGE_PAGE
+          - SEND_MESSAGE
+          - CONTACT_US
+          - SUBSCRIBE
+          - USE_APP
+          - PLAY_GAME
+          - WATCH_VIDEO
+          - WATCH_MORE
+          - OPEN_LINK
+        phone_number:
+          type: string
+          description: Phone number to use with CALL_NOW call-to-action button
+        customized:
+          type: boolean
+          description: Whether this sublink has been customized from the original link preview
+      required:
+      - url
+      - title
+      - description
+      - images
+    GoogleBusinessNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Google Business
+          enum:
+          - status
+          - photo
+          - event
+          - offer
+        text:
+          type: string
+          description: Post text content
+        title:
+          type: string
+          description: Post title
+        url:
+          type: string
+          description: URL to link to
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        details:
+          type: object
+          description: Details for the post
+          properties:
+            type:
+              type: string
+              description: Content type
+              enum:
+              - photo
+              - event
+            title:
+              type: string
+              description: Event title
+            start:
+              type: string
+              description: Event start time
+              format: date-time
+            end:
+              type: string
+              description: Event end time
+              format: date-time
+            // Offer-specific properties: {}
+            coupon:
+              type: string
+              description: Coupon code for the offer
+            terms:
+              type: string
+              description: Terms and conditions Url for the offer
+            // End of Offer-specific properties: {}
+    InstagramNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Instagram
+          enum:
+          - photo
+          - video
+          - carousel
+          - story
+          - reel
+        text:
+          type: string
+          description: Caption text
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        carouselOptions:
+          $ref: '#/components/schemas/CarouselOptions'
+        firstComment:
+          type: string
+          description: Text for first comment (often used for hashtags)
+        details:
+          type: object
+          description: Details for the post
+          properties:
+            type:
+              type: string
+              description: Network-specific content type
+              enum:
+              - reel
+              - story
+            // Reel-specific properties: {}
+            audio:
+              type: string
+              description: Audio name for the reel
+            feed:
+              type: boolean
+              description: Whether to share the reel to feed
     JobResponse:
       type: object
       properties:
         success:
           type: boolean
+          description: Whether the job was created successfully
         data:
           type: object
           properties:
             job_id:
               type: string
-              description: Identifier of the asynchronous job to poll.
+              description: ID of the created job
+    LinkDetails:
+      type: object
+      description: Link details for link posts
+      properties:
+        url:
+          type: string
+          description: URL to link to
+        title:
+          type: string
+          description: Title of the link
+        description:
+          type: string
+          description: Description of the link
+        image_id:
+          type: string
+          description: ID of the image to use for link preview
+    LinkedInNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for LinkedIn
+          enum:
+          - status
+          - photo
+          - video
+          - link
+          - document
+          - poll
+          - gif
+        text:
+          type: string
+          description: Post text content
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        document:
+          type: object
+          description: Document details
+          properties:
+            id:
+              type: string
+              description: Document ID (from upload)
+            title:
+              type: string
+              description: Document title
+        // Poll-specific properties: {}
+        options:
+          type: array
+          description: Options for poll posts (required when type='poll')
+          items:
+            type: string
+        duration:
+          type: integer
+          description: Duration of the poll in days (required when type='poll')
+        question:
+          type: string
+          description: Poll question (required for LinkedIn when type='poll')
+        details:
+          type: object
+          description: Details for the post
+          properties:
+            type:
+              type: string
+              description: PDF document type
+              enum:
+              - document
+    MastodonNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Mastodon
+          enum:
+          - status
+          - photo
+          - video
+          - link
+          - gif
+          - poll
+        text:
+          type: string
+          description: Post text content
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        // Poll-specific properties: {}
+        options:
+          type: array
+          description: Options for poll posts (required when type='poll')
+          items:
+            type: string
+        duration:
+          type: integer
+          description: Duration of the poll in days (required when type='poll')
+        // End of Poll-specific properties: {}
+        visibility:
+          type: string
+          description: Post visibility
+          enum:
+          - public
+          - unlisted
+          - private
+          - direct
+        sensitive:
+          type: boolean
+          description: Mark media as sensitive
+        spoilerText:
+          type: string
+          description: Content warning text
+    MediaItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Media ID (from upload)
+        type:
+          type: string
+          enum:
+          - image
+          - video
+          - document
+          - gif
+        alt_text:
+          type: string
+          description: Accessibility description for images
+    PinterestNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Pinterest
+          enum:
+          - photo
+          - video
+          - carousel
+        text:
+          type: string
+          description: Pin description
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        boardId:
+          type: string
+          description: Pinterest board ID to pin to
+        title:
+          type: string
+          description: Title of the pin
+    PostDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the post
+        text:
+          type: string
+          description: Post text content
+        state:
+          type: string
+          description: Current state of the post
+        type:
+          type: string
+          description: Type of post
+        account_id:
+          type: string
+          description: ID of the social account
+        account:
+          type: object
+          description: Details of the social account
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+            name:
+              type: string
+            picture:
+              type: string
+        user:
+          type: object
+          description: User who created the post
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            picture:
+              type: string
+        scheduled_at:
+          type: string
+          description: Scheduled publication time
+        created_at:
+          type: string
+          description: Creation timestamp
+        updated_at:
+          type: string
+          description: Last update timestamp
+        post_link:
+          type: string
+          description: Link to the published post on the social network
+        media:
+          type: array
+          description: Media items attached to the post
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              type:
+                type: string
+              url:
+                type: string
+              alt_text:
+                type: string
+        link:
+          type: object
+          description: Link details for link posts
+          properties:
+            url:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            image_url:
+              type: string
+        labels:
+          type: array
+          description: Labels assigned to this post
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              color:
+                type: string
+        auto:
+          type: boolean
+          description: Whether this post was auto-scheduled
+        recycling:
+          type: object
+          description: Recycling settings if applicable
+          properties:
+            solo:
+              type: boolean
+            gap:
+              type: integer
+            gap_freq:
+              type: string
+            start_date:
+              type: string
+            expire_count:
+              type: integer
+        recurring:
+          type: object
+          description: Recurring settings if applicable
+          properties:
+            frequency:
+              type: string
+            repeat_every:
+              type: integer
+            weekdays:
+              type: array
+              items:
+                type: string
+            start_date:
+              type: string
+    PostSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the post
+        text:
+          type: string
+          description: Post text content
+        url:
+          type: string
+          description: URL for link posts
+        state:
+          type: string
+          description: Current state of the post
+        type:
+          type: string
+          description: Type of post
+        account_id:
+          type: string
+          description: ID of the social account
+        user:
+          type: object
+          description: User who created the post
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            picture:
+              type: string
+        scheduled_at:
+          type: string
+          description: Scheduled publication time
+        post_link:
+          type: string
+          description: Link to the published post on the social network
+        has_media:
+          type: boolean
+          description: Indicates if the post contains media
+        network:
+          type: string
+          description: Social network for this post
+    PostsListResponse:
+      type: object
+      properties:
+        posts:
+          type: array
+          description: List of posts matching the query parameters
+          items:
+            $ref: '#/components/schemas/PostSummary'
+        total:
+          type: integer
+          description: Total number of posts matching the query
+        page:
+          type: integer
+          description: Current page number
+        per_page:
+          type: integer
+          description: Number of posts per page
+        total_pages:
+          type: integer
+          description: Total number of pages
+    TelegramNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Telegram
+          enum:
+          - status
+          - photo
+          - video
+          - link
+          - gif
+        text:
+          type: string
+          description: Message text
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        parseMode:
+          type: string
+          description: Message parse mode
+          enum:
+          - Markdown
+          - HTML
+        disableNotification:
+          type: boolean
+          description: Whether to send the message silently
+        disableWebPagePreview:
+          type: boolean
+          description: Whether to disable link previews
+    ThreadsNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Threads
+          enum:
+          - status
+          - photo
+          - video
+          - link
+        text:
+          type: string
+          description: Post text content
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        replyTo:
+          type: string
+          description: ID of the thread to reply to
+    TikTokNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for TikTok
+          enum:
+          - video
+          - photo
+          - carousel
+        text:
+          type: string
+          description: Caption text
+        title:
+          type: string
+          description: Video title (for video type)
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        carouselOptions:
+          $ref: '#/components/schemas/CarouselOptions'
+        soundId:
+          type: string
+          description: TikTok sound ID to use
+        duetWith:
+          type: string
+          description: Video ID to duet with
+        details:
+          type: object
+          description: TikTok-specific publishing details
+          properties:
+            privacy:
+              type: string
+              description: Privacy level for the post
+              enum:
+              - PUBLIC_TO_EVERYONE
+              - MUTUAL_FOLLOW_FRIENDS
+              - FOLLOWER_OF_CREATOR
+              - SELF_ONLY
+            comment:
+              type: boolean
+              description: Enable comments (true = enable, false = disable)
+            duet:
+              type: boolean
+              description: Enable duets
+            stitch:
+              type: boolean
+              description: Enable stitch
+            promotional:
+              type: boolean
+              description: Mark as branded/promotional content
+            paid:
+              type: boolean
+              description: Mark as paid partnership
+            auto_add_music:
+              type: boolean
+              description: Auto add music to photo posts
+            reminder:
+              type: boolean
+              description: Use reminder publishing instead of direct API
+    TwitterNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Twitter/X
+          enum:
+          - status
+          - photo
+          - video
+          - link
+          - gif
+          - poll
+        text:
+          type: string
+          description: Tweet text
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        // Poll-specific properties: {}
+        options:
+          type: array
+          description: Options for poll posts (required when type='poll')
+          items:
+            type: string
+        duration:
+          type: integer
+          description: Duration of the poll in days (required when type='poll')
+        // End of Poll-specific properties: {}
+        replySettings:
+          type: string
+          description: Who can reply to this tweet
+          enum:
+          - everyone
+          - mentionedUsers
+          - following
+        details:
+          type: object
+          description: Twitter-specific publishing details
+          properties:
+            type:
+              type: string
+              description: Specific tweet type for long posts
+              enum:
+              - long_post
+            community:
+              type: object
+              description: Community to post in
+              properties:
+                id:
+                  type: string
+                  description: Community ID
+                name:
+                  type: string
+                  description: Community name
+        location:
+          type: object
+          description: Geographic location to tag
+          properties:
+            id:
+              type: string
+              description: Place ID for geo tagging
+            name:
+              type: string
+              description: Location name
+    WordPressNetworkContent:
+      type: object
+      required:
+      - type
+      - content
+      properties:
+        type:
+          type: string
+          description: Content type for WordPress
+          enum:
+          - article
+        text:
+          type: string
+          description: Post text content
+        excerpt:
+          type: string
+          description: Short excerpt of the article
+        title:
+          type: string
+          description: Article title
+        url:
+          type: string
+          description: Article URL slug
+        post_link:
+          type:
+          - string
+          - 'null'
+          description: Link to published post
+        source:
+          type: string
+          description: Source of the post
+          enum:
+          - schedule
+          - publish
+          - draft
+        state:
+          type: string
+          description: Post state
+          enum:
+          - draft
+          - scheduled
+          - published
+        content:
+          type: array
+          description: Structured content blocks
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Block unique identifier
+              type:
+                type: string
+                description: Block type
+                enum:
+                - paragraph
+                - header
+                - list
+                - media
+                - table
+                - delimiter
+                - code
+                - html
+                - quote
+              data:
+                type: object
+                description: Block-specific data
+                properties:
+                  text:
+                    type: string
+                    description: Text content for paragraph, header, quote blocks
+                  level:
+                    type: integer
+                    description: Header level (1-6)
+                  style:
+                    type: string
+                    description: List style
+                    enum:
+                    - ordered
+                    - unordered
+                  items:
+                    type: array
+                    description: List items
+                    items:
+                      type: string
+                  url:
+                    type: string
+                    description: Media URL
+                  type:
+                    type: string
+                    description: Media type
+                    enum:
+                    - photo
+                    - video
+                  stretched:
+                    type: boolean
+                    description: Whether media is stretched
+                  withHeadings:
+                    type: boolean
+                    description: Whether table has headings
+                  content:
+                    type: array
+                    description: Table content
+                    items:
+                      type: string
+                  code:
+                    type: string
+                    description: Code content
+                  html:
+                    type: string
+                    description: HTML content
+                  caption:
+                    type: string
+                    description: Quote caption/author
+            required:
+            - id
+            - type
+            - data
+        categories:
+          type: array
+          items:
+            type: string
+          description: Article category IDs
+        tags:
+          type: array
+          items:
+            type: string
+          description: Article tag IDs
+        featured_media:
+          type: object
+          description: Featured media information
+          properties:
+            path:
+              type: string
+              description: Path to featured media
+    YouTubeNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for YouTube
+          enum:
+          - video
+          - short
+        media:
+          type: array
+          description: Video to upload
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        title:
+          type: string
+          description: Video title
+        description:
+          type: string
+          description: Video description
+        tags:
+          type: array
+          description: Video tags
+          items:
+            type: string
+        category:
+          type: string
+          description: Video category ID
+        privacy:
+          type: string
+          description: Privacy setting
+          enum:
+          - public
+          - unlisted
+          - private
+        isShort:
+          type: boolean
+          description: Whether this is a YouTube Short
+        details:
+          type: object
+          description: Details for the post
+          properties:
+            type:
+              type: string
+              description: Network-specific content type
+              enum:
+              - short
+            // Youtube Short-specific properties: {}
+            privacy:
+              type: string
+              description: Privacy setting for the short
+              enum:
+              - public
+              - unlisted
+              - private
   securitySchemes:
-    api_key:
+    BearerApiAuth:
       type: apiKey
-      in: header
       name: Authorization
-      description: 'API key passed as `Authorization: Bearer-API YOUR_API_KEY`. A `Publer-Workspace-Id` header is also required to scope requests to a workspace.'
-    workspace_id:
-      type: apiKey
       in: header
-      name: Publer-Workspace-Id
-      description: The id of the workspace to scope the request to.
+      description: 'API key authentication. Format: "Bearer-API YOUR_API_KEY"'

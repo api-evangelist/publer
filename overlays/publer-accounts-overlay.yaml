@@ -1,0 +1,42 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Publer Accounts API
+  version: 1.0.0
+extends: openapi/publer-accounts-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: Enhancements applied on top of the OpenAPI 3.1.1 blocks harvested verbatim from https://publer.com/docs
+  into openapi/_original/publer-openapi.yml. This overlay records exactly what API Evangelist added; the
+  provider document is never mutated.
+actions:
+- target: $.paths['/accounts'].get
+  description: Add operationId 'listAccounts' — Publer's published OpenAPI block omits operationId on
+    this operation, so generated clients, MCP tool bindings and Agent Skills have nothing stable to reference.
+  update:
+    operationId: listAccounts
+- target: $
+  description: Declare a document-level security requirement. Publer's per-page OpenAPI blocks declare
+    securitySchemes but several omit the document-level `security` array, so the API key requirement is
+    not machine-enforced.
+  update:
+    security:
+    - BearerApiAuth: []
+- target: $.components.securitySchemes
+  description: Normalize the security scheme name to BearerApiAuth. Publer's Analytics and Competitors
+    blocks reference a scheme named 'Bearer' that they never define (components.securitySchemes is empty
+    in those blocks), leaving a dangling security reference.
+  update:
+    BearerApiAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key authentication. Format: "Bearer-API YOUR_API_KEY"'
+- target: $.info
+  description: Add contact email and termsOfService, and expand the description with the auth model and
+    Business/Enterprise entitlement, from https://publer.com/docs/api-reference/introduction.md.
+  update:
+    termsOfService: https://publer.com/terms
+    contact:
+      name: Publer Support
+      email: support@publer.com
+      url: https://publer.com/docs

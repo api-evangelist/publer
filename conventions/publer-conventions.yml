@@ -1,0 +1,161 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://publer.com/docs/api-reference/introduction.md,
+  https://publer.com/docs/getting-started/authentication.md,
+  https://publer.com/docs/getting-started/rate-limits.md,
+  https://publer.com/docs/posting/create-posts.md — cross-checked against
+  openapi/_original/publer-openapi.yml
+provider: Publer
+providerId: publer
+description: >-
+  Cross-cutting runtime semantics for the Publer API v1 — what an agent or
+  client has to know that is not expressible in a single operation.
+
+base_url: https://app.publer.com/api/v1
+media_type: application/json
+
+authentication:
+  style: api-key
+  header: Authorization
+  format: 'Bearer-API YOUR_API_KEY'
+  second_factor:
+    header: Publer-Workspace-Id
+    required: >-
+      Required on most endpoints to scope the request to a workspace; obtained
+      from GET /workspaces. Omitting it produces 403 Forbidden.
+  oauth2: false
+  see: authentication/publer-authentication.yml
+
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  note: >-
+    Publer documents NO idempotency key, no request-replay protection and no
+    de-duplication contract. This matters more here than on a typical API,
+    because POST /posts/schedule and POST /posts/schedule/publish are 202-async
+    and a retried request can publish twice. The only guard Publer documents is
+    incidental and server-side: the job failure message "There's another post at
+    this time. A one minute gap is required between posts". Clients must build
+    their own de-duplication around client-side keys.
+
+pagination:
+  style: page-number
+  params:
+  - name: page
+    in: query
+    zero_based: true
+    default: 0
+    applies_to:
+    - listPosts
+    - listMedia
+    - getPostInsights
+  response_fields:
+  - name: total
+    description: Total count of items matching the query, ignoring pagination.
+  - name: page
+    description: Current page (PostsListResponse only).
+  - name: per_page
+    description: Items per page (PostsListResponse only) — reported, not settable.
+  - name: total_pages
+    description: Total page count (PostsListResponse only).
+  cursor: false
+  link_header: false
+  note: >-
+    Page size is REPORTED but not client-controllable — PostsListResponse
+    returns per_page and total_pages, yet no per_page/limit request parameter
+    exists on any operation. GET /media returns only `total`, with none of the
+    other three, so the envelope is inconsistent between collections. `ids[]` on
+    GET /media bypasses pagination and all other filters.
+
+filtering:
+  style: repeated-query-parameters
+  note: >-
+    Array filters use PHP/Rails bracket form — `state[]`, `account_ids[]`,
+    `types[]`, `used[]`, `source[]`, `ids[]`. GET /media REQUIRES `types[]` and
+    `used[]`. `from` and `to` on GET /posts are mutually dependent: supplying
+    one without the other is invalid.
+  expansion: false
+  sparse_fieldsets: false
+
+metadata:
+  custom_fields: false
+  note: No user-defined metadata bag is documented on any Publer resource.
+
+tracing:
+  request_id_header: null
+  note: >-
+    Publer documents no request-id / correlation-id response header. The only
+    correlation handle for a write is the returned `job_id`, which is
+    workflow-scoped rather than request-scoped.
+
+versioning:
+  style: uri-path
+  current: v1
+  scheme: semver
+  policy: >-
+    "We follow Semantic Versioning. Breaking changes only occur on MAJOR version
+    bumps; you will be notified in advance."
+  source: https://publer.com/docs/api-reference/introduction.md
+  see: lifecycle/publer-lifecycle.yml
+
+errors:
+  envelope: '{"errors": ["Detailed error message"]}'
+  shape: array-of-strings
+  rfc9457: false
+  variant: >-
+    The rate-limit response uses a DIFFERENT envelope — {"error": "Rate limit
+    exceeded. Retry later."} — singular `error`, a string not an array. Clients
+    must handle both shapes.
+  machine_readable_code: false
+  see: errors/publer-problem-types.yml
+
+rate_limiting:
+  limit: 100 requests per 2-minute fixed window, per user account across all API keys
+  headers:
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  retry_after: false
+  status: 429
+  see: rate-limits/publer-rate-limits.yml
+
+async:
+  pattern: submit-and-poll
+  submit_status: 202
+  handle_field: job_id
+  poll: 'GET /job_status/{job_id}'
+  states:
+  - working
+  - complete
+  - failed
+  partial_failure: >-
+    A job can return status "complete" while individual accounts failed: the
+    per-account errors are in payload.failures[] with account_id, account_name,
+    provider and message. A client that only checks `status` will report success
+    on a post that never published. This is the single most important runtime
+    convention on this API.
+  webhooks: false
+  note: >-
+    There is no push transport. No webhooks, no SSE, no WebSocket — confirmed
+    against the docs and recorded in review.yml.
+
+datetime:
+  format: ISO 8601 with timezone offset
+  pattern: 'YYYY-MM-DDThh:mm:ss±hh:mm'
+  example: '2025-05-04T14:58:35+00:00'
+  timezone_note: Daily post limits are counted on a rolling 24-hour window in UTC.
+
+identifiers:
+  style: 24-character hexadecimal (MongoDB ObjectId shape)
+  prefixed: false
+  example: 5f8d7a62c9e77e001f36e3a1
+  note: >-
+    IDs carry no type prefix, so a workspace id, account id, post id, media id
+    and job id are indistinguishable by shape. Callers must track which is which.
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

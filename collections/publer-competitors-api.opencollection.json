@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Publer Competitors API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Competitors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Competitors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/competitors/:account_id",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the social media account to retrieve competitors for."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of competitor accounts for the workspace or for a specific social media account."
+        },
+        {
+          "info": {
+            "name": "Get Competitors Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.publer.com/api/v1/competitors/:account_id/analytics",
+            "headers": [
+              {
+                "name": "Publer-Workspace-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the social media account to filter competitors analytics for"
+              },
+              {
+                "name": "competitor_id",
+                "value": "",
+                "type": "query",
+                "description": "Specific competitor account ID to analyze"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search filter for competitor account names"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date for analytics data (ISO 8601 format, e.g., 2023-01-01)"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date for analytics data (ISO 8601 format, e.g., 2023-12-31)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (default: 0)"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by"
+              },
+              {
+                "name": "sort_type",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction"
+              }
+            ]
+          },
+          "docs": "Retrieves analytics data for competitor accounts, including engagement metrics, follower counts, and post performance statistics."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

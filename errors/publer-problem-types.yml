@@ -1,0 +1,156 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  Derived from openapi/_original/publer-openapi.yml (4xx/5xx responses across 21
+  operations), enriched from
+  https://publer.com/docs/api-reference/introduction.md,
+  https://publer.com/docs/getting-started/authentication.md and
+  https://publer.com/docs/getting-started/rate-limits.md
+provider: Publer
+providerId: publer
+format: bespoke
+rfc9457: false
+media_type: application/json
+description: >-
+  Publer does not use RFC 9457 problem+json. Errors are plain JSON with an
+  `errors` array of human-readable strings, and there is no stable machine
+  code, no type URI and no per-error identifier — a client cannot branch on
+  anything but the HTTP status. There is also a second, inconsistent envelope
+  on 429.
+
+envelopes:
+- name: standard
+  shape: '{"errors": ["Detailed error message"]}'
+  used_by: 400, 401, 403, 413, 422, 500
+  fields:
+  - name: errors
+    type: array<string>
+    description: List of human-readable error messages.
+- name: rate-limit
+  shape: '{"error": "Rate limit exceeded. Retry later."}'
+  used_by: 429
+  fields:
+  - name: error
+    type: string
+    description: Single human-readable message. Note the singular key and non-array type.
+  note: >-
+    Documented inconsistency — a client parsing `errors[]` will get undefined on
+    a 429.
+
+problem_types:
+- status: 400
+  title: Bad Request
+  occurrences: 4
+  operations:
+  - schedulePosts
+  - createPost
+  - updatePost
+  - uploadMediaFromURL
+  meaning: >-
+    Invalid request parameters, invalid post data, or invalid scheduling
+    parameters.
+  remediation: >-
+    Validate the bulk payload shape before sending: `bulk.state` must be one of
+    scheduled/draft/draft_private/draft_public/recurring, `networks` must be
+    keyed by a supported provider, and `accounts[].id` must be an account id
+    returned by GET /accounts.
+  retryable: false
+- status: 401
+  title: Unauthorized
+  occurrences: 21
+  operations: all
+  meaning: >-
+    Missing or invalid `Authorization` header, or a revoked/expired API key.
+  remediation: >-
+    Send `Authorization: Bearer-API YOUR_API_KEY`. Note the non-standard
+    `Bearer-API` prefix — a plain `Bearer` token will fail. Regenerate the key
+    in Settings -> API & Webhooks if revoked.
+  retryable: false
+- status: 403
+  title: Forbidden
+  occurrences: 20
+  operations: all
+  meaning: >-
+    Three distinct causes share this status: (1) the API key lacks the required
+    scope; (2) the `Publer-Workspace-Id` header is missing; (3) the account
+    lacks entitlement — analytics endpoints return 403 "requires analytics
+    access or paying subscription", and updatePost returns 403 when the post was
+    published with approval.
+  remediation: >-
+    Send `Publer-Workspace-Id`, confirm the key carries the scope for the
+    resource (see scopes/publer-scopes.yml), and confirm the plan entitlement.
+    The response body string is the only way to tell the three apart.
+  retryable: false
+- status: 413
+  title: Payload Too Large
+  occurrences: 1
+  operations:
+  - uploadAMediaFileDirectly
+  meaning: The uploaded media file exceeds the accepted size.
+  remediation: >-
+    Compress or transcode the asset, or use POST /media/from-url so Publer
+    fetches it server-side.
+  retryable: false
+  note: >-
+    Publisher defect — the 413 response in Publer's own spec is described as
+    "Permission denied or missing required scope" and reuses the 403 schema.
+    Recorded verbatim rather than corrected.
+- status: 422
+  title: Unprocessable Entity
+  occurrences: 2
+  operations:
+  - updatePost
+  - uploadMediaFromURL
+  meaning: >-
+    The request was well-formed but could not be acted on — e.g. the post cannot
+    be updated in its current state, or the remote media URL could not be
+    fetched.
+  remediation: Read the `errors[]` message; check post state before updating.
+  retryable: false
+- status: 429
+  title: Too Many Requests
+  occurrences: 0
+  operations: all
+  meaning: >-
+    The 100-request / 2-minute fixed window for the user account is exhausted.
+    NOT declared in Publer's OpenAPI blocks on any operation — it is documented
+    only in prose on the Rate Limits page, so a generated client will not know
+    about it.
+  remediation: >-
+    Read X-RateLimit-Reset (UNIX timestamp) and back off until then. Publer
+    recommends exponential backoff. No Retry-After header is sent.
+  retryable: true
+- status: 500
+  title: Internal Server Error
+  occurrences: 0
+  operations: all
+  meaning: Server-side failure.
+  remediation: Retry with backoff; escalate to support@publer.com if persistent.
+  retryable: true
+  note: Listed in the docs' common status codes but not declared on any operation.
+
+application_level_failures:
+- name: job payload failures
+  transport_status: 200
+  meaning: >-
+    THE MOST IMPORTANT FAILURE MODE ON THIS API. Asynchronous writes return 202
+    with a job_id; polling GET /job_status/{job_id} can return status "complete"
+    while individual social accounts failed. The failures are carried in
+    payload.failures[] as {account_id, account_name, provider, message} — e.g.
+    "There's another post at this time. A one minute gap is required between
+    posts". These are never surfaced as an HTTP error status.
+  remediation: >-
+    Always inspect payload.failures and treat a non-empty array as a partial
+    failure, regardless of job status or HTTP status.
+  source: https://publer.com/docs/getting-started/quickstart.md
+
+gaps:
+- No stable machine-readable error code or type URI on any error.
+- No RFC 9457 application/problem+json.
+- 429 is undeclared in the spec and uses a different envelope key than every other error.
+- 403 conflates authorization, workspace scoping and plan entitlement.
+- 413 is mis-described in the provider's own specification.
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
