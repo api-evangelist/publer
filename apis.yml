@@ -26,6 +26,17 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/publer.png
 tags:
+- Social-Media
+- Scheduling
+- Publishing
+- Content Management
+- Marketing
+- Social Media Management
+- Analytics
+- Agents
+- MCP
+- Automation
+tags_raw:
 - Social Media
 - Scheduling
 - Publishing
@@ -48,6 +59,8 @@ apis:
   humanURL: https://publer.com/docs/api-reference/accounts
   baseURL: https://app.publer.com/api/v1
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -112,6 +125,8 @@ apis:
   humanURL: https://publer.com/docs/posting/create-posts
   baseURL: https://app.publer.com/api/v1
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
@@ -172,6 +187,8 @@ apis:
   humanURL: https://publer.com/docs/api-reference/users
   baseURL: https://app.publer.com/api/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
