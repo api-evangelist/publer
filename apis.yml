@@ -11,6 +11,18 @@ description: 'Publer is a social-media scheduling and management platform for pl
   and competitor comparison. Authentication is an API key sent as Authorization: Bearer-API with a Publer-Workspace-Id
   header, scoped per key. Publer also ships a first-party hosted MCP server in beta. API access is limited
   to Enterprise plan users, Business plan users in good standing, and Top Ambassadors.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
