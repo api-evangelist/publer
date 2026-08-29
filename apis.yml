@@ -234,6 +234,9 @@ apis:
   - *id001
   - *id002
 common:
+- type: CapabilityMap
+  url: capabilities/publer-capability-edges.yml
+  name: Publer Business Capability Map
 - type: AgenticAccess
   url: agentic-access/publer-agentic-access.yml
 - type: DomainSecurity

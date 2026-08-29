@@ -1,0 +1,46 @@
+slug: publer
+provider: Publer
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Analytics
+  spec_file: publer-analytics-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.78
+  evidence: GET /analytics/{account_id}/post_insights Get Post Insights; GET /analytics/{account_id}/hashtag_insights
+    Get Hashtag Insights; GET /analytics/{account_id}/best_times Get Best Times to Post
+  reason: Social post, hashtag and posting-time performance analytics for a social media publishing platform
+    — squarely social/digital marketing measurement. Some ambiguity with Marketing Operations measurement.
+- tag: Competitors
+  spec_file: publer-competitors-api-openapi.yml
+  capability_id: BC-400.30
+  capability_id_l1: BC-400
+  capability_name: Market Intelligence Management
+  confidence: 0.7
+  evidence: GET /competitors/{account_id} listCompetitors; GET /competitors/{account_id}/analytics getCompetitorsAnalytics
+  reason: Tracking and analysing competitor social accounts is competitive intelligence within marketing.
+    Could alternatively sit under digital marketing analytics, hence moderate confidence.
+- tag: Posts
+  spec_file: publer-posts-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: POST /posts/schedule schedulePosts 'Schedule posts'; schemas FacebookNetworkContent, TikTokNetworkContent,
+    LinkedInNetworkContent — 'automating social media workflows - scheduling, publishing, media management
+    and analytics'
+  reason: Operations schedule, publish and update social-media posts across Facebook, LinkedIn, TikTok
+    etc. This is social/digital marketing publishing (BC-400.60), with some overlap into content marketing
+    distribution (BC-400.70), hence moderate confidence on the L2.
