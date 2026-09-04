@@ -26,15 +26,18 @@ deliveryModel:
 accessModel:
   pricing: freemium
   onboarding: self-serve
-  trial: false
+  trial: true
   try_now: true
   public: false
-  label: Freemium · Self-serve signup
+  label: Freemium (free trial) · Self-serve signup
   confidence: high
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - scopes
+  - rate-limits
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/publer.png
 tags:
@@ -259,8 +262,9 @@ common:
   url: finops/publer-finops.yml
 - type: Blog
   url: https://publer.com/blog/feed/
-- type: MCPServer
+- type: X-MCPServerCandidate
   url: mcp/publer-mcp.yml
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
 - type: ToolCrosswalk
   url: mcp/publer-tool-crosswalk.yml
 - type: LLMsTxt
