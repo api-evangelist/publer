@@ -5,13 +5,13 @@
       "source": "https://publer.com/blog/feed/",
       "feed_url": "https://publer.com/blog/feed/",
       "title": "Publer Blog",
-      "saved": 0,
+      "saved": 1,
       "nature": "vendor-blog",
       "nature_basis": "path_blog"
     }
   ],
-  "fetched": "2026-09-06T18:58:10Z",
-  "post_count": 15,
+  "fetched": "2026-09-13T12:41:53Z",
+  "post_count": 16,
   "feed_nature": "vendor-blog",
   "feed_nature_basis": "path_blog",
   "feed_nature_note": "Whether these posts are the vendor publishing or its support community, decided on the URL path grammar of the saved posts -- not the hostname, which carries both on Khoros, and not author diversity, which flags large vendor blogs as forums. 'undetermined' means undetermined."
