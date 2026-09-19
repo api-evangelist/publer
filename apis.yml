@@ -224,6 +224,8 @@ apis:
   humanURL: https://publer.com/docs/api-reference/workspaces
   baseURL: https://app.publer.com/api/v1
   tags:
+  - Workspace
+  tags_raw:
   - Workspaces
   properties:
   - type: OpenAPI
