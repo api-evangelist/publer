@@ -5,12 +5,12 @@
       "source": "https://publer.com/blog/feed/",
       "feed_url": "https://publer.com/blog/feed/",
       "title": "Publer Blog",
-      "saved": 1,
+      "saved": 0,
       "nature": "vendor-blog",
       "nature_basis": "path_blog"
     }
   ],
-  "fetched": "2026-09-13T12:41:53Z",
+  "fetched": "2026-09-19T19:51:11Z",
   "post_count": 16,
   "feed_nature": "vendor-blog",
   "feed_nature_basis": "path_blog",
