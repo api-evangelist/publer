@@ -1,11 +1,7 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
   title: Publer Analytics API
-  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
-    - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
-    LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
-    and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together
-    with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
+  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
   termsOfService: https://publer.com/terms
   contact:
     name: Publer Support
@@ -23,9 +19,7 @@ paths:
   /analytics/{account_id}/best_times:
     get:
       summary: Get Best Times to Post for Account
-      description: Retrieves the optimal posting times for a specific social media account based on historical
-        analytics data. Returns a heatmap of posting performance across days of the week and hours of
-        the day, tailored to the specified account's audience engagement patterns.
+      description: Retrieves the optimal posting times for a specific social media account based on historical analytics data. Returns a heatmap of posting performance across days of the week and hours of the day, tailored to the specified account's audience engagement patterns.
       tags:
       - Analytics
       parameters:
@@ -39,8 +33,7 @@ paths:
           type: string
         name: account_id
         in: path
-        description: Social media account ID to analyze posting times for. When provided, analysis is
-          specific to this account's performance data
+        description: Social media account ID to analyze posting times for. When provided, analysis is specific to this account's performance data
         required: false
       - schema:
           type: string
@@ -49,8 +42,7 @@ paths:
           - 'false'
         name: competitors
         in: query
-        description: Include competitor data in best times analysis. Set to 'true' to analyze competitor
-          posting patterns
+        description: Include competitor data in best times analysis. Set to 'true' to analyze competitor posting patterns
         required: false
       - schema:
           type: string
@@ -63,8 +55,7 @@ paths:
           format: date
         name: from
         in: query
-        description: Start date for analytics data range (YYYY-MM-DD format). Filters data from this date
-          onwards
+        description: Start date for analytics data range (YYYY-MM-DD format). Filters data from this date onwards
         required: true
       - schema:
           type: string
@@ -75,14 +66,12 @@ paths:
         required: true
       responses:
         '200':
-          description: Best times to post data organized by day of the week and hour for the specific
-            account
+          description: Best times to post data organized by day of the week and hour for the specific account
           content:
             application/json:
               schema:
                 type: object
-                description: Heatmap data showing optimal posting times with scores for each hour of each
-                  day, specific to the account's audience
+                description: Heatmap data showing optimal posting times with scores for each hour of each day, specific to the account's audience
                 additionalProperties:
                   type: array
                   description: Array of 24 hourly scores (0-23) for each day of the week
@@ -101,13 +90,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: getBestTimesToPostForAccount
+      operationId: getAnalyticsByAccountIdBestTimes
+      x-operation-id-source: derived
   /analytics/charts:
     get:
       summary: Get Available Analytics Charts
-      description: Retrieves a list of available analytics charts filtered by account type and chart type.
-        Charts include growth metrics (followers, connections), insights (engagement, reach), and demographics
-        (countries, ages).
+      description: Retrieves a list of available analytics charts filtered by account type and chart type. Charts include growth metrics (followers, connections), insights (engagement, reach), and demographics (countries, ages).
       tags:
       - Analytics
       parameters:
@@ -137,8 +125,7 @@ paths:
           - bluesky
         name: account_type
         in: query
-        description: Social media platform type to filter charts for (e.g., 'ig_business', 'fb_page',
-          'twitter', 'linkedin', 'youtube', 'tiktok', 'google', 'pin_business')
+        description: Social media platform type to filter charts for (e.g., 'ig_business', 'fb_page', 'twitter', 'linkedin', 'youtube', 'tiktok', 'google', 'pin_business')
         required: false
       responses:
         '200':
@@ -187,12 +174,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: getAvailableAnalyticsCharts
+      operationId: getAnalyticsCharts
+      x-operation-id-source: derived
   /analytics/chart_data:
     get:
       summary: Get Analytics Chart Data
-      description: Retrieves analytics data for specific charts by their IDs. Returns current and previous
-        period data for comparison. Supports growth metrics, post insights, and demographic data.
+      description: Retrieves analytics data for specific charts by their IDs. Returns current and previous period data for comparison. Supports growth metrics, post insights, and demographic data.
       tags:
       - Analytics
       parameters:
@@ -210,8 +197,7 @@ paths:
         explode: true
         name: chart_ids
         in: query
-        description: Array of chart IDs to retrieve data for. Use chart IDs from the /analytics/charts
-          endpoint
+        description: Array of chart IDs to retrieve data for. Use chart IDs from the /analytics/charts endpoint
         required: true
       - schema:
           type: string
@@ -266,12 +252,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
       operationId: getAnalyticsChartData
+      x-operation-id-source: derived
   /analytics/{account_id}/hashtag_insights:
     get:
       summary: Get Hashtag Insights
-      description: Retrieves comprehensive analytics data for hashtags used in published posts. Provides
-        metrics like reach, engagement, likes, comments, shares, and video views for each hashtag, along
-        with recent posts using each hashtag and hashtag performance scores.
+      description: Retrieves comprehensive analytics data for hashtags used in published posts. Provides metrics like reach, engagement, likes, comments, shares, and video views for each hashtag, along with recent posts using each hashtag and hashtag performance scores.
       tags:
       - Analytics
       parameters:
@@ -286,16 +271,14 @@ paths:
           format: date
         name: from
         in: query
-        description: Start date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled
-          on or after this date
+        description: Start date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled on or after this date
         required: false
       - schema:
           type: string
           format: date
         name: to
         in: query
-        description: End date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled
-          on or before this date
+        description: End date for hashtag insights data range (YYYY-MM-DD format). Filters posts scheduled on or before this date
         required: false
       - schema:
           type: string
@@ -323,8 +306,7 @@ paths:
           type: string
         name: account_id
         in: path
-        description: Filter hashtags for a specific social media account ID. If omitted, includes all
-          workspace accounts
+        description: Filter hashtags for a specific social media account ID. If omitted, includes all workspace accounts
         required: false
       - schema:
           type: integer
@@ -395,8 +377,7 @@ paths:
                           description: Total shares across all posts using this hashtag
                         engagement:
                           type: integer
-                          description: Total engagement (likes + comments + shares) across all posts using
-                            this hashtag
+                          description: Total engagement (likes + comments + shares) across all posts using this hashtag
                         video_views:
                           type: integer
                           description: Total video views across all video posts using this hashtag
@@ -412,8 +393,7 @@ paths:
                         hashtag_score:
                           type: number
                           format: float
-                          description: Performance score of the hashtag as percentage relative to overall
-                            post engagement
+                          description: Performance score of the hashtag as percentage relative to overall post engagement
                   total:
                     type: integer
                     description: Total number of hashtags matching the filter criteria (for pagination)
@@ -429,13 +409,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: getHashtagInsights
+      operationId: getAnalyticsByAccountIdHashtagInsights
+      x-operation-id-source: derived
   /analytics/{account_id}/hashtag_performing_posts:
     get:
       summary: Get Hashtag Performing Posts
-      description: Retrieves the top performing posts for a specific hashtag. Returns up to 6 posts that
-        used the hashtag, with comprehensive analytics metrics including engagement, reach, likes, comments,
-        shares, and video views.
+      description: Retrieves the top performing posts for a specific hashtag. Returns up to 6 posts that used the hashtag, with comprehensive analytics metrics including engagement, reach, likes, comments, shares, and video views.
       tags:
       - Analytics
       parameters:
@@ -449,24 +428,21 @@ paths:
           type: string
         name: hashtag
         in: query
-        description: 'The hashtag to retrieve performing posts for (with # symbol). This parameter is
-          required to filter posts by the specific hashtag'
+        description: 'The hashtag to retrieve performing posts for (with # symbol). This parameter is required to filter posts by the specific hashtag'
         required: true
       - schema:
           type: string
           format: date
         name: from
         in: query
-        description: Start date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or
-          after this date
+        description: Start date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or after this date
         required: false
       - schema:
           type: string
           format: date
         name: to
         in: query
-        description: End date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or
-          before this date
+        description: End date for posts data range (YYYY-MM-DD format). Filters posts scheduled on or before this date
         required: false
       - schema:
           type: string
@@ -502,8 +478,7 @@ paths:
           type: string
         name: account_id
         in: path
-        description: Filter posts for a specific social media account ID. If omitted, includes all workspace
-          accounts
+        description: Filter posts for a specific social media account ID. If omitted, includes all workspace accounts
         required: false
       - schema:
           type: string
@@ -515,8 +490,7 @@ paths:
           type: string
         name: query
         in: query
-        description: Search query to filter posts by content text, title, or link information using case-insensitive
-          matching
+        description: Search query to filter posts by content text, title, or link information using case-insensitive matching
         required: false
       responses:
         '200':
@@ -613,12 +587,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: getHashtagPerformingPosts
+      operationId: getAnalyticsByAccountIdHashtagPerformingPosts
+      x-operation-id-source: derived
   /analytics/members:
     get:
       summary: Get Analytics Members Data
-      description: Retrieves analytics data for workspace members showing their posting activity and engagement
-        metrics.
+      description: Retrieves analytics data for workspace members showing their posting activity and engagement metrics.
       tags:
       - Analytics
       parameters:
@@ -633,8 +607,7 @@ paths:
           format: date
         name: from
         in: query
-        description: Start date for analytics data range (YYYY-MM-DD format). Filters data from this date
-          onwards
+        description: Start date for analytics data range (YYYY-MM-DD format). Filters data from this date onwards
         required: true
       - schema:
           type: string
@@ -662,15 +635,13 @@ paths:
                   properties:
                     engagements:
                       type: integer
-                      description: Total engagements (likes + comments + shares + post clicks) for the
-                        member
+                      description: Total engagements (likes + comments + shares + post clicks) for the member
                     posts:
                       type: integer
                       description: Total number of posts created by the member
                     reach:
                       type: integer
-                      description: Total reach for the member's posts (only included for supported account
-                        types)
+                      description: Total reach for the member's posts (only included for supported account types)
                     account_ids:
                       type: array
                       description: List of account IDs the member posted to
@@ -701,12 +672,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: getAnalyticsMembersData
+      operationId: getAnalyticsMembers
+      x-operation-id-source: derived
   /analytics/{account_id}/post_insights:
     get:
-      summary: Get Post Insights
-      description: Retrieves comprehensive analytics data for published posts with advanced filtering,
-        sorting, and pagination capabilities.
+      summary: Get Post Post Insights
+      description: Retrieves comprehensive analytics data for published posts with advanced filtering, sorting, and pagination capabilities.
       tags:
       - Analytics
       parameters:
@@ -729,38 +700,33 @@ paths:
           type: string
         name: account_id
         in: path
-        description: Filter posts for a specific social media account ID. If omitted, includes all workspace
-          accounts. Used with competitors parameter for competitor-specific analysis
+        description: Filter posts for a specific social media account ID. If omitted, includes all workspace accounts. Used with competitors parameter for competitor-specific analysis
         required: false
       - schema:
           type: string
         name: competitor_id
         in: query
-        description: Specific competitor account ID to analyze when competitors=true. Works in conjunction
-          with account_id parameter
+        description: Specific competitor account ID to analyze when competitors=true. Works in conjunction with account_id parameter
         required: false
       - schema:
           type: string
           format: date
         name: from
         in: query
-        description: Start date for post insights data range (YYYY-MM-DD format). Filters posts scheduled
-          on or after this date
+        description: Start date for post insights data range (YYYY-MM-DD format). Filters posts scheduled on or after this date
         required: true
       - schema:
           type: string
           format: date
         name: to
         in: query
-        description: End date for post insights data range (YYYY-MM-DD format). Filters posts scheduled
-          on or before this date
+        description: End date for post insights data range (YYYY-MM-DD format). Filters posts scheduled on or before this date
         required: true
       - schema:
           type: string
         name: query
         in: query
-        description: Search query to filter posts by text content, title, link description, or video title
-          using case-insensitive matching
+        description: Search query to filter posts by text content, title, link description, or video title using case-insensitive matching
         required: false
       - schema:
           type: string
@@ -881,8 +847,7 @@ paths:
                               description: Number of unique users who saw the post
                             engagement:
                               type: integer
-                              description: Total engagement count (likes + comments + shares + saves +
-                                clicks)
+                              description: Total engagement count (likes + comments + shares + saves + clicks)
                             engagement_rate:
                               type: number
                               format: float
@@ -931,10 +896,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: getPostInsights
+      operationId: getAnalyticsByAccountIdPostInsights
+      x-operation-id-source: derived
 components:
   schemas:
-    401ErrorResponse:
+    403ErrorResponse:
       type: object
       properties:
         errors:
@@ -942,7 +908,7 @@ components:
           description: List of error messages
           items:
             type: string
-    403ErrorResponse:
+    401ErrorResponse:
       type: object
       properties:
         errors:

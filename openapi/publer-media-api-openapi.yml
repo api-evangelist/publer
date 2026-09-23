@@ -1,11 +1,7 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
   title: Publer Media API
-  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
-    - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
-    LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
-    and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together
-    with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
+  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
   termsOfService: https://publer.com/terms
   contact:
     name: Publer Support
@@ -23,8 +19,7 @@ paths:
   /media:
     get:
       summary: List Media
-      description: Retrieves a paginated list of media items from the user's library. The endpoint supports
-        filtering by various parameters and can also retrieve specific media items by their IDs.
+      description: Retrieves a paginated list of media items from the user's library. The endpoint supports filtering by various parameters and can also retrieve specific media items by their IDs.
       tags:
       - Media
       parameters:
@@ -173,7 +168,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: listMedia
+      operationId: getMedia
+      x-operation-id-source: derived
     post:
       summary: Upload a media file directly
       description: Upload a media file (image, video, or document) to be used in social media posts
@@ -200,8 +196,7 @@ paths:
                   contentMediaType: application/octet-stream
                 direct_upload:
                   type: boolean
-                  description: Whether to upload directly to our S3 cloud (slower, but required if you
-                    need the final media URL)
+                  description: Whether to upload directly to our S3 cloud (slower, but required if you need the final media URL)
                   default: false
                 in_library:
                   type: boolean
@@ -235,7 +230,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: uploadAMediaFileDirectly
+      operationId: postMedia
+      x-operation-id-source: derived
   /media/from-url:
     post:
       summary: Upload media from URL
@@ -285,10 +281,19 @@ paths:
               $ref: '#/components/schemas/MediaFromUrlRequest'
         description: URL upload request
         required: true
-      operationId: uploadMediaFromURL
+      operationId: postMediaFromUrl
+      x-operation-id-source: derived
 components:
   schemas:
-    401ErrorResponse:
+    403JobErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    ErrorResponse:
       type: object
       properties:
         errors:
@@ -304,15 +309,7 @@ components:
           description: List of error messages
           items:
             type: string
-    403JobErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
-    ErrorResponse:
+    401ErrorResponse:
       type: object
       properties:
         errors:
@@ -357,8 +354,7 @@ components:
           - thumbnail
         direct_upload:
           type: boolean
-          description: Whether to upload directly to our S3 cloud (slower, but required if you need the
-            final media URL)
+          description: Whether to upload directly to our S3 cloud (slower, but required if you need the final media URL)
           default: false
         in_library:
           type: boolean

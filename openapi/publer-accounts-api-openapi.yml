@@ -1,11 +1,7 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
   title: Publer Accounts API
-  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
-    - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
-    LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
-    and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together
-    with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
+  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
   termsOfService: https://publer.com/terms
   contact:
     name: Publer Support
@@ -54,10 +50,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: listAccounts
+      operationId: getAccounts
+      x-operation-id-source: derived
 components:
   schemas:
-    401ErrorResponseWithWorkspace:
+    403ErrorResponse:
       type: object
       properties:
         errors:
@@ -65,7 +62,7 @@ components:
           description: List of error messages
           items:
             type: string
-    403ErrorResponse:
+    401ErrorResponseWithWorkspace:
       type: object
       properties:
         errors:

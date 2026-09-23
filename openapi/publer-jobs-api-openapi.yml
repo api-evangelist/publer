@@ -1,11 +1,7 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
   title: Publer Jobs API
-  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
-    - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
-    LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
-    and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together
-    with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
+  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
   termsOfService: https://publer.com/terms
   contact:
     name: Publer Support
@@ -58,10 +54,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: getJobStatus
+      operationId: getJobStatusByJobId
+      x-operation-id-source: derived
 components:
   schemas:
-    401ErrorResponse:
+    403ErrorResponse:
       type: object
       properties:
         errors:
@@ -69,7 +66,7 @@ components:
           description: List of error messages
           items:
             type: string
-    403ErrorResponse:
+    401ErrorResponse:
       type: object
       properties:
         errors:
@@ -92,8 +89,7 @@ components:
               - working
               - complete
               - failed
-              description: "Current status of the job \n\n - `working`: The job is still processing.\n\
-                \ - `complete`: The job has completed successfully.\n - `failed`: The job has failed."
+              description: "Current status of the job \n\n - `working`: The job is still processing.\n - `complete`: The job has completed successfully.\n - `failed`: The job has failed."
             result:
               type: object
               description: Result data, contents depend on job type
@@ -104,8 +100,7 @@ components:
                   - working
                   - complete
                   - failed
-                  description: "Current status of the job \n\n - `working`: The job is still processing.\n\
-                    \ - `complete`: The job has completed successfully.\n - `failed`: The job has failed."
+                  description: "Current status of the job \n\n - `working`: The job is still processing.\n - `complete`: The job has completed successfully.\n - `failed`: The job has failed."
                 payload:
                   type: object
                   description: Result payload containing any operation results

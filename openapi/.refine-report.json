@@ -1,22 +1,34 @@
 {
   "provider": "publer",
   "sources": [
-    "publer-accounts-api-openapi.yml",
-    "publer-jobs-api-openapi.yml",
-    "publer-media-api-openapi.yml",
-    "publer-posts-api-openapi.yml",
-    "publer-workspaces-api-openapi.yml"
+    "_original/publer-openapi.yml"
   ],
   "outputs": [
     "publer-accounts-api-openapi.yml",
+    "publer-analytics-api-openapi.yml",
+    "publer-competitors-api-openapi.yml",
     "publer-jobs-api-openapi.yml",
     "publer-media-api-openapi.yml",
     "publer-posts-api-openapi.yml",
+    "publer-users-api-openapi.yml",
     "publer-workspaces-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "publer-openapi.yml: upgraded openapi 3.1.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "publer-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "publer-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "publer-competitors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "publer-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "publer-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "publer-posts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "publer-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "publer-workspaces-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

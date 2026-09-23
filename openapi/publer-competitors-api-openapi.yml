@@ -1,11 +1,7 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
   title: Publer Competitors API
-  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows
-    - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter,
-    LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress
-    and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together
-    with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
+  description: 'The Publer API (v1) is a RESTful JSON interface for automating social media workflows - scheduling, publishing, media management and analytics - across Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress and Telegram. Authentication is an API key sent as `Authorization: Bearer-API YOUR_API_KEY` together with a `Publer-Workspace-Id` header. The API is available exclusively to Publer Business users.'
   termsOfService: https://publer.com/terms
   contact:
     name: Publer Support
@@ -23,8 +19,7 @@ paths:
   /competitors/{account_id}:
     get:
       summary: List Competitors
-      description: Retrieves a list of competitor accounts for the workspace or for a specific social
-        media account.
+      description: Retrieves a list of competitor accounts for the workspace or for a specific social media account.
       tags:
       - Competitors
       parameters:
@@ -70,8 +65,7 @@ paths:
                       description: Whether competitor sync is currently queued
                     username:
                       type: string
-                      description: Username of the competitor (available for twitter, instagram, telegram,
-                        mastodon)
+                      description: Username of the competitor (available for twitter, instagram, telegram, mastodon)
                     verified:
                       type: boolean
                       description: Whether the account is verified (available for twitter, facebook)
@@ -87,12 +81,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/403ErrorResponse'
-      operationId: listCompetitors
+      operationId: getCompetitorsByAccountId
+      x-operation-id-source: derived
   /competitors/{account_id}/analytics:
     get:
       summary: Get Competitors Analytics
-      description: Retrieves analytics data for competitor accounts, including engagement metrics, follower
-        counts, and post performance statistics.
+      description: Retrieves analytics data for competitor accounts, including engagement metrics, follower counts, and post performance statistics.
       tags:
       - Competitors
       parameters:
@@ -255,10 +249,11 @@ paths:
                   errors:
                     type: string
                     description: Error message from the service
-      operationId: getCompetitorsAnalytics
+      operationId: getCompetitorsByAccountIdAnalytics
+      x-operation-id-source: derived
 components:
   schemas:
-    401ErrorResponse:
+    403ErrorResponse:
       type: object
       properties:
         errors:
@@ -266,7 +261,7 @@ components:
           description: List of error messages
           items:
             type: string
-    403ErrorResponse:
+    401ErrorResponse:
       type: object
       properties:
         errors:
