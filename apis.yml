@@ -41,7 +41,7 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/publer.png
 tags:
-- Social-Media
+- Social Media
 - Scheduling
 - Publishing
 - Content Management
@@ -62,6 +62,7 @@ tags_raw:
 - Agents
 - MCP
 - Automation
+- Social-Media
 created: '2026-06-25'
 modified: '2026-08-13'
 specificationVersion: '0.23'

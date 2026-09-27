@@ -53,14 +53,6 @@ components:
           description: List of error messages
           items:
             type: string
-    401ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
     User:
       type: object
       properties:
@@ -80,6 +72,14 @@ components:
         picture:
           type: string
           description: URL to the profile picture of the user
+    401ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
   securitySchemes:
     BearerApiAuth:
       type: apiKey

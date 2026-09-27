@@ -66,14 +66,6 @@ components:
           description: List of error messages
           items:
             type: string
-    401ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
     JobStatusResponse:
       type: object
       properties:
@@ -118,6 +110,14 @@ components:
                     locked:
                       type: boolean
                       description: Whether the workspace is locked
+    401ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
   securitySchemes:
     BearerApiAuth:
       type: apiKey
