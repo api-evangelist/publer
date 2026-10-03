@@ -253,7 +253,7 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    403ErrorResponse:
+    401ErrorResponse:
       type: object
       properties:
         errors:
@@ -261,7 +261,7 @@ components:
           description: List of error messages
           items:
             type: string
-    401ErrorResponse:
+    403ErrorResponse:
       type: object
       properties:
         errors:

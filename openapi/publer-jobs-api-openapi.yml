@@ -58,7 +58,7 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    403ErrorResponse:
+    401ErrorResponse:
       type: object
       properties:
         errors:
@@ -110,7 +110,7 @@ components:
                     locked:
                       type: boolean
                       description: Whether the workspace is locked
-    401ErrorResponse:
+    403ErrorResponse:
       type: object
       properties:
         errors:
