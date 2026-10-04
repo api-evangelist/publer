@@ -391,6 +391,370 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    WordPressNetworkContent:
+      type: object
+      required:
+      - type
+      - content
+      properties:
+        type:
+          type: string
+          description: Content type for WordPress
+          enum:
+          - article
+        text:
+          type: string
+          description: Post text content
+        excerpt:
+          type: string
+          description: Short excerpt of the article
+        title:
+          type: string
+          description: Article title
+        url:
+          type: string
+          description: Article URL slug
+        post_link:
+          type:
+          - string
+          - 'null'
+          description: Link to published post
+        source:
+          type: string
+          description: Source of the post
+          enum:
+          - schedule
+          - publish
+          - draft
+        state:
+          type: string
+          description: Post state
+          enum:
+          - draft
+          - scheduled
+          - published
+        content:
+          type: array
+          description: Structured content blocks
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Block unique identifier
+              type:
+                type: string
+                description: Block type
+                enum:
+                - paragraph
+                - header
+                - list
+                - media
+                - table
+                - delimiter
+                - code
+                - html
+                - quote
+              data:
+                type: object
+                description: Block-specific data
+                properties:
+                  text:
+                    type: string
+                    description: Text content for paragraph, header, quote blocks
+                  level:
+                    type: integer
+                    description: Header level (1-6)
+                  style:
+                    type: string
+                    description: List style
+                    enum:
+                    - ordered
+                    - unordered
+                  items:
+                    type: array
+                    description: List items
+                    items:
+                      type: string
+                  url:
+                    type: string
+                    description: Media URL
+                  type:
+                    type: string
+                    description: Media type
+                    enum:
+                    - photo
+                    - video
+                  stretched:
+                    type: boolean
+                    description: Whether media is stretched
+                  withHeadings:
+                    type: boolean
+                    description: Whether table has headings
+                  content:
+                    type: array
+                    description: Table content
+                    items:
+                      type: string
+                  code:
+                    type: string
+                    description: Code content
+                  html:
+                    type: string
+                    description: HTML content
+                  caption:
+                    type: string
+                    description: Quote caption/author
+            required:
+            - id
+            - type
+            - data
+        categories:
+          type: array
+          items:
+            type: string
+          description: Article category IDs
+        tags:
+          type: array
+          items:
+            type: string
+          description: Article tag IDs
+        featured_media:
+          type: object
+          description: Featured media information
+          properties:
+            path:
+              type: string
+              description: Path to featured media
+    MediaItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Media ID (from upload)
+        type:
+          type: string
+          enum:
+          - image
+          - video
+          - document
+          - gif
+        alt_text:
+          type: string
+          description: Accessibility description for images
+    CarouselOptions:
+      type: object
+      description: Carousel-specific options
+      properties:
+        slides:
+          type: array
+          description: Individual slide configurations
+          items:
+            type: object
+            properties:
+              media_id:
+                type: string
+                description: Media ID for this slide
+              alt_text:
+                type: string
+                description: Accessibility description for this slide
+              caption:
+                type: string
+                description: Caption for this specific slide
+    PostDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the post
+        text:
+          type: string
+          description: Post text content
+        state:
+          type: string
+          description: Current state of the post
+        type:
+          type: string
+          description: Type of post
+        account_id:
+          type: string
+          description: ID of the social account
+        account:
+          type: object
+          description: Details of the social account
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+            name:
+              type: string
+            picture:
+              type: string
+        user:
+          type: object
+          description: User who created the post
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            picture:
+              type: string
+        scheduled_at:
+          type: string
+          description: Scheduled publication time
+        created_at:
+          type: string
+          description: Creation timestamp
+        updated_at:
+          type: string
+          description: Last update timestamp
+        post_link:
+          type: string
+          description: Link to the published post on the social network
+        media:
+          type: array
+          description: Media items attached to the post
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              type:
+                type: string
+              url:
+                type: string
+              alt_text:
+                type: string
+        link:
+          type: object
+          description: Link details for link posts
+          properties:
+            url:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            image_url:
+              type: string
+        labels:
+          type: array
+          description: Labels assigned to this post
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              color:
+                type: string
+        auto:
+          type: boolean
+          description: Whether this post was auto-scheduled
+        recycling:
+          type: object
+          description: Recycling settings if applicable
+          properties:
+            solo:
+              type: boolean
+            gap:
+              type: integer
+            gap_freq:
+              type: string
+            start_date:
+              type: string
+            expire_count:
+              type: integer
+        recurring:
+          type: object
+          description: Recurring settings if applicable
+          properties:
+            frequency:
+              type: string
+            repeat_every:
+              type: integer
+            weekdays:
+              type: array
+              items:
+                type: string
+            start_date:
+              type: string
+    LinkedInNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for LinkedIn
+          enum:
+          - status
+          - photo
+          - video
+          - link
+          - document
+          - poll
+          - gif
+        text:
+          type: string
+          description: Post text content
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        document:
+          type: object
+          description: Document details
+          properties:
+            id:
+              type: string
+              description: Document ID (from upload)
+            title:
+              type: string
+              description: Document title
+        // Poll-specific properties: {}
+        options:
+          type: array
+          description: Options for poll posts (required when type='poll')
+          items:
+            type: string
+        duration:
+          type: integer
+          description: Duration of the poll in days (required when type='poll')
+        question:
+          type: string
+          description: Poll question (required for LinkedIn when type='poll')
+        details:
+          type: object
+          description: Details for the post
+          properties:
+            type:
+              type: string
+              description: PDF document type
+              enum:
+              - document
+    LinkDetails:
+      type: object
+      description: Link details for link posts
+      properties:
+        url:
+          type: string
+          description: URL to link to
+        title:
+          type: string
+          description: Title of the link
+        description:
+          type: string
+          description: Description of the link
+        image_id:
+          type: string
+          description: ID of the image to use for link preview
     YouTubeNetworkContent:
       type: object
       required:
@@ -448,6 +812,397 @@ components:
               - public
               - unlisted
               - private
+    MastodonNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Mastodon
+          enum:
+          - status
+          - photo
+          - video
+          - link
+          - gif
+          - poll
+        text:
+          type: string
+          description: Post text content
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        // Poll-specific properties: {}
+        options:
+          type: array
+          description: Options for poll posts (required when type='poll')
+          items:
+            type: string
+        duration:
+          type: integer
+          description: Duration of the poll in days (required when type='poll')
+        // End of Poll-specific properties: {}
+        visibility:
+          type: string
+          description: Post visibility
+          enum:
+          - public
+          - unlisted
+          - private
+          - direct
+        sensitive:
+          type: boolean
+          description: Mark media as sensitive
+        spoilerText:
+          type: string
+          description: Content warning text
+    JobResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the job was created successfully
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              description: ID of the created job
+    401ErrorResponseWithWorkspace:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    TikTokNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for TikTok
+          enum:
+          - video
+          - photo
+          - carousel
+        text:
+          type: string
+          description: Caption text
+        title:
+          type: string
+          description: Video title (for video type)
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        carouselOptions:
+          $ref: '#/components/schemas/CarouselOptions'
+        soundId:
+          type: string
+          description: TikTok sound ID to use
+        duetWith:
+          type: string
+          description: Video ID to duet with
+        details:
+          type: object
+          description: TikTok-specific publishing details
+          properties:
+            privacy:
+              type: string
+              description: Privacy level for the post
+              enum:
+              - PUBLIC_TO_EVERYONE
+              - MUTUAL_FOLLOW_FRIENDS
+              - FOLLOWER_OF_CREATOR
+              - SELF_ONLY
+            comment:
+              type: boolean
+              description: Enable comments (true = enable, false = disable)
+            duet:
+              type: boolean
+              description: Enable duets
+            stitch:
+              type: boolean
+              description: Enable stitch
+            promotional:
+              type: boolean
+              description: Mark as branded/promotional content
+            paid:
+              type: boolean
+              description: Mark as paid partnership
+            auto_add_music:
+              type: boolean
+              description: Auto add music to photo posts
+            reminder:
+              type: boolean
+              description: Use reminder publishing instead of direct API
+    InstagramNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Instagram
+          enum:
+          - photo
+          - video
+          - carousel
+          - story
+          - reel
+        text:
+          type: string
+          description: Caption text
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        carouselOptions:
+          $ref: '#/components/schemas/CarouselOptions'
+        firstComment:
+          type: string
+          description: Text for first comment (often used for hashtags)
+        details:
+          type: object
+          description: Details for the post
+          properties:
+            type:
+              type: string
+              description: Network-specific content type
+              enum:
+              - reel
+              - story
+            // Reel-specific properties: {}
+            audio:
+              type: string
+              description: Audio name for the reel
+            feed:
+              type: boolean
+              description: Whether to share the reel to feed
+    PinterestNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Pinterest
+          enum:
+          - photo
+          - video
+          - carousel
+        text:
+          type: string
+          description: Pin description
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        boardId:
+          type: string
+          description: Pinterest board ID to pin to
+        title:
+          type: string
+          description: Title of the pin
+    TwitterNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Twitter/X
+          enum:
+          - status
+          - photo
+          - video
+          - link
+          - gif
+          - poll
+        text:
+          type: string
+          description: Tweet text
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        // Poll-specific properties: {}
+        options:
+          type: array
+          description: Options for poll posts (required when type='poll')
+          items:
+            type: string
+        duration:
+          type: integer
+          description: Duration of the poll in days (required when type='poll')
+        // End of Poll-specific properties: {}
+        replySettings:
+          type: string
+          description: Who can reply to this tweet
+          enum:
+          - everyone
+          - mentionedUsers
+          - following
+        details:
+          type: object
+          description: Twitter-specific publishing details
+          properties:
+            type:
+              type: string
+              description: Specific tweet type for long posts
+              enum:
+              - long_post
+            community:
+              type: object
+              description: Community to post in
+              properties:
+                id:
+                  type: string
+                  description: Community ID
+                name:
+                  type: string
+                  description: Community name
+        location:
+          type: object
+          description: Geographic location to tag
+          properties:
+            id:
+              type: string
+              description: Place ID for geo tagging
+            name:
+              type: string
+              description: Location name
+    PostsListResponse:
+      type: object
+      properties:
+        posts:
+          type: array
+          description: List of posts matching the query parameters
+          items:
+            $ref: '#/components/schemas/PostSummary'
+        total:
+          type: integer
+          description: Total number of posts matching the query
+        page:
+          type: integer
+          description: Current page number
+        per_page:
+          type: integer
+          description: Number of posts per page
+        total_pages:
+          type: integer
+          description: Total number of pages
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    403ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    FacebookSublink:
+      type: object
+      description: Configuration for a Facebook link post sublink preview
+      properties:
+        url:
+          type: string
+          description: URL of the link
+        provider_display:
+          type: string
+          description: Display name of the link provider (typically domain name)
+        original_description:
+          type: string
+          description: Original meta description of the linked webpage
+        original_title:
+          type: string
+          description: Original meta title of the linked webpage
+        original_images:
+          type: array
+          description: Array of original images found on the linked webpage
+          items:
+            type: string
+            format: uri
+        original_url:
+          type: string
+          description: Original URL without protocol
+        description:
+          type: string
+          description: Description to use in the link preview (can be customized)
+        title:
+          type: string
+          description: Title to use in the link preview (can be customized)
+        images:
+          type: array
+          description: Images to use in the link preview (can be customized)
+          items:
+            type: string
+            format: uri
+        default_image:
+          type: integer
+          description: Index of the default image to display in the preview (0-based)
+          minimum: 0
+        caption:
+          type: string
+          description: Additional caption for the link
+        call_to_action:
+          type: string
+          description: Call-to-action button type for the link preview
+          enum:
+          - NO_BUTTON
+          - SHOP_NOW
+          - BOOK_TRAVEL
+          - LEARN_MORE
+          - SIGN_UP
+          - DOWNLOAD
+          - GET_OFFER
+          - GET_DIRECTIONS
+          - BUY_NOW
+          - CALL_NOW
+          - APPLY_NOW
+          - MESSAGE_PAGE
+          - SEND_MESSAGE
+          - CONTACT_US
+          - SUBSCRIBE
+          - USE_APP
+          - PLAY_GAME
+          - WATCH_VIDEO
+          - WATCH_MORE
+          - OPEN_LINK
+        phone_number:
+          type: string
+          description: Phone number to use with CALL_NOW call-to-action button
+        customized:
+          type: boolean
+          description: Whether this sublink has been customized from the original link preview
+      required:
+      - url
+      - title
+      - description
+      - images
     BulkPostsRequest:
       type: object
       required:
@@ -735,18 +1490,139 @@ components:
                   auto:
                     type: boolean
                     description: Whether to use auto scheduling
-    JobResponse:
+    GoogleBusinessNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Google Business
+          enum:
+          - status
+          - photo
+          - event
+          - offer
+        text:
+          type: string
+          description: Post text content
+        title:
+          type: string
+          description: Post title
+        url:
+          type: string
+          description: URL to link to
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        details:
+          type: object
+          description: Details for the post
+          properties:
+            type:
+              type: string
+              description: Content type
+              enum:
+              - photo
+              - event
+            title:
+              type: string
+              description: Event title
+            start:
+              type: string
+              description: Event start time
+              format: date-time
+            end:
+              type: string
+              description: Event end time
+              format: date-time
+            // Offer-specific properties: {}
+            coupon:
+              type: string
+              description: Coupon code for the offer
+            terms:
+              type: string
+              description: Terms and conditions Url for the offer
+            // End of Offer-specific properties: {}
+    ThreadsNetworkContent:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type for Threads
+          enum:
+          - status
+          - photo
+          - video
+          - link
+        text:
+          type: string
+          description: Post text content
+        media:
+          type: array
+          description: Media items to include
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        link:
+          $ref: '#/components/schemas/LinkDetails'
+        replyTo:
+          type: string
+          description: ID of the thread to reply to
+    PostSummary:
       type: object
       properties:
-        success:
-          type: boolean
-          description: Whether the job was created successfully
-        data:
+        id:
+          type: string
+          description: Unique identifier for the post
+        text:
+          type: string
+          description: Post text content
+        url:
+          type: string
+          description: URL for link posts
+        state:
+          type: string
+          description: Current state of the post
+        type:
+          type: string
+          description: Type of post
+        account_id:
+          type: string
+          description: ID of the social account
+        user:
           type: object
+          description: User who created the post
           properties:
-            job_id:
+            id:
               type: string
-              description: ID of the created job
+            name:
+              type: string
+            picture:
+              type: string
+        scheduled_at:
+          type: string
+          description: Scheduled publication time
+        post_link:
+          type: string
+          description: Link to the published post on the social network
+        has_media:
+          type: boolean
+          description: Indicates if the post contains media
+        network:
+          type: string
+          description: Social network for this post
+    422ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
     TelegramNetworkContent:
       type: object
       required:
@@ -783,617 +1659,6 @@ components:
         disableWebPagePreview:
           type: boolean
           description: Whether to disable link previews
-    ThreadsNetworkContent:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Content type for Threads
-          enum:
-          - status
-          - photo
-          - video
-          - link
-        text:
-          type: string
-          description: Post text content
-        media:
-          type: array
-          description: Media items to include
-          items:
-            $ref: '#/components/schemas/MediaItem'
-        link:
-          $ref: '#/components/schemas/LinkDetails'
-        replyTo:
-          type: string
-          description: ID of the thread to reply to
-    WordPressNetworkContent:
-      type: object
-      required:
-      - type
-      - content
-      properties:
-        type:
-          type: string
-          description: Content type for WordPress
-          enum:
-          - article
-        text:
-          type: string
-          description: Post text content
-        excerpt:
-          type: string
-          description: Short excerpt of the article
-        title:
-          type: string
-          description: Article title
-        url:
-          type: string
-          description: Article URL slug
-        post_link:
-          type:
-          - string
-          - 'null'
-          description: Link to published post
-        source:
-          type: string
-          description: Source of the post
-          enum:
-          - schedule
-          - publish
-          - draft
-        state:
-          type: string
-          description: Post state
-          enum:
-          - draft
-          - scheduled
-          - published
-        content:
-          type: array
-          description: Structured content blocks
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: Block unique identifier
-              type:
-                type: string
-                description: Block type
-                enum:
-                - paragraph
-                - header
-                - list
-                - media
-                - table
-                - delimiter
-                - code
-                - html
-                - quote
-              data:
-                type: object
-                description: Block-specific data
-                properties:
-                  text:
-                    type: string
-                    description: Text content for paragraph, header, quote blocks
-                  level:
-                    type: integer
-                    description: Header level (1-6)
-                  style:
-                    type: string
-                    description: List style
-                    enum:
-                    - ordered
-                    - unordered
-                  items:
-                    type: array
-                    description: List items
-                    items:
-                      type: string
-                  url:
-                    type: string
-                    description: Media URL
-                  type:
-                    type: string
-                    description: Media type
-                    enum:
-                    - photo
-                    - video
-                  stretched:
-                    type: boolean
-                    description: Whether media is stretched
-                  withHeadings:
-                    type: boolean
-                    description: Whether table has headings
-                  content:
-                    type: array
-                    description: Table content
-                    items:
-                      type: string
-                  code:
-                    type: string
-                    description: Code content
-                  html:
-                    type: string
-                    description: HTML content
-                  caption:
-                    type: string
-                    description: Quote caption/author
-            required:
-            - id
-            - type
-            - data
-        categories:
-          type: array
-          items:
-            type: string
-          description: Article category IDs
-        tags:
-          type: array
-          items:
-            type: string
-          description: Article tag IDs
-        featured_media:
-          type: object
-          description: Featured media information
-          properties:
-            path:
-              type: string
-              description: Path to featured media
-    PostDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the post
-        text:
-          type: string
-          description: Post text content
-        state:
-          type: string
-          description: Current state of the post
-        type:
-          type: string
-          description: Type of post
-        account_id:
-          type: string
-          description: ID of the social account
-        account:
-          type: object
-          description: Details of the social account
-          properties:
-            id:
-              type: string
-            type:
-              type: string
-            name:
-              type: string
-            picture:
-              type: string
-        user:
-          type: object
-          description: User who created the post
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            picture:
-              type: string
-        scheduled_at:
-          type: string
-          description: Scheduled publication time
-        created_at:
-          type: string
-          description: Creation timestamp
-        updated_at:
-          type: string
-          description: Last update timestamp
-        post_link:
-          type: string
-          description: Link to the published post on the social network
-        media:
-          type: array
-          description: Media items attached to the post
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              type:
-                type: string
-              url:
-                type: string
-              alt_text:
-                type: string
-        link:
-          type: object
-          description: Link details for link posts
-          properties:
-            url:
-              type: string
-            title:
-              type: string
-            description:
-              type: string
-            image_url:
-              type: string
-        labels:
-          type: array
-          description: Labels assigned to this post
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              name:
-                type: string
-              color:
-                type: string
-        auto:
-          type: boolean
-          description: Whether this post was auto-scheduled
-        recycling:
-          type: object
-          description: Recycling settings if applicable
-          properties:
-            solo:
-              type: boolean
-            gap:
-              type: integer
-            gap_freq:
-              type: string
-            start_date:
-              type: string
-            expire_count:
-              type: integer
-        recurring:
-          type: object
-          description: Recurring settings if applicable
-          properties:
-            frequency:
-              type: string
-            repeat_every:
-              type: integer
-            weekdays:
-              type: array
-              items:
-                type: string
-            start_date:
-              type: string
-    PinterestNetworkContent:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Content type for Pinterest
-          enum:
-          - photo
-          - video
-          - carousel
-        text:
-          type: string
-          description: Pin description
-        media:
-          type: array
-          description: Media items to include
-          items:
-            $ref: '#/components/schemas/MediaItem'
-        link:
-          $ref: '#/components/schemas/LinkDetails'
-        boardId:
-          type: string
-          description: Pinterest board ID to pin to
-        title:
-          type: string
-          description: Title of the pin
-    MediaItem:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Media ID (from upload)
-        type:
-          type: string
-          enum:
-          - image
-          - video
-          - document
-          - gif
-        alt_text:
-          type: string
-          description: Accessibility description for images
-    LinkedInNetworkContent:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Content type for LinkedIn
-          enum:
-          - status
-          - photo
-          - video
-          - link
-          - document
-          - poll
-          - gif
-        text:
-          type: string
-          description: Post text content
-        media:
-          type: array
-          description: Media items to include
-          items:
-            $ref: '#/components/schemas/MediaItem'
-        link:
-          $ref: '#/components/schemas/LinkDetails'
-        document:
-          type: object
-          description: Document details
-          properties:
-            id:
-              type: string
-              description: Document ID (from upload)
-            title:
-              type: string
-              description: Document title
-        // Poll-specific properties: {}
-        options:
-          type: array
-          description: Options for poll posts (required when type='poll')
-          items:
-            type: string
-        duration:
-          type: integer
-          description: Duration of the poll in days (required when type='poll')
-        question:
-          type: string
-          description: Poll question (required for LinkedIn when type='poll')
-        details:
-          type: object
-          description: Details for the post
-          properties:
-            type:
-              type: string
-              description: PDF document type
-              enum:
-              - document
-    InstagramNetworkContent:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Content type for Instagram
-          enum:
-          - photo
-          - video
-          - carousel
-          - story
-          - reel
-        text:
-          type: string
-          description: Caption text
-        media:
-          type: array
-          description: Media items to include
-          items:
-            $ref: '#/components/schemas/MediaItem'
-        carouselOptions:
-          $ref: '#/components/schemas/CarouselOptions'
-        firstComment:
-          type: string
-          description: Text for first comment (often used for hashtags)
-        details:
-          type: object
-          description: Details for the post
-          properties:
-            type:
-              type: string
-              description: Network-specific content type
-              enum:
-              - reel
-              - story
-            // Reel-specific properties: {}
-            audio:
-              type: string
-              description: Audio name for the reel
-            feed:
-              type: boolean
-              description: Whether to share the reel to feed
-    TikTokNetworkContent:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Content type for TikTok
-          enum:
-          - video
-          - photo
-          - carousel
-        text:
-          type: string
-          description: Caption text
-        title:
-          type: string
-          description: Video title (for video type)
-        media:
-          type: array
-          description: Media items to include
-          items:
-            $ref: '#/components/schemas/MediaItem'
-        carouselOptions:
-          $ref: '#/components/schemas/CarouselOptions'
-        soundId:
-          type: string
-          description: TikTok sound ID to use
-        duetWith:
-          type: string
-          description: Video ID to duet with
-        details:
-          type: object
-          description: TikTok-specific publishing details
-          properties:
-            privacy:
-              type: string
-              description: Privacy level for the post
-              enum:
-              - PUBLIC_TO_EVERYONE
-              - MUTUAL_FOLLOW_FRIENDS
-              - FOLLOWER_OF_CREATOR
-              - SELF_ONLY
-            comment:
-              type: boolean
-              description: Enable comments (true = enable, false = disable)
-            duet:
-              type: boolean
-              description: Enable duets
-            stitch:
-              type: boolean
-              description: Enable stitch
-            promotional:
-              type: boolean
-              description: Mark as branded/promotional content
-            paid:
-              type: boolean
-              description: Mark as paid partnership
-            auto_add_music:
-              type: boolean
-              description: Auto add music to photo posts
-            reminder:
-              type: boolean
-              description: Use reminder publishing instead of direct API
-    MastodonNetworkContent:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Content type for Mastodon
-          enum:
-          - status
-          - photo
-          - video
-          - link
-          - gif
-          - poll
-        text:
-          type: string
-          description: Post text content
-        media:
-          type: array
-          description: Media items to include
-          items:
-            $ref: '#/components/schemas/MediaItem'
-        link:
-          $ref: '#/components/schemas/LinkDetails'
-        // Poll-specific properties: {}
-        options:
-          type: array
-          description: Options for poll posts (required when type='poll')
-          items:
-            type: string
-        duration:
-          type: integer
-          description: Duration of the poll in days (required when type='poll')
-        // End of Poll-specific properties: {}
-        visibility:
-          type: string
-          description: Post visibility
-          enum:
-          - public
-          - unlisted
-          - private
-          - direct
-        sensitive:
-          type: boolean
-          description: Mark media as sensitive
-        spoilerText:
-          type: string
-          description: Content warning text
-    TwitterNetworkContent:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Content type for Twitter/X
-          enum:
-          - status
-          - photo
-          - video
-          - link
-          - gif
-          - poll
-        text:
-          type: string
-          description: Tweet text
-        media:
-          type: array
-          description: Media items to include
-          items:
-            $ref: '#/components/schemas/MediaItem'
-        link:
-          $ref: '#/components/schemas/LinkDetails'
-        // Poll-specific properties: {}
-        options:
-          type: array
-          description: Options for poll posts (required when type='poll')
-          items:
-            type: string
-        duration:
-          type: integer
-          description: Duration of the poll in days (required when type='poll')
-        // End of Poll-specific properties: {}
-        replySettings:
-          type: string
-          description: Who can reply to this tweet
-          enum:
-          - everyone
-          - mentionedUsers
-          - following
-        details:
-          type: object
-          description: Twitter-specific publishing details
-          properties:
-            type:
-              type: string
-              description: Specific tweet type for long posts
-              enum:
-              - long_post
-            community:
-              type: object
-              description: Community to post in
-              properties:
-                id:
-                  type: string
-                  description: Community ID
-                name:
-                  type: string
-                  description: Community name
-        location:
-          type: object
-          description: Geographic location to tag
-          properties:
-            id:
-              type: string
-              description: Place ID for geo tagging
-            name:
-              type: string
-              description: Location name
     FacebookNetworkContent:
       type: object
       required:
@@ -1628,97 +1893,6 @@ components:
           description: Poll options
           items:
             type: string
-    422ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
-    CarouselOptions:
-      type: object
-      description: Carousel-specific options
-      properties:
-        slides:
-          type: array
-          description: Individual slide configurations
-          items:
-            type: object
-            properties:
-              media_id:
-                type: string
-                description: Media ID for this slide
-              alt_text:
-                type: string
-                description: Accessibility description for this slide
-              caption:
-                type: string
-                description: Caption for this specific slide
-    403ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
-    GoogleBusinessNetworkContent:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Content type for Google Business
-          enum:
-          - status
-          - photo
-          - event
-          - offer
-        text:
-          type: string
-          description: Post text content
-        title:
-          type: string
-          description: Post title
-        url:
-          type: string
-          description: URL to link to
-        media:
-          type: array
-          description: Media items to include
-          items:
-            $ref: '#/components/schemas/MediaItem'
-        details:
-          type: object
-          description: Details for the post
-          properties:
-            type:
-              type: string
-              description: Content type
-              enum:
-              - photo
-              - event
-            title:
-              type: string
-              description: Event title
-            start:
-              type: string
-              description: Event start time
-              format: date-time
-            end:
-              type: string
-              description: Event end time
-              format: date-time
-            // Offer-specific properties: {}
-            coupon:
-              type: string
-              description: Coupon code for the offer
-            terms:
-              type: string
-              description: Terms and conditions Url for the offer
-            // End of Offer-specific properties: {}
     BlueskyNetworkContent:
       type: object
       required:
@@ -1748,180 +1922,6 @@ components:
         labels:
           type: array
           description: Self-labeled content warnings or categories
-          items:
-            type: string
-    401ErrorResponseWithWorkspace:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
-    PostsListResponse:
-      type: object
-      properties:
-        posts:
-          type: array
-          description: List of posts matching the query parameters
-          items:
-            $ref: '#/components/schemas/PostSummary'
-        total:
-          type: integer
-          description: Total number of posts matching the query
-        page:
-          type: integer
-          description: Current page number
-        per_page:
-          type: integer
-          description: Number of posts per page
-        total_pages:
-          type: integer
-          description: Total number of pages
-    FacebookSublink:
-      type: object
-      description: Configuration for a Facebook link post sublink preview
-      properties:
-        url:
-          type: string
-          description: URL of the link
-        provider_display:
-          type: string
-          description: Display name of the link provider (typically domain name)
-        original_description:
-          type: string
-          description: Original meta description of the linked webpage
-        original_title:
-          type: string
-          description: Original meta title of the linked webpage
-        original_images:
-          type: array
-          description: Array of original images found on the linked webpage
-          items:
-            type: string
-            format: uri
-        original_url:
-          type: string
-          description: Original URL without protocol
-        description:
-          type: string
-          description: Description to use in the link preview (can be customized)
-        title:
-          type: string
-          description: Title to use in the link preview (can be customized)
-        images:
-          type: array
-          description: Images to use in the link preview (can be customized)
-          items:
-            type: string
-            format: uri
-        default_image:
-          type: integer
-          description: Index of the default image to display in the preview (0-based)
-          minimum: 0
-        caption:
-          type: string
-          description: Additional caption for the link
-        call_to_action:
-          type: string
-          description: Call-to-action button type for the link preview
-          enum:
-          - NO_BUTTON
-          - SHOP_NOW
-          - BOOK_TRAVEL
-          - LEARN_MORE
-          - SIGN_UP
-          - DOWNLOAD
-          - GET_OFFER
-          - GET_DIRECTIONS
-          - BUY_NOW
-          - CALL_NOW
-          - APPLY_NOW
-          - MESSAGE_PAGE
-          - SEND_MESSAGE
-          - CONTACT_US
-          - SUBSCRIBE
-          - USE_APP
-          - PLAY_GAME
-          - WATCH_VIDEO
-          - WATCH_MORE
-          - OPEN_LINK
-        phone_number:
-          type: string
-          description: Phone number to use with CALL_NOW call-to-action button
-        customized:
-          type: boolean
-          description: Whether this sublink has been customized from the original link preview
-      required:
-      - url
-      - title
-      - description
-      - images
-    LinkDetails:
-      type: object
-      description: Link details for link posts
-      properties:
-        url:
-          type: string
-          description: URL to link to
-        title:
-          type: string
-          description: Title of the link
-        description:
-          type: string
-          description: Description of the link
-        image_id:
-          type: string
-          description: ID of the image to use for link preview
-    PostSummary:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the post
-        text:
-          type: string
-          description: Post text content
-        url:
-          type: string
-          description: URL for link posts
-        state:
-          type: string
-          description: Current state of the post
-        type:
-          type: string
-          description: Type of post
-        account_id:
-          type: string
-          description: ID of the social account
-        user:
-          type: object
-          description: User who created the post
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            picture:
-              type: string
-        scheduled_at:
-          type: string
-          description: Scheduled publication time
-        post_link:
-          type: string
-          description: Link to the published post on the social network
-        has_media:
-          type: boolean
-          description: Indicates if the post contains media
-        network:
-          type: string
-          description: Social network for this post
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
           items:
             type: string
   securitySchemes:

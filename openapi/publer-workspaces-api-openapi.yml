@@ -47,6 +47,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    401ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
     Workspace:
       type: object
       properties:
@@ -86,14 +94,6 @@ components:
         picture:
           type: string
           description: URL to the workspace's logo
-    401ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
     403ErrorResponse:
       type: object
       properties:

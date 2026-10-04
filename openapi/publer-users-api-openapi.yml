@@ -45,14 +45,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    403ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
     401ErrorResponse:
       type: object
       properties:
@@ -80,6 +72,14 @@ components:
         picture:
           type: string
           description: URL to the profile picture of the user
+    403ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
   securitySchemes:
     BearerApiAuth:
       type: apiKey

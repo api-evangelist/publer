@@ -285,6 +285,63 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    MediaUploadResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the uploaded media
+        path:
+          type: string
+          description: URL path to access the uploaded media
+        thumbnail:
+          type: string
+          description: URL path to access a thumbnail version of the media
+        validity:
+          type: object
+          description: Indicates which networks and post types support this media
+        width:
+          type: number
+          description: Width of the media in pixels
+        height:
+          type: number
+          description: Height of the media in pixels
+        source:
+          type: string
+          description: Source attribution for the media
+        type:
+          type: string
+          description: Media type (photo, video, document)
+        name:
+          type: string
+          description: Original filename
+        caption:
+          type: string
+          description: Caption for the media
+    403ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    403JobErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
+    401ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: List of error messages
+          items:
+            type: string
     MediaFromUrlRequest:
       type: object
       required:
@@ -328,63 +385,6 @@ components:
           type: boolean
           description: Whether to save to media library
           default: false
-    MediaUploadResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the uploaded media
-        path:
-          type: string
-          description: URL path to access the uploaded media
-        thumbnail:
-          type: string
-          description: URL path to access a thumbnail version of the media
-        validity:
-          type: object
-          description: Indicates which networks and post types support this media
-        width:
-          type: number
-          description: Width of the media in pixels
-        height:
-          type: number
-          description: Height of the media in pixels
-        source:
-          type: string
-          description: Source attribution for the media
-        type:
-          type: string
-          description: Media type (photo, video, document)
-        name:
-          type: string
-          description: Original filename
-        caption:
-          type: string
-          description: Caption for the media
-    401ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
-    403ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
-    403JobErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          description: List of error messages
-          items:
-            type: string
     ErrorResponse:
       type: object
       properties:
