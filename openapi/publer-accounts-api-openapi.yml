@@ -54,7 +54,7 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    401ErrorResponseWithWorkspace:
+    403ErrorResponse:
       type: object
       properties:
         errors:
@@ -105,7 +105,7 @@ components:
           - channel
           - location
           - blog
-    403ErrorResponse:
+    401ErrorResponseWithWorkspace:
       type: object
       properties:
         errors:

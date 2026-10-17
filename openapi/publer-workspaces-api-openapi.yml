@@ -47,7 +47,7 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    401ErrorResponse:
+    403ErrorResponse:
       type: object
       properties:
         errors:
@@ -94,7 +94,7 @@ components:
         picture:
           type: string
           description: URL to the workspace's logo
-    403ErrorResponse:
+    401ErrorResponse:
       type: object
       properties:
         errors:
