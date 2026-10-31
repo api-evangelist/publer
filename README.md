@@ -1,4 +1,4 @@
-# Publer (publer)
+# Publer
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,137 +64,164 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Publer is a social-media scheduling and management platform for planning, creating, and publishing content across networks like Facebook, Instagram, X, LinkedIn, TikTok, YouTube, Pinterest, and more. The Publer API (v1) lets Business customers programmatically schedule and publish posts, manage connected social accounts and workspaces, work with media libraries, and track asynchronous jobs.
+Publer is a social-media scheduling and management platform for planning, creating, publishing and analyzing content across Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Mastodon, Google Business Profiles, WordPress and Telegram. The Publer API (v1) is a RESTful JSON interface at https://app.publer.com/api/v1 covering 21 operations: schedule and publish posts, update and delete them, manage connected social accounts and workspaces, upload and list media, resolve asynchronous jobs, and read analytics including post insights, hashtag performance, best times to post and competitor comparison. Authentication is an API key sent as Authorization: Bearer-API with a Publer-Workspace-Id header, scoped per key. Publer also ships a first-party hosted MCP server in beta. API access is limited to Enterprise plan users, Business plan users in good standing, and Top Ambassadors.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/publer/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/publer/refs/heads/main/apis.yml)
+**Areas:** Social Media · Scheduling · Publishing · Content Management · Marketing · Social Media Management · Analytics · Agents · MCP · Automation
 
-## Tags
+## Publer on APIs.io
 
-- Social Media
-- Scheduling
-- Publishing
-- Content Management
-- Marketing
+Everything profiled for Publer is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/publer/](https://apis.io/providers/publer/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (8)
 
-- **Created:** 2026-06-25
-- **Modified:** 2026-06-25
+- [Publer Accounts API](https://apis.io/apis/publer/publer-accounts-api/) — The Accounts API from Publer — 1 operation for listing the social media accounts (Facebook, Instagram, X/Twitter, LinkedIn, TikTok, YouTube, Pinterest,…
+- [Publer Analytics API](https://apis.io/apis/publer/publer-analytics-api/) — The Analytics API from Publer — 7 operations for social analytics: available charts and chart data, per-post insights, hashtag insights and top hashtag…
+- [Publer Competitors API](https://apis.io/apis/publer/publer-competitors-api/) — The Competitors API from Publer — 2 operations for listing the competitor accounts tracked against one of your social accounts and comparing followers,…
+- [Publer Jobs API](https://apis.io/apis/publer/publer-jobs-api/) — The Jobs API from Publer — 1 operation for resolving the asynchronous job returned by every write on the Publer API. Scheduling, publishing and…
+- [Publer Media API](https://apis.io/apis/publer/publer-media-api/) — The Media API from Publer — 3 operations for the workspace media library: list and filter photos, videos and GIFs by type, usage, source and search term,…
+- [Publer Posts API](https://apis.io/apis/publer/publer-posts-api/) — The Posts API from Publer — 5 operations covering the content lifecycle: list posts with state, date, account, member and full-text filters, schedule a bulk…
+- [Publer Users API](https://apis.io/apis/publer/publer-users-api/) — The Users API from Publer — 1 operation returning the profile of the currently authenticated user (id, email, name and picture), used to adapt an…
+- [Publer Workspaces API](https://apis.io/apis/publer/publer-workspaces-api/) — The Workspaces API from Publer — 1 operation listing every workspace the authenticated user can reach, with owner, members, plan and picture. The workspace…
 
-## APIs
+### Published properties
 
-### Publer Posts & Scheduling API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-List, filter, and search posts, then schedule posts for future publication (including drafts) or publish content immediately across connected social networks. Scheduling and publishing run asynchronously and return a job id.
+#### MCP servers (1)
 
-- **Human URL:** [https://publer.com/docs/api-reference/posts](https://publer.com/docs/api-reference/posts)
-- **Base URL:** `https://app.publer.com/api/v1`
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [Publer MCP Server](https://apis.io/servers/publer/publer-mcp-server/)
 
-- Posts
-- Scheduling
-- Publishing
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://publer.com/docs/api-reference/posts)
-- [API Reference](https://publer.com/docs/posting/create-posts)
-- [OpenAPI](openapi/publer-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/publer.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/publer.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Publer Agentic Access](https://apis.io/agentic-access/publer/publer-agentic-access/)
 
-### Publer Accounts API
+#### Collections (9)
 
-Retrieve the list of connected social media accounts available in the selected workspace across providers such as Facebook, Instagram, X, LinkedIn, TikTok, YouTube, Pinterest, Bluesky, Threads, Mastodon, and more.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://publer.com/docs/api-reference/accounts](https://publer.com/docs/api-reference/accounts)
-- **Base URL:** `https://app.publer.com/api/v1`
+- [Publer API](https://apis.io/collections/publer/open-publer/)
+- [Publer Accounts API](https://apis.io/collections/publer/open-publer-accounts-api/)
+- [Publer Analytics API](https://apis.io/collections/publer/open-publer-analytics-api/)
+- [Publer Competitors API](https://apis.io/collections/publer/open-publer-competitors-api/)
+- [Publer Jobs API](https://apis.io/collections/publer/open-publer-jobs-api/)
+- [Publer Media API](https://apis.io/collections/publer/open-publer-media-api/)
+- [Publer Posts API](https://apis.io/collections/publer/open-publer-posts-api/)
+- [Publer Users API](https://apis.io/collections/publer/open-publer-users-api/)
+- [Publer Workspaces API](https://apis.io/collections/publer/open-publer-workspaces-api/)
 
-#### Tags
+#### Overlays (8)
 
-- Accounts
-- Social Accounts
-- Connections
+OpenAPI overlays, including conversational phrasing for each operation.
 
-#### Properties
+- [Publer Accounts Overlay](https://apis.io/overlays/publer/publer-accounts-overlay/)
+- [Publer Analytics Overlay](https://apis.io/overlays/publer/publer-analytics-overlay/)
+- [Publer Competitors Overlay](https://apis.io/overlays/publer/publer-competitors-overlay/)
+- [Publer Jobs Overlay](https://apis.io/overlays/publer/publer-jobs-overlay/)
+- [Publer Media Overlay](https://apis.io/overlays/publer/publer-media-overlay/)
+- [Publer Posts Overlay](https://apis.io/overlays/publer/publer-posts-overlay/)
+- [Publer Users Overlay](https://apis.io/overlays/publer/publer-users-overlay/)
+- [Publer Workspaces Overlay](https://apis.io/overlays/publer/publer-workspaces-overlay/)
 
-- [Documentation](https://publer.com/docs/api-reference/accounts)
-- [OpenAPI](openapi/publer-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/publer.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/publer.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Security (2)
 
-### Publer Workspaces API
+Authentication, trust centre, and vulnerability disclosure.
 
-Retrieve the list of workspaces the authenticated user has access to, including owner, members, plan, and picture, used to scope all other API requests via the Publer-Workspace-Id header.
+- [Publer Authentication](https://apis.io/security/publer/publer-authentication/)
+- [Publer Domain Security](https://apis.io/security/publer/publer-domain-security/)
 
-- **Human URL:** [https://publer.com/docs/api-reference/workspaces](https://publer.com/docs/api-reference/workspaces)
-- **Base URL:** `https://app.publer.com/api/v1`
+#### OAuth scopes (1)
 
-#### Tags
+The permissions the API asks for.
 
-- Workspaces
-- Organization
-- Teams
+- [Publer Scopes](https://apis.io/scopes/publer/publer-scopes/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://publer.com/docs/api-reference/workspaces)
-- [OpenAPI](openapi/publer-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/publer.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/publer.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-### Publer Media API
+- [Publer Plans Pricing](https://apis.io/plans/publer/publer-plans-pricing/)
 
-Retrieve a paginated list of media items from the workspace library, filter by type (photo, video, gif), usage status, source, and search term, or fetch specific media items by their IDs.
+#### Rate limits (1)
 
-- **Human URL:** [https://publer.com/docs/api-reference/media](https://publer.com/docs/api-reference/media)
-- **Base URL:** `https://app.publer.com/api/v1`
+Published request limits.
 
-#### Tags
+- [Publer Rate Limits](https://apis.io/rate-limits/publer/publer-rate-limits/)
 
-- Media
-- Library
-- Assets
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://publer.com/docs/api-reference/media)
-- [OpenAPI](openapi/publer-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/publer.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/publer.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Publer Finops](https://apis.io/finops/publer/publer-finops/)
 
-### Publer Jobs API
+## Where to find this API
 
-Poll the status of asynchronous operations (such as scheduling and publishing) by job id, returned as 202 Accepted responses, to monitor completion and retrieve results.
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [https://publer.com/docs/api-reference/posts](https://publer.com/docs/api-reference/posts)
-- **Base URL:** `https://app.publer.com/api/v1`
-
-#### Tags
-
-- Jobs
-- Async
-- Status
-
-#### Properties
-
-- [Documentation](https://publer.com/docs/posting/create-posts)
-- [OpenAPI](openapi/publer-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/publer.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/publer.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/Publer)
-- [LinkedIn](https://www.linkedin.com/company/publer)
 - [Website](https://publer.com/)
 - [Documentation](https://publer.com/docs)
-- [Plans](plans/publer-plans-pricing.yml)
-- [Rate Limits](rate-limits/publer-rate-limits.yml)
-- [Fin Ops](finops/publer-finops.yml)
+- [Getting started](https://publer.com/docs/getting-started/quickstart)
+- [API reference](https://publer.com/docs/api-reference/introduction)
+- [Pricing](https://publer.com/pricing)
+- [Support](https://publer.com/help)
+- [Blog](https://publer.com/blog/feed/)
+- [Terms of service](https://publer.com/terms)
+- [Privacy policy](https://publer.com/privacy)
+- [GitHub](https://github.com/Publer)
+- [Status](https://status.publer.com)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 38.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.7 |
+| Contract quality | 51.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 50.0 |
+| Developer ergonomics | 22.0 |
+| Access clarity | 31.6 |
+
+**Agent readiness 29.9** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 26.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/publer/](https://apis.io/providers/publer/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Publer: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/publer/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
